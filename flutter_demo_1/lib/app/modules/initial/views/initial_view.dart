@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demo_1/app/widgets/custom_top_tabbar.dart';
 import 'package:get/get.dart';
 
-import '../../../routes/app_pages.dart';
 import '../controllers/initial_controller.dart';
 
 class InitialView extends GetWidget<InitialController> {
@@ -15,7 +14,8 @@ class InitialView extends GetWidget<InitialController> {
         child: Column(
           children: [
             TopTabBar.header(
-              backPress: Get.toNamed(Routes.INITIAL),
+              // backPress: Get.toNamed(Routes.INITIAL),
+              backPress: () => print("Tapped"),
               title: 'Tussly',
             ),
             SizedBox(height: 50),

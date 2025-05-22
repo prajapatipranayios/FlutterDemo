@@ -25,28 +25,56 @@ class TopTabBar {
             InkWell(
               onTap: backPress,
               child: ClipOval(
-                child: Image.asset(ImageResources.swift, width: 30, height: 30),
+                child: Image.asset(
+                  ImageResources.tournament_active,
+                  width: 35,
+                  height: 30,
+                ),
               ),
             ),
             SizedBox(width: 10),
             InkWell(
               onTap: backPress,
-              child: ClipOval(child: Icon(Icons.account_circle, size: 35)),
+              child: ClipOval(
+                child: Image.asset(
+                  ImageResources.leagues_deactive,
+                  width: 35,
+                  height: 30,
+                ),
+              ),
             ),
             SizedBox(width: 10),
             InkWell(
               onTap: backPress,
-              child: ClipOval(child: Icon(Icons.account_circle, size: 35)),
+              child: ClipOval(
+                child: Image.asset(
+                  ImageResources.teams_active,
+                  width: 35,
+                  height: 30,
+                ),
+              ),
             ),
             SizedBox(width: 10),
             InkWell(
               onTap: backPress,
-              child: ClipOval(child: Icon(Icons.account_circle, size: 35)),
+              child: ClipOval(
+                child: Image.asset(
+                  ImageResources.playercard_active,
+                  width: 35,
+                  height: 30,
+                ),
+              ),
             ),
             SizedBox(width: 10),
             InkWell(
               onTap: backPress,
-              child: ClipOval(child: Icon(Icons.account_circle, size: 35)),
+              child: ClipOval(
+                child: Image.asset(
+                  ImageResources.settings_active,
+                  width: 35,
+                  height: 30,
+                ),
+              ),
             ),
             // Image.asset(ImageResources.swift, width: 30, height: 30,),
             // SizedBox(width: 50, child: Icon(Icons.account_circle, weight: 35)),
@@ -69,25 +97,36 @@ class TopTabBar {
     return SafeArea(
       bottom: false,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: EdgeInsets.symmetric(horizontal: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: List.generate(itemCount, (index) {
-            return SizedBox(
-              width: itemWidth - 20,
-              child: InkWell(
-                onTap: backPress,
-                child:
-                    index < 2
-                        ? ClipOval(
-                          child: Image.asset(
-                            ImageResources.swift,
-                            width: 35,
-                            height: 35,
-                            fit: BoxFit.cover,
-                          ),
-                        )
-                        : Icon(Icons.account_circle, size: 35),
+            return InkWell(
+              onTap: backPress,
+              child: Column(
+                children: [
+                  index < 2
+                      ? ClipOval(
+                        child: Image.asset(
+                          ImageResources.swift,
+                          width: 35,
+                          height: 35,
+                        ),
+                      )
+                      : Icon(Icons.account_circle, size: 35),
+                  Text(
+                    index == 0
+                        ? 'Home'
+                        : index == 1
+                        ? 'Scheduled'
+                        : index == 2
+                        ? 'Chat'
+                        : index == 3
+                        ? 'Notification'
+                        : 'More',
+                    style: AppTextStyles.theamRegularStyle,
+                  ),
+                ],
               ),
             );
           }),
