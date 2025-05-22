@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo_1/app/core/helper/custom_style.dart';
 import 'package:flutter_demo_1/app/core/helper/images_resources.dart';
-import 'package:get/get.dart';
 
 class TopTabBar {
   static header({backPress, title}) {
@@ -90,9 +89,9 @@ class TopTabBar {
     required VoidCallback backPress,
     required String title,
   }) {
-    final screenWidth = Get.width;
+    // final screenWidth = Get.width;
     final itemCount = 5;
-    final itemWidth = screenWidth / itemCount;
+    // final itemWidth = screenWidth / itemCount;
 
     return SafeArea(
       bottom: false,
@@ -105,15 +104,38 @@ class TopTabBar {
               onTap: backPress,
               child: Column(
                 children: [
-                  index < 2
-                      ? ClipOval(
-                        child: Image.asset(
-                          ImageResources.swift,
-                          width: 35,
-                          height: 35,
-                        ),
-                      )
-                      : Icon(Icons.account_circle, size: 35),
+                  ClipOval(
+                    child:
+                        index == 0
+                            ? Image.asset(
+                              ImageResources.home_active,
+                              width: 35,
+                              height: 35,
+                            )
+                            : index == 1
+                            ? Image.asset(
+                              ImageResources.schedule_deactive,
+                              width: 35,
+                              height: 35,
+                            )
+                            : index == 2
+                            ? Image.asset(
+                              ImageResources.chat_active,
+                              width: 35,
+                              height: 35,
+                            )
+                            : index == 3
+                            ? Image.asset(
+                              ImageResources.notification_active,
+                              width: 35,
+                              height: 35,
+                            )
+                            : Image.asset(
+                              ImageResources.more_active,
+                              width: 35,
+                              height: 35,
+                            ),
+                  ),
                   Text(
                     index == 0
                         ? 'Home'
