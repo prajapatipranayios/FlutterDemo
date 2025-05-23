@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo_1/app/core/helper/app_colors.dart';
 import 'package:flutter_demo_1/app/core/helper/custom_style.dart';
 import 'package:flutter_demo_1/app/core/helper/images_resources.dart';
 
@@ -19,7 +20,15 @@ class TopTabBar {
               ),
             ),
             SizedBox(width: 10),
-            Expanded(child: Text(title, style: AppTextStyles.titleStyle)),
+            Expanded(
+              child: Text(
+                title,
+                style: AppTextStyles.themeBoldStyle(
+                  fontSize: 21.0,
+                  fontColor: AppColors.colorBlack,
+                ),
+              ),
+            ),
             SizedBox(width: 10),
             InkWell(
               onTap: backPress,
@@ -146,7 +155,10 @@ class TopTabBar {
                         : index == 3
                         ? 'Notification'
                         : 'More',
-                    style: AppTextStyles.theamRegularStyle,
+                    style: AppTextStyles.themeRegularStyle(
+                      fontSize: 14.0,
+                      fontColor: AppColors.colorBlack,
+                    ),
                   ),
                 ],
               ),

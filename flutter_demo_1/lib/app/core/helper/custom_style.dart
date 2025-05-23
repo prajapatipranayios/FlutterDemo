@@ -3,45 +3,35 @@ import 'package:flutter/material.dart';
 enum TextSize { small, medium, large }
 
 class AppTextStyles {
-  static const TextStyle titleStyle = TextStyle(
-    fontSize: 28,
-    fontWeight: FontWeight.bold,
-    fontStyle: FontStyle.normal,
-    fontFamily: 'OpenSans-Light', // Replace with your actual font family
-    color: Colors.black,
-    letterSpacing: 1.2,
-    height: 1.3,
-  );
+  static TextStyle themeRegularStyle({fontSize, fontColor}) {
+    return TextStyle(
+      fontSize: fontSize,
+      fontWeight: FontWeight.normal,
+      fontStyle: FontStyle.normal,
+      fontFamily: 'OpenSans-Regular', // Replace with your actual font family
+      color: fontColor,
+    );
+  }
 
-  static const TextStyle theamRegularStyle = TextStyle(
-    fontSize: 16,
-    fontWeight: FontWeight.normal,
-    fontStyle: FontStyle.normal,
-    fontFamily: 'OpenSans-Semibold', // Replace with your actual font family
-    color: Colors.black,
-    letterSpacing: 1.2,
-    height: 1.3,
-  );
+  static TextStyle themeMediumStyle({fontSize, fontColor}) {
+    return TextStyle(
+      fontSize: fontSize,
+      fontWeight: FontWeight.w500,
+      fontStyle: FontStyle.normal,
+      fontFamily: 'OpenSans-Semibold', // Replace with your actual font family
+      color: fontColor,
+    );
+  }
 
-  static const TextStyle theamMediumStyle = TextStyle(
-    fontSize: 17,
-    fontWeight: FontWeight.w500,
-    fontStyle: FontStyle.normal,
-    fontFamily: 'OpenSans-Bold', // Replace with your actual font family
-    color: Colors.black,
-    letterSpacing: 1.2,
-    height: 1.3,
-  );
-
-  static const TextStyle theamBoldStyle = TextStyle(
-    fontSize: 17,
-    fontWeight: FontWeight.bold,
-    fontStyle: FontStyle.normal,
-    fontFamily: 'OpenSans-Bold', // Replace with your actual font family
-    color: Colors.black,
-    letterSpacing: 1.2,
-    height: 1.3,
-  );
+  static TextStyle themeBoldStyle({fontSize, fontColor}) {
+    return TextStyle(
+      fontSize: fontSize,
+      fontWeight: FontWeight.bold,
+      fontStyle: FontStyle.normal,
+      fontFamily: 'OpenSans-Bold', // Replace with your actual font family
+      color: fontColor,
+    );
+  }
 
   // static TextStyle getTitleStyle(
   //   BuildContext context, {
