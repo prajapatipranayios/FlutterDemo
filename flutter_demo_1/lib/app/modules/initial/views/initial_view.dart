@@ -155,55 +155,32 @@ class InitialView extends GetWidget<InitialController> {
                     Container(
                       // width: Get.width - 20,
                       // height: (Get.width / 2) - 20,
-                      padding: EdgeInsets.only(left: 10, right: 5, bottom: 10),
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Text(
-                            AppString.myTournaments,
-                            style: AppTextStyles.themeBoldStyle(
-                              fontSize: 18.0,
-                              fontColor: AppColors.colorBlack,
-                            ),
+                      // padding: EdgeInsets.only(left: 5, bottom: 5),
+                      child: Container(
+                        color: AppColors.colorClear,
+                        height: 170,
+                        child: PageView.builder(
+                          controller: PageController(
+                            viewportFraction:
+                                0.9, // Adjust for padding/margin between pages
                           ),
-                          SizedBox(height: 5),
-                          InkWell(
-                            onTap: () {
-                              print('Tournament clicked ...');
-                            },
-                            child: Container(
-                              color: AppColors.colorClear,
-                              // color: AppColors.colorDeepSkyBlue,
-                              height: 160,
-                              child: ListView.builder(
-                                shrinkWrap: true,
-                                scrollDirection:
-                                    Axis.horizontal, // 👈 horizontal scrolling
-                                itemCount: controller.arrTournaments.length,
-                                itemBuilder: (BuildContext context, int index) {
-                                  return Padding(
-                                    padding: const EdgeInsets.only(
-                                      //horizontal: 5.0,
-                                      right: 5.0,
-                                    ),
-                                    child: ClipRRect(
-                                      borderRadius: BorderRadius.all(
-                                        Radius.circular(30.0),
-                                      ), // match the outer border
-                                      child: Image.asset(
-                                        ImageResources.swift,
-                                        // height: (Get.width / 2) - 10,
-                                        width: Get.width - 20,
-                                        fit: BoxFit.fill,
-                                      ),
-                                    ),
-                                  ); // optional spacing
-                                },
+                          itemCount: controller.arrTournaments.length,
+                          itemBuilder: (BuildContext context, int index) {
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 5.0),
+                              child: ClipRRect(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(30.0),
+                                ),
+                                child: Image.asset(
+                                  ImageResources.swift,
+                                  width: Get.width - 0,
+                                  fit: BoxFit.fill,
+                                ),
                               ),
-                            ),
-                          ),
-                        ],
+                            );
+                          },
+                        ),
                       ),
                     ),
                     SizedBox(height: 8),
@@ -219,7 +196,7 @@ class InitialView extends GetWidget<InitialController> {
                         SizedBox(height: 5),
                         Container(
                           color: AppColors.colorClear,
-                          height: (Get.width / 3) + 48,
+                          height: (Get.width / 3) + 50,
                           child: ListView.builder(
                             shrinkWrap: true,
                             scrollDirection:
