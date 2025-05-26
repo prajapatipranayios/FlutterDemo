@@ -1,9 +1,35 @@
+import 'package:flutter_demo_1/app/core/helper/app_strings.dart';
 import 'package:get/get.dart';
 
 class InitialController extends GetxController {
-  //TODO: Implement InitialController
+  var arrTabbarTop = [
+    AppString.ssbuName,
+    AppString.nasb2Name,
+    AppString.ssbmName,
+    AppString.tekkenName,
+    AppString.vf5Name,
+  ];
 
-  final count = 0.obs;
+  var arrTabbarBottom = ['Home', 'Scheduled', 'Chat', 'Notification', 'More'];
+
+  var arrGames = [
+    AppString.ssbuName,
+    AppString.nasb2Name,
+    AppString.ssbmName,
+    AppString.tekkenName,
+    AppString.vf5Name,
+    AppString.valorantName,
+  ];
+
+  var arrTournaments = [
+    AppString.ssbuName,
+    AppString.nasb2Name,
+    AppString.ssbmName,
+    AppString.tekkenName,
+    AppString.vf5Name,
+    AppString.valorantName,
+  ];
+
   @override
   void onInit() {
     super.onInit();
@@ -18,6 +44,4 @@ class InitialController extends GetxController {
   void onClose() {
     super.onClose();
   }
-
-  void increment() => count.value++;
 }

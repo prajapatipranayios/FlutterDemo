@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo_1/app/core/helper/app_colors.dart';
 import 'package:flutter_demo_1/app/core/helper/app_strings.dart';
-import 'package:flutter_demo_1/app/core/helper/custom_style.dart';
-import 'package:flutter_demo_1/app/core/helper/images_resources.dart';
 import 'package:flutter_demo_1/app/widgets/custom_top_tabbar.dart';
 import 'package:get/get.dart';
 
+import '../../../core/helper/app_colors.dart';
+import '../../../core/helper/custom_style.dart';
+import '../../../core/helper/images_resources.dart';
 import '../controllers/initial_controller.dart';
 
 class InitialView extends GetWidget<InitialController> {
@@ -104,7 +104,7 @@ class InitialView extends GetWidget<InitialController> {
                               Text(
                                 AppString.myPlayerCard,
                                 style: AppTextStyles.themeBoldStyle(
-                                  fontSize: 17.0,
+                                  fontSize: 18.0,
                                   fontColor: AppColors.colorBlack,
                                 ),
                               ),
@@ -134,7 +134,7 @@ class InitialView extends GetWidget<InitialController> {
                               Text(
                                 AppString.myTeams,
                                 style: AppTextStyles.themeBoldStyle(
-                                  fontSize: 17.0,
+                                  fontSize: 18.0,
                                   fontColor: AppColors.colorBlack,
                                 ),
                               ),
@@ -151,9 +151,9 @@ class InitialView extends GetWidget<InitialController> {
                         ),
                       ],
                     ),
-                    SizedBox(height: 5),
+                    SizedBox(height: 8),
                     Container(
-                      width: Get.width - 20,
+                      // width: Get.width - 20,
                       // height: (Get.width / 2) - 20,
                       padding: EdgeInsets.only(left: 10, right: 5, bottom: 10),
                       child: Column(
@@ -161,47 +161,108 @@ class InitialView extends GetWidget<InitialController> {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
                           Text(
-                            AppString.myPlayerCard,
+                            AppString.myTournaments,
                             style: AppTextStyles.themeBoldStyle(
-                              fontSize: 17.0,
+                              fontSize: 18.0,
                               fontColor: AppColors.colorBlack,
                             ),
                           ),
-                          ClipRRect(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(30.0),
-                            ), // match the outer border
-                            child: Image.asset(
-                              ImageResources.swift,
-                              height: (Get.width / 2) - 10,
-                              width: Get.width,
-                              fit: BoxFit.fill,
+                          SizedBox(height: 5),
+                          InkWell(
+                            onTap: () {
+                              print('Tournament clicked ...');
+                            },
+                            child: Container(
+                              color: AppColors.colorClear,
+                              // color: AppColors.colorDeepSkyBlue,
+                              height: 160,
+                              child: ListView.builder(
+                                shrinkWrap: true,
+                                scrollDirection:
+                                    Axis.horizontal, // 👈 horizontal scrolling
+                                itemCount: controller.arrTournaments.length,
+                                itemBuilder: (BuildContext context, int index) {
+                                  return Padding(
+                                    padding: const EdgeInsets.only(
+                                      //horizontal: 5.0,
+                                      right: 5.0,
+                                    ),
+                                    child: ClipRRect(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular(30.0),
+                                      ), // match the outer border
+                                      child: Image.asset(
+                                        ImageResources.swift,
+                                        // height: (Get.width / 2) - 10,
+                                        width: Get.width - 20,
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                  ); // optional spacing
+                                },
+                              ),
                             ),
                           ),
                         ],
                       ),
                     ),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      scrollDirection:
-                          Axis.horizontal, // 👈 horizontal scrolling
-                      itemBuilder: (BuildContext context, int index) {
-                        return Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8.0,
-                          ), // optional spacing
-                          child: Column(
-                            children: [
-                              Image.asset(
-                                ImageResources.swift,
-                                width: 150.0,
-                                height: 150.0,
-                              ),
-                            ],
+                    SizedBox(height: 8),
+                    Column(
+                      children: [
+                        Text(
+                          AppString.howTheTusslyArenaWorks,
+                          style: AppTextStyles.themeBoldStyle(
+                            fontSize: 18.0,
+                            fontColor: AppColors.colorBlack,
                           ),
-                        );
-                      },
-                      itemCount: 5,
+                        ),
+                        SizedBox(height: 5),
+                        Container(
+                          color: AppColors.colorClear,
+                          height: (Get.width / 3) + 48,
+                          child: ListView.builder(
+                            shrinkWrap: true,
+                            scrollDirection:
+                                Axis.horizontal, // 👈 horizontal scrolling
+                            itemBuilder: (BuildContext context, int index) {
+                              return Padding(
+                                padding: const EdgeInsets.symmetric(
+                                  horizontal: 5.0,
+                                ), // optional spacing
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ClipRRect(
+                                      borderRadius: BorderRadius.all(
+                                        Radius.circular((Get.width / 3) / 2),
+                                      ), // match the outer border
+                                      child: Image.asset(
+                                        ImageResources.swift,
+                                        height: (Get.width / 3),
+                                        width: (Get.width / 3),
+                                        fit: BoxFit.fill,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: (Get.width / 3) - 10,
+                                      child: Text(
+                                        controller.arrGames[index],
+                                        textAlign: TextAlign.center,
+                                        style: AppTextStyles.themeRegularStyle(
+                                          fontSize: 15.0,
+                                          fontColor: AppColors.colorBlack,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            },
+                            itemCount: controller.arrGames.length,
+                          ),
+                        ),
+                      ],
                     ),
                   ],
                 ),
