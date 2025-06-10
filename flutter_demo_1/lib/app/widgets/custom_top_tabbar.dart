@@ -113,38 +113,35 @@ class TopTabBar {
               onTap: backPress,
               child: Column(
                 children: [
-                  ClipOval(
-                    child:
-                        index == 0
-                            ? Image.asset(
-                              ImageResources.home_active,
-                              width: 35,
-                              height: 35,
-                            )
-                            : index == 1
-                            ? Image.asset(
-                              ImageResources.schedule_deactive,
-                              width: 35,
-                              height: 35,
-                            )
-                            : index == 2
-                            ? Image.asset(
-                              ImageResources.chat_active,
-                              width: 35,
-                              height: 35,
-                            )
-                            : index == 3
-                            ? Image.asset(
-                              ImageResources.notification_active,
-                              width: 35,
-                              height: 35,
-                            )
-                            : Image.asset(
-                              ImageResources.more_active,
-                              width: 35,
-                              height: 35,
-                            ),
-                  ),
+                  index == 0
+                      ? Image.asset(
+                        ImageResources.home_active,
+                        width: 35,
+                        height: 35,
+                      )
+                      : index == 1
+                      ? Image.asset(
+                        ImageResources.schedule_deactive,
+                        width: 35,
+                        height: 35,
+                      )
+                      : index == 2
+                      ? Image.asset(
+                        ImageResources.chat_active,
+                        width: 35,
+                        height: 35,
+                      )
+                      : index == 3
+                      ? Image.asset(
+                        ImageResources.notification_active,
+                        width: 35,
+                        height: 35,
+                      )
+                      : Image.asset(
+                        ImageResources.more_active,
+                        width: 35,
+                        height: 35,
+                      ),
                   Text(
                     index == 0
                         ? 'Home'
