@@ -6,6 +6,7 @@ import 'package:get/get.dart';
 import '../../../core/helper/app_colors.dart';
 import '../../../core/helper/custom_style.dart';
 import '../../../core/helper/images_resources.dart';
+import '../../../widgets/app_popup.dart';
 import '../controllers/initial_controller.dart';
 
 class InitialView extends GetWidget<InitialController> {
@@ -227,16 +228,12 @@ class InitialView extends GetWidget<InitialController> {
                             itemBuilder: (BuildContext context, int index) {
                               return InkWell(
                                 onTap:
-                                    () =>
-                                        index == 0
-                                            ? print(
-                                              "Tapped First index -> $index",
-                                            )
-                                            : index == 1
-                                            ? print(
-                                              "Tapped Second index -> $index",
-                                            )
-                                            : print("Tapped index -> $index"),
+                                    () => {
+                                      AppPopup.arenaInfoPopup(
+                                        context: context,
+                                        title: controller.arrGames[index],
+                                      ),
+                                    },
                                 child: Padding(
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 5.0,
