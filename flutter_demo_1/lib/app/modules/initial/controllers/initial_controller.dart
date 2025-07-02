@@ -30,6 +30,8 @@ class InitialController extends GetxController {
     AppString.valorantName,
   ];
 
+  List<String> teams = ['Team A', 'Team B', 'Team C', 'Team D'];
+
   @override
   void onInit() {
     super.onInit();

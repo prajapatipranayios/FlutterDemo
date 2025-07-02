@@ -147,18 +147,29 @@ class InitialView extends GetWidget<InitialController> {
                                   fontColor: AppColors.colorBlack,
                                 ),
                               ),
-                              ClipOval(
-                                child: Image.asset(
-                                  ImageResources.swift,
-                                  height: ((Get.width - 50) / 2) - 15,
-                                  color: AppColors.colorThemeRed,
-                                ),
-                              ),
-                              Text(
-                                AppString.myTeams,
-                                style: AppTextStyles.themeRegularStyle(
-                                  fontSize: 18.0,
-                                  fontColor: AppColors.colorBlack,
+                              SizedBox(
+                                height:
+                                    q((Get.width - 50) / 2) +
+                                    60, // height to accommodate image + text
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    ClipOval(
+                                      child: Image.asset(
+                                        ImageResources.swift,
+                                        height: ((Get.width - 50) / 2) - 15,
+                                        color: AppColors.colorThemeRed,
+                                      ),
+                                    ),
+                                    Text(
+                                      AppString.myTeams,
+                                      style: AppTextStyles.themeRegularStyle(
+                                        fontSize: 18.0,
+                                        fontColor: AppColors.colorBlack,
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
                             ],
