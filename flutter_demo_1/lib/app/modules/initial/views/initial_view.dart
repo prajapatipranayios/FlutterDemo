@@ -45,41 +45,47 @@ class InitialView extends GetWidget<InitialController> {
                             ),
                           ),
                           SizedBox(width: 10),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: AppColors.colorWhite,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(13.5),
+                          InkWell(
+                            onTap: () => {print("Login Tap")},
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.colorWhite,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(13.5),
+                                ),
                               ),
-                            ),
-                            width: 90.0,
-                            height: 27,
-                            child: Center(
-                              child: Text(
-                                'Login',
-                                style: AppTextStyles.themeMediumStyle(
-                                  fontSize: 14.0,
-                                  fontColor: AppColors.colorBlack,
+                              width: 90.0,
+                              height: 27,
+                              child: Center(
+                                child: Text(
+                                  'Login',
+                                  style: AppTextStyles.themeMediumStyle(
+                                    fontSize: 14.0,
+                                    fontColor: AppColors.colorBlack,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                           SizedBox(width: 10),
-                          Container(
-                            decoration: BoxDecoration(
-                              color: AppColors.colorWhite,
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(13.5),
+                          InkWell(
+                            onTap: () => {print("Sign Up Tap")},
+                            child: Container(
+                              decoration: BoxDecoration(
+                                color: AppColors.colorWhite,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(13.5),
+                                ),
                               ),
-                            ),
-                            width: 90.0,
-                            height: 27,
-                            child: Center(
-                              child: Text(
-                                'Sign Up',
-                                style: AppTextStyles.themeMediumStyle(
-                                  fontSize: 14.0,
-                                  fontColor: AppColors.colorBlack,
+                              width: 90.0,
+                              height: 27,
+                              child: Center(
+                                child: Text(
+                                  'Sign Up',
+                                  style: AppTextStyles.themeMediumStyle(
+                                    fontSize: 14.0,
+                                    fontColor: AppColors.colorBlack,
+                                  ),
                                 ),
                               ),
                             ),
@@ -88,95 +94,112 @@ class InitialView extends GetWidget<InitialController> {
                         ],
                       ),
                     ),
-                    Row(
-                      children: [
-                        SizedBox(width: 15),
-                        Container(
-                          width: (Get.width - 50) / 2,
-                          padding: EdgeInsets.only(
-                            left: 10,
-                            right: 5,
-                            top: 10,
-                            bottom: 10,
+                    Padding(
+                      padding: EdgeInsets.all(10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Container(
+                            color: AppColors.colorBlue,
+                            width: (Get.width - 30) / 2,
+                            padding: EdgeInsets.only(
+                              left: 10,
+                              right: 5,
+                              top: 10,
+                              bottom: 10,
+                            ),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text(
+                                  AppString.myPlayerCard,
+                                  style: AppTextStyles.themeBoldStyle(
+                                    fontSize: 18.0,
+                                    fontColor: AppColors.colorBlack,
+                                  ),
+                                ),
+                                ClipOval(
+                                  child: Image.asset(
+                                    ImageResources.swift,
+                                    height: ((Get.width - 50) / 2) - 15,
+                                    color: AppColors.colorThemeRed,
+                                  ),
+                                ),
+                                Text(
+                                  AppString.myPlayerCard,
+                                  style: AppTextStyles.themeRegularStyle(
+                                    fontSize: 18.0,
+                                    fontColor: AppColors.colorBlack,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                AppString.myPlayerCard,
-                                style: AppTextStyles.themeBoldStyle(
-                                  fontSize: 18.0,
-                                  fontColor: AppColors.colorBlack,
+                          SizedBox(width: 10),
+                          Container(
+                            color: AppColors.colorPink,
+                            width: (Get.width - 30) / 2,
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                SizedBox(height: 10),
+                                Text(
+                                  AppString.myTeams,
+                                  style: AppTextStyles.themeBoldStyle(
+                                    fontSize: 18.0,
+                                    fontColor: AppColors.colorBlack,
+                                  ),
                                 ),
-                              ),
-                              ClipOval(
-                                child: Image.asset(
-                                  ImageResources.swift,
-                                  height: ((Get.width - 50) / 2) - 15,
-                                  color: AppColors.colorThemeRed,
+                                SizedBox(
+                                  height:
+                                      ((Get.width) / 1.7), // Adjust as needed
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    scrollDirection: Axis.horizontal,
+                                    itemCount: controller.arrTeams.length,
+                                    itemBuilder: (context, index) {
+                                      final team = controller.arrTeams[index];
+
+                                      return Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.center,
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Container(
+                                            margin: EdgeInsets.symmetric(
+                                              horizontal: 10,
+                                            ),
+                                            height: ((Get.width - 50) / 2) - 15,
+                                            child: ClipOval(
+                                              child: Image.asset(
+                                                ImageResources.swift,
+                                                color: AppColors.colorThemeRed,
+                                              ),
+                                            ),
+                                          ),
+                                          SizedBox(height: 10),
+                                          Text(
+                                            team,
+                                            style:
+                                                AppTextStyles.themeRegularStyle(
+                                                  fontSize: 18.0,
+                                                  fontColor:
+                                                      AppColors.colorBlack,
+                                                ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  ),
                                 ),
-                              ),
-                              Text(
-                                AppString.myPlayerCard,
-                                style: AppTextStyles.themeRegularStyle(
-                                  fontSize: 18.0,
-                                  fontColor: AppColors.colorBlack,
-                                ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
-                        ),
-                        Expanded(child: Text("")),
-                        Container(
-                          width: (Get.width - 50) / 2,
-                          padding: EdgeInsets.only(
-                            left: 5,
-                            right: 10,
-                            top: 10,
-                            bottom: 10,
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                AppString.myTeams,
-                                style: AppTextStyles.themeBoldStyle(
-                                  fontSize: 18.0,
-                                  fontColor: AppColors.colorBlack,
-                                ),
-                              ),
-                              SizedBox(
-                                height:
-                                    q((Get.width - 50) / 2) +
-                                    60, // height to accommodate image + text
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.start,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    ClipOval(
-                                      child: Image.asset(
-                                        ImageResources.swift,
-                                        height: ((Get.width - 50) / 2) - 15,
-                                        color: AppColors.colorThemeRed,
-                                      ),
-                                    ),
-                                    Text(
-                                      AppString.myTeams,
-                                      style: AppTextStyles.themeRegularStyle(
-                                        fontSize: 18.0,
-                                        fontColor: AppColors.colorBlack,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                        SizedBox(width: 15),
-                      ],
+                        ],
+                      ),
                     ),
                     SizedBox(height: 8),
                     Text(
@@ -188,34 +211,29 @@ class InitialView extends GetWidget<InitialController> {
                     ),
                     SizedBox(height: 12),
                     Container(
-                      // width: Get.width - 20,
-                      // height: (Get.width / 2) - 20,
-                      // padding: EdgeInsets.only(left: 5, bottom: 5),
-                      child: Container(
-                        color: AppColors.colorClear,
-                        height: 190,
-                        child: PageView.builder(
-                          controller: PageController(
-                            viewportFraction:
-                                0.9, // Adjust for padding/margin between pages
-                          ),
-                          itemCount: controller.arrTournaments.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Padding(
-                              padding: const EdgeInsets.only(right: 5.0),
-                              child: ClipRRect(
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(30.0),
-                                ),
-                                child: Image.asset(
-                                  ImageResources.swift,
-                                  width: Get.width - 0,
-                                  fit: BoxFit.fill,
-                                ),
-                              ),
-                            );
-                          },
+                      color: AppColors.colorClear,
+                      height: 190,
+                      child: PageView.builder(
+                        controller: PageController(
+                          viewportFraction:
+                              0.9, // Adjust for padding/margin between pages
                         ),
+                        itemCount: controller.arrTournaments.length,
+                        itemBuilder: (BuildContext context, int index) {
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 5.0),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.all(
+                                Radius.circular(30.0),
+                              ),
+                              child: Image.asset(
+                                ImageResources.swift,
+                                width: Get.width - 0,
+                                fit: BoxFit.fill,
+                              ),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     SizedBox(height: 20),
@@ -243,6 +261,19 @@ class InitialView extends GetWidget<InitialController> {
                                       AppPopup.arenaInfoPopup(
                                         context: context,
                                         title: controller.arrGames[index],
+                                        arrInfoTitle: [
+                                          "Overview",
+                                          "Lobby",
+                                          "BattleArena ID Exchange",
+                                          "Character Selection",
+                                          "Rock Paper Scissors",
+                                          "Stage Pick Ban",
+                                          "Score Reporting",
+                                          "Dispute System",
+                                          "Chat",
+                                        ],
+                                        arrInfo: controller.arrSSBUInfo,
+                                        arrImg: controller.arrImgSSBUInfo,
                                       ),
                                     },
                                 child: Padding(
