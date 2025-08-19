@@ -35,6 +35,7 @@ class InitialController extends GetxController {
   var arrSSBUInfo = [
     [
       "The Tussly Arena will guide you through your match with the following integrated steps and features:",
+      "\u{2022} Lobby\n\u{2022} BattleArena ID Exchange\n\u{2022} Character Selection\n\u{2022} Rock Paper Scissors\n\u{2022} Stage Pick/Ban\n\u{2022} Score Reporting\n\u{2022} Dispute System\n\u{2022} Chat",
       "The Arena is fully customized by the Organizer. All their rules are built into the Arena to remove any confusion of what to do. Follow the Arena prompts and you will always be within the Organizer’s rulesets.",
     ],
     [
@@ -72,7 +73,7 @@ class InitialController extends GetxController {
   ];
 
   var arrImgSSBUInfo = [
-    ["", ""],
+    [""],
     ["Sample Image 1 - Lobby"],
     [
       "Sample Image 2 - Enter BattleArena ID",
@@ -96,18 +97,6 @@ class InitialController extends GetxController {
       "Sample Image 14 - Dispute Options",
     ],
     ["Sample Image 15 - Chat"],
-  ];
-
-  var arrIsSSBUImageExist = [
-    true,
-    true,
-    true,
-    false,
-    true,
-    true,
-    true,
-    true,
-    true,
   ];
 
   @override

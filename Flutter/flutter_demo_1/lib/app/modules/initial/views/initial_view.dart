@@ -99,46 +99,50 @@ class InitialView extends GetWidget<InitialController> {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Container(
-                            color: AppColors.colorBlue,
-                            width: (Get.width - 30) / 2,
-                            padding: EdgeInsets.only(
-                              left: 10,
-                              right: 5,
-                              top: 10,
-                              bottom: 10,
-                            ),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text(
-                                  AppString.myPlayerCard,
-                                  style: AppTextStyles.themeBoldStyle(
-                                    fontSize: 18.0,
-                                    fontColor: AppColors.colorBlack,
+                          InkWell(
+                            onTap: () => {print("PlayerCard Tap")},
+                            child: Container(
+                              //color: AppColors.colorBlue,
+                              width: (Get.width - 30) / 2,
+                              padding: EdgeInsets.only(
+                                left: 10,
+                                right: 5,
+                                top: 10,
+                                bottom: 10,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Text(
+                                    AppString.myPlayerCard,
+                                    style: AppTextStyles.themeBoldStyle(
+                                      fontSize: 18.0,
+                                      fontColor: AppColors.colorBlack,
+                                    ),
                                   ),
-                                ),
-                                ClipOval(
-                                  child: Image.asset(
-                                    ImageResources.swift,
-                                    height: ((Get.width - 50) / 2) - 15,
-                                    color: AppColors.colorThemeRed,
+                                  SizedBox(height: 4),
+                                  ClipOval(
+                                    child: Image.asset(
+                                      ImageResources.swift,
+                                      height: ((Get.width - 50) / 2) - 15,
+                                      color: AppColors.colorThemeRed,
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  AppString.myPlayerCard,
-                                  style: AppTextStyles.themeRegularStyle(
-                                    fontSize: 18.0,
-                                    fontColor: AppColors.colorBlack,
+                                  Text(
+                                    AppString.myPlayerCard,
+                                    style: AppTextStyles.themeRegularStyle(
+                                      fontSize: 18.0,
+                                      fontColor: AppColors.colorBlack,
+                                    ),
                                   ),
-                                ),
-                              ],
+                                ],
+                              ),
                             ),
                           ),
                           SizedBox(width: 10),
                           Container(
-                            color: AppColors.colorPink,
+                            // color: AppColors.colorPink,
                             width: (Get.width - 30) / 2,
                             child: Column(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -153,44 +157,52 @@ class InitialView extends GetWidget<InitialController> {
                                   ),
                                 ),
                                 SizedBox(
-                                  height:
-                                      ((Get.width) / 1.7), // Adjust as needed
-                                  child: ListView.builder(
-                                    shrinkWrap: true,
-                                    scrollDirection: Axis.horizontal,
+                                  height: ((Get.width) / 2), // Adjust as needed
+                                  child: PageView.builder(
+                                    controller: PageController(
+                                      viewportFraction:
+                                          1.0, // adjust size of each page
+                                    ),
                                     itemCount: controller.arrTeams.length,
                                     itemBuilder: (context, index) {
                                       final team = controller.arrTeams[index];
 
-                                      return Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.center,
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Container(
-                                            margin: EdgeInsets.symmetric(
-                                              horizontal: 10,
-                                            ),
-                                            height: ((Get.width - 50) / 2) - 15,
-                                            child: ClipOval(
-                                              child: Image.asset(
-                                                ImageResources.swift,
-                                                color: AppColors.colorThemeRed,
+                                      return InkWell(
+                                        onTap: () {
+                                          print("Team Card tap $index");
+                                        },
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.center,
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          children: [
+                                            Container(
+                                              margin: EdgeInsets.symmetric(
+                                                horizontal: 10,
+                                              ),
+                                              height:
+                                                  ((Get.width - 50) / 2) - 15,
+                                              child: ClipOval(
+                                                child: Image.asset(
+                                                  ImageResources.swift,
+                                                  color:
+                                                      AppColors.colorThemeRed,
+                                                ),
                                               ),
                                             ),
-                                          ),
-                                          SizedBox(height: 10),
-                                          Text(
-                                            team,
-                                            style:
-                                                AppTextStyles.themeRegularStyle(
-                                                  fontSize: 18.0,
-                                                  fontColor:
-                                                      AppColors.colorBlack,
-                                                ),
-                                          ),
-                                        ],
+                                            SizedBox(height: 3),
+                                            Text(
+                                              team,
+                                              style:
+                                                  AppTextStyles.themeRegularStyle(
+                                                    fontSize: 18.0,
+                                                    fontColor:
+                                                        AppColors.colorBlack,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
                                       );
                                     },
                                   ),
@@ -216,12 +228,15 @@ class InitialView extends GetWidget<InitialController> {
                       child: PageView.builder(
                         controller: PageController(
                           viewportFraction:
-                              0.9, // Adjust for padding/margin between pages
+                              0.95, // Adjust for padding/margin between pages
                         ),
                         itemCount: controller.arrTournaments.length,
                         itemBuilder: (BuildContext context, int index) {
                           return Padding(
-                            padding: const EdgeInsets.only(right: 5.0),
+                            //padding: const EdgeInsets.only(right: 5.0),
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 11.0,
+                            ), // gap between pages
                             child: ClipRRect(
                               borderRadius: BorderRadius.all(
                                 Radius.circular(30.0),
