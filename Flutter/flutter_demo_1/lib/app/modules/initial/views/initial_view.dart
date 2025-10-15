@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_demo_1/app/core/helper/app_strings.dart';
+import 'package:flutter_demo_1/app/routes/app_pages.dart';
 import 'package:flutter_demo_1/app/widgets/custom_top_tabbar.dart';
 import 'package:get/get.dart';
 
@@ -46,7 +47,11 @@ class InitialView extends GetWidget<InitialController> {
                           ),
                           SizedBox(width: 10),
                           InkWell(
-                            onTap: () => {print("Login Tap")},
+                            onTap:
+                                () => {
+                                  print("Login Tap"),
+                                  Get.offAllNamed(Routes.LOGIN),
+                                },
                             child: Container(
                               decoration: BoxDecoration(
                                 color: AppColors.colorWhite,
@@ -334,6 +339,7 @@ class InitialView extends GetWidget<InitialController> {
                         ),
                       ],
                     ),
+                    SizedBox(height: 5),
                   ],
                 ),
               ),

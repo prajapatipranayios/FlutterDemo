@@ -1,5 +1,8 @@
 import 'package:flutter_demo_1/app/core/helper/app_strings.dart';
+import 'package:flutter_demo_1/app/core/helper/constants.dart';
 import 'package:get/get.dart';
+
+import '../../../core/services/web_services.dart';
 
 class InitialController extends GetxController {
   var arrTabbarTop = [
@@ -102,6 +105,7 @@ class InitialController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    getData();
   }
 
   @override
@@ -112,5 +116,29 @@ class InitialController extends GetxController {
   @override
   void onClose() {
     super.onClose();
+  }
+
+  Future<dynamic> getData() async {
+    /// Call request
+    await Webservice.postRequest(
+      uri: Global.getGames,
+      body: {"email": "test@gmail.com", "password": "123456"},
+      hasBearer: false,
+      fromJson: (json) => json, // or map to your model
+      onSuccess: (data, status) {
+        if (status == 1) {
+          print("Login Successful: $status");
+          print("Login Successful: $data");
+          // Save token, navigate to home, etc.
+        } else if (status == 0) {
+          print("Login Failed but handled in success: $data");
+          // Show toast for invalid credentials, etc.
+        }
+      },
+      onFailure: (error) {
+        print("API Error: ${error.message}");
+        // Show network error toast or dialog
+      },
+    );
   }
 }

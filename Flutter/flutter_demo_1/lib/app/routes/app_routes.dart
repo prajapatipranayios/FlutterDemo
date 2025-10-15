@@ -5,10 +5,12 @@ abstract class Routes {
   Routes._();
   static const SPLASH = _Paths.SPLASH;
   static const INITIAL = _Paths.INITIAL;
+  static const LOGIN = _Paths.LOGIN;
 }
 
 abstract class _Paths {
   _Paths._();
   static const SPLASH = '/splash';
   static const INITIAL = '/initial';
+  static const LOGIN = '/login';
 }
