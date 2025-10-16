@@ -2,6 +2,7 @@ class ImageResources {
   static String swift_1024 = 'assets/png/swift-1024.png';
   static String swift = 'assets/png/swift.png';
 
+  static String back = 'assets/png/back.png';
   static String chat = 'assets/png/chat.png';
   static String chat_active = 'assets/png/chat_active.png';
   static String chat_beta = 'assets/png/chat_beta.png';

@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_demo_1/app/core/helper/app_strings.dart';
-import 'package:flutter_demo_1/app/widgets/custom_top_tabbar.dart';
 import 'package:get/get.dart';
 
+import '../../../core/helper/app_strings.dart';
 import '../../../core/helper/images_resources.dart';
-import '../controllers/login_controller.dart';
+import '../../../widgets/custom_top_tabbar.dart';
+import '../controllers/signup_controller.dart';
 
-class LoginView extends GetWidget<LoginController> {
-  const LoginView({super.key});
+class SignupView extends GetWidget<SignupController> {
+  const SignupView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -53,7 +53,7 @@ class LoginView extends GetWidget<LoginController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Login with Tussly",
+                            "Create an Account",
                             style: const TextStyle(
                               fontSize: 24,
                               fontWeight: FontWeight.bold,
@@ -68,8 +68,16 @@ class LoginView extends GetWidget<LoginController> {
                               color: Colors.black,
                             ),
                           ),
-                          SizedBox(height: 120.0),
-
+                          SizedBox(height: 30.0),
+                          Text(
+                            "Required Information",
+                            style: const TextStyle(
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.black,
+                            ),
+                          ),
+                          SizedBox(height: 8.0),
                           // Email TextField
                           TextField(
                             decoration: InputDecoration(
@@ -84,6 +92,28 @@ class LoginView extends GetWidget<LoginController> {
                           SizedBox(height: 10.0),
                           TextField(
                             decoration: InputDecoration(
+                              labelText: "Username",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              prefixIcon: const Icon(Icons.person),
+                            ),
+                            keyboardType: TextInputType.text,
+                          ),
+                          SizedBox(height: 10.0),
+                          TextField(
+                            decoration: InputDecoration(
+                              labelText: "Display Name",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              prefixIcon: const Icon(Icons.badge),
+                            ),
+                            keyboardType: TextInputType.text,
+                          ),
+                          SizedBox(height: 10.0),
+                          TextField(
+                            decoration: InputDecoration(
                               labelText: "Password",
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(10),
@@ -93,15 +123,54 @@ class LoginView extends GetWidget<LoginController> {
                             obscureText: true, // 👈 hides the password
                             keyboardType: TextInputType.text,
                           ),
-                          SizedBox(height: 25.0),
+                          SizedBox(height: 10.0),
+                          TextField(
+                            decoration: InputDecoration(
+                              labelText: "Confirm Password",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              prefixIcon: const Icon(Icons.lock),
+                            ),
+                            obscureText: true, // 👈 hides the password
+                            keyboardType: TextInputType.text,
+                          ),
+                          SizedBox(height: 30.0),
                           Text(
-                            "Remember me",
+                            "Optional Information",
                             style: const TextStyle(
-                              fontSize: 15,
-                              fontWeight: FontWeight.normal,
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
                               color: Colors.black,
                             ),
                           ),
+                          SizedBox(height: 8.0),
+                          // First Name
+                          TextField(
+                            decoration: InputDecoration(
+                              labelText: "First Name",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              prefixIcon: const Icon(Icons.account_circle),
+                            ),
+                            keyboardType: TextInputType.name,
+                          ),
+                          SizedBox(height: 10), // spacing between fields
+                          // Last Name
+                          TextField(
+                            decoration: InputDecoration(
+                              labelText: "Last Name",
+                              border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              prefixIcon: const Icon(
+                                Icons.account_circle_outlined,
+                              ),
+                            ),
+                            keyboardType: TextInputType.name,
+                          ),
+                          SizedBox(height: 25.0),
                           SizedBox(height: 25.0),
                           GestureDetector(
                             onTap: () {
@@ -123,47 +192,13 @@ class LoginView extends GetWidget<LoginController> {
                               ),
 
                               child: const Text(
-                                "Submit",
+                                "Sign Up",
                                 style: TextStyle(
                                   fontSize: 16, // change size as needed
                                   color: Colors.white,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
-                            ),
-                          ),
-                          SizedBox(height: 25.0),
-                          Center(
-                            child: Column(
-                              children: [
-                                InkWell(
-                                  onTap: () {
-                                    print("Forgot password tap.");
-                                  },
-                                  child: Text(
-                                    "Forgot Password?",
-                                    style: const TextStyle(
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                                SizedBox(height: 10.0),
-                                InkWell(
-                                  onTap: () {
-                                    print("Register");
-                                  },
-                                  child: Text(
-                                    "New User? Register with Tussly.",
-                                    style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.normal,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ],
                             ),
                           ),
                         ],

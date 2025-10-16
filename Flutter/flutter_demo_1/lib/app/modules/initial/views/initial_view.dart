@@ -50,7 +50,7 @@ class InitialView extends GetWidget<InitialController> {
                             onTap:
                                 () => {
                                   print("Login Tap"),
-                                  Get.offAllNamed(Routes.LOGIN),
+                                  Get.toNamed(Routes.LOGIN),
                                 },
                             child: Container(
                               decoration: BoxDecoration(
@@ -74,7 +74,11 @@ class InitialView extends GetWidget<InitialController> {
                           ),
                           SizedBox(width: 10),
                           InkWell(
-                            onTap: () => {print("Sign Up Tap")},
+                            onTap:
+                                () => {
+                                  print("Login Tap"),
+                                  Get.toNamed(Routes.SIGNUP),
+                                },
                             child: Container(
                               decoration: BoxDecoration(
                                 color: AppColors.colorWhite,
