@@ -2,24 +2,25 @@ import 'package:flutter/material.dart';
 import 'package:flutter_demo_1/app/core/helper/app_colors.dart';
 import 'package:flutter_demo_1/app/core/helper/custom_style.dart';
 import 'package:flutter_demo_1/app/core/helper/images_resources.dart';
+import 'package:get/get.dart';
+
+import '../routes/app_pages.dart';
 
 class TopTabBar {
-  static header({backPress, title}) {
+  static header({required VoidCallback backPress, required String title}) {
     return SafeArea(
       bottom: false,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 10),
+        padding: const EdgeInsets.symmetric(horizontal: 10),
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             InkWell(
-              onTap: backPress,
+              onTap: () => Get.offAllNamed(Routes.INITIAL),
               child: ClipOval(
                 child: Image.asset(ImageResources.swift, width: 35, height: 35),
               ),
             ),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Expanded(
               child: Text(
                 title,
@@ -29,66 +30,31 @@ class TopTabBar {
                 ),
               ),
             ),
-            SizedBox(width: 10),
-            InkWell(
-              onTap: backPress,
-              child: ClipOval(
-                child: Image.asset(
-                  ImageResources.tournament_active,
-                  width: 35,
-                  height: 30,
-                ),
-              ),
-            ),
-            SizedBox(width: 10),
-            InkWell(
-              onTap: backPress,
-              child: ClipOval(
-                child: Image.asset(
-                  ImageResources.leagues_deactive,
-                  width: 35,
-                  height: 30,
-                ),
-              ),
-            ),
-            SizedBox(width: 10),
-            InkWell(
-              onTap: backPress,
-              child: ClipOval(
-                child: Image.asset(
-                  ImageResources.teams_active,
-                  width: 35,
-                  height: 30,
-                ),
-              ),
-            ),
-            SizedBox(width: 10),
-            InkWell(
-              onTap: backPress,
-              child: ClipOval(
-                child: Image.asset(
-                  ImageResources.playercard_active,
-                  width: 35,
-                  height: 30,
-                ),
-              ),
-            ),
-            SizedBox(width: 10),
-            InkWell(
-              onTap: backPress,
-              child: ClipOval(
-                child: Image.asset(
-                  ImageResources.settings_active,
-                  width: 35,
-                  height: 30,
-                ),
-              ),
-            ),
-            // Image.asset(ImageResources.swift, width: 30, height: 30,),
-            // SizedBox(width: 50, child: Icon(Icons.account_circle, weight: 35)),
-            // Icon(Icons.account_circle, weight: 30),
+            const SizedBox(width: 10),
+
+            // Header navigation icons
+            //_headerIcon(ImageResources.tournament_active, Routes.TOURNAMENT),
+            _headerIcon(ImageResources.tournament_active, Routes.INITIAL),
+            //_headerIcon(ImageResources.leagues_deactive, Routes.LEAGUE),
+            _headerIcon(ImageResources.leagues_deactive, Routes.INITIAL),
+            //_headerIcon(ImageResources.teams_active, Routes.TEAM),
+            _headerIcon(ImageResources.teams_active, Routes.INITIAL),
+            //_headerIcon(ImageResources.playercard_active, Routes.PLAYER_CARD),
+            _headerIcon(ImageResources.playercard_active, Routes.INITIAL),
+            //_headerIcon(ImageResources.settings_active, Routes.SETTINGS),
+            _headerIcon(ImageResources.settings_active, Routes.INITIAL),
           ],
         ),
+      ),
+    );
+  }
+
+  static Widget _headerIcon(String imagePath, String route) {
+    return InkWell(
+      onTap: () => Get.toNamed(route),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 5),
+        child: ClipOval(child: Image.asset(imagePath, width: 35, height: 30)),
       ),
     );
   }
@@ -98,70 +64,68 @@ class TopTabBar {
     required VoidCallback backPress,
     required String title,
   }) {
-    // final screenWidth = Get.width;
-    final itemCount = 5;
-    // final itemWidth = screenWidth / itemCount;
-
     return SafeArea(
       bottom: false,
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20),
+        padding: const EdgeInsets.symmetric(horizontal: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: List.generate(itemCount, (index) {
-            return InkWell(
-              onTap: backPress,
-              child: Column(
-                children: [
-                  index == 0
-                      ? Image.asset(
-                        ImageResources.home_active,
-                        width: 35,
-                        height: 35,
-                      )
-                      : index == 1
-                      ? Image.asset(
-                        ImageResources.schedule_deactive,
-                        width: 35,
-                        height: 35,
-                      )
-                      : index == 2
-                      ? Image.asset(
-                        ImageResources.chat_active,
-                        width: 35,
-                        height: 35,
-                      )
-                      : index == 3
-                      ? Image.asset(
-                        ImageResources.notification_active,
-                        width: 35,
-                        height: 35,
-                      )
-                      : Image.asset(
-                        ImageResources.more_active,
-                        width: 35,
-                        height: 35,
-                      ),
-                  Text(
-                    index == 0
-                        ? 'Home'
-                        : index == 1
-                        ? 'Scheduled'
-                        : index == 2
-                        ? 'Chat'
-                        : index == 3
-                        ? 'Notification'
-                        : 'More',
-                    style: AppTextStyles.themeRegularStyle(
-                      fontSize: 14.0,
-                      fontColor: AppColors.colorBlack,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }),
+          children: [
+            _footerItem(
+              ImageResources.home_active,
+              'Home',
+              Routes.INITIAL,
+              isHome: true,
+            ),
+            _footerItem(
+              ImageResources.schedule_deactive,
+              'Scheduled',
+              //Routes.SCHEDULE,
+              Routes.LOGIN,
+            ),
+            //_footerItem(ImageResources.chat_active, 'Chat', Routes.CHAT),
+            _footerItem(ImageResources.chat_active, 'Chat', Routes.INITIAL),
+            _footerItem(
+              ImageResources.notification_active,
+              'Notification',
+              //Routes.NOTIFICATIONS,
+              Routes.INITIAL,
+            ),
+            //_footerItem(ImageResources.more_active, 'More', Routes.MORE),
+            _footerItem(ImageResources.more_active, 'More', Routes.SIGNUP),
+          ],
         ),
+      ),
+    );
+  }
+
+  static Widget _footerItem(
+    String imagePath,
+    String label,
+    String route, {
+    bool isHome = false,
+  }) {
+    return InkWell(
+      onTap: () {
+        if (isHome) {
+          // Go to home and clear navigation stack
+          Get.offAllNamed(route);
+        } else {
+          // Go to other pages without clearing stack
+          Get.toNamed(route);
+        }
+      },
+      child: Column(
+        children: [
+          Image.asset(imagePath, width: 35, height: 35),
+          Text(
+            label,
+            style: AppTextStyles.themeRegularStyle(
+              fontSize: 14.0,
+              fontColor: AppColors.colorBlack,
+            ),
+          ),
+        ],
       ),
     );
   }

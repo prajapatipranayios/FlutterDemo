@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
+import 'app/core/helper/app_storage.dart';
 import 'app/routes/app_pages.dart';
 
 Future<void> main() async {
@@ -19,7 +20,7 @@ Future<void> main() async {
   // );
 
   // configEasyLoading();
-  // await AppStorages().initializeApp();
+  await AppStorages.initializeApp();
   // runApp(const MyApp());
 
   try {

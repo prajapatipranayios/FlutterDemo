@@ -7,6 +7,12 @@ abstract class Routes {
   static const INITIAL = _Paths.INITIAL;
   static const LOGIN = _Paths.LOGIN;
   static const SIGNUP = _Paths.SIGNUP;
+  static const SETTINGS = _Paths.SETTINGS;
+  static const CHAT = _Paths.CHAT;
+  static const NOTIFICATIONS = _Paths.NOTIFICATIONS;
+  static const PLAYER_CARD = _Paths.PLAYER_CARD;
+  static const TEAM_CARD = _Paths.TEAM_CARD;
+  static const SEARCH_PLAYER = _Paths.SEARCH_PLAYER;
 }
 
 abstract class _Paths {
@@ -15,4 +21,10 @@ abstract class _Paths {
   static const INITIAL = '/initial';
   static const LOGIN = '/login';
   static const SIGNUP = '/signup';
+  static const SETTINGS = '/settings';
+  static const CHAT = '/chat';
+  static const NOTIFICATIONS = '/notifications';
+  static const PLAYER_CARD = '/player-card';
+  static const TEAM_CARD = '/team-card';
+  static const SEARCH_PLAYER = '/search-player';
 }

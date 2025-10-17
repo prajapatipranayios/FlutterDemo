@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_demo_1/app/core/helper/app_storage.dart';
 import 'package:flutter_demo_1/app/core/helper/app_strings.dart';
-import 'package:flutter_demo_1/app/routes/app_pages.dart';
 import 'package:flutter_demo_1/app/widgets/custom_top_tabbar.dart';
 import 'package:get/get.dart';
 
 import '../../../core/helper/app_colors.dart';
 import '../../../core/helper/custom_style.dart';
 import '../../../core/helper/images_resources.dart';
+import '../../../routes/app_pages.dart';
 import '../../../widgets/app_popup.dart';
 import '../controllers/initial_controller.dart';
 
@@ -30,86 +31,93 @@ class InitialView extends GetWidget<InitialController> {
                 child: Column(
                   // mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
-                      color: AppColors.colorThemeRed,
-                      height: 50,
-                      child: Row(
-                        children: [
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              'Register for free',
-                              style: AppTextStyles.themeBoldStyle(
-                                fontSize: 17.0,
-                                fontColor: AppColors.colorWhite,
-                              ),
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          InkWell(
-                            onTap:
-                                () => {
-                                  print("Login Tap"),
-                                  Get.toNamed(Routes.LOGIN),
-                                },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: AppColors.colorWhite,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(13.5),
-                                ),
-                              ),
-                              width: 90.0,
-                              height: 27,
-                              child: Center(
+                    !AppStorages.isLogin()
+                        ? Container(
+                          color: AppColors.colorThemeRed,
+                          height: 50,
+                          child: Row(
+                            children: [
+                              SizedBox(width: 10),
+                              Expanded(
                                 child: Text(
-                                  'Login',
-                                  style: AppTextStyles.themeMediumStyle(
-                                    fontSize: 14.0,
-                                    fontColor: AppColors.colorBlack,
+                                  'Register for free',
+                                  style: AppTextStyles.themeBoldStyle(
+                                    fontSize: 17.0,
+                                    fontColor: AppColors.colorWhite,
                                   ),
                                 ),
                               ),
-                            ),
-                          ),
-                          SizedBox(width: 10),
-                          InkWell(
-                            onTap:
-                                () => {
-                                  print("Login Tap"),
-                                  Get.toNamed(Routes.SIGNUP),
-                                },
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: AppColors.colorWhite,
-                                borderRadius: BorderRadius.all(
-                                  Radius.circular(13.5),
-                                ),
-                              ),
-                              width: 90.0,
-                              height: 27,
-                              child: Center(
-                                child: Text(
-                                  'Sign Up',
-                                  style: AppTextStyles.themeMediumStyle(
-                                    fontSize: 14.0,
-                                    fontColor: AppColors.colorBlack,
+                              SizedBox(width: 10),
+                              InkWell(
+                                onTap:
+                                    () => {
+                                      print("Login Tap"),
+                                      Get.toNamed(Routes.LOGIN),
+                                    },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: AppColors.colorWhite,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(13.5),
+                                    ),
+                                  ),
+                                  width: 90.0,
+                                  height: 27,
+                                  child: Center(
+                                    child: Text(
+                                      'Login',
+                                      style: AppTextStyles.themeMediumStyle(
+                                        fontSize: 14.0,
+                                        fontColor: AppColors.colorBlack,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ),
-                            ),
+                              SizedBox(width: 10),
+                              InkWell(
+                                onTap:
+                                    () => {
+                                      print("Login Tap"),
+                                      Get.toNamed(Routes.SIGNUP),
+                                    },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: AppColors.colorWhite,
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(13.5),
+                                    ),
+                                  ),
+                                  width: 90.0,
+                                  height: 27,
+                                  child: Center(
+                                    child: Text(
+                                      'Sign Up',
+                                      style: AppTextStyles.themeMediumStyle(
+                                        fontSize: 14.0,
+                                        fontColor: AppColors.colorBlack,
+                                      ),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                              SizedBox(width: 10),
+                            ],
                           ),
-                          SizedBox(width: 10),
-                        ],
-                      ),
-                    ),
+                        )
+                        : SizedBox.shrink(),
                     Padding(
                       padding: EdgeInsets.all(10),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           InkWell(
-                            onTap: () => {print("PlayerCard Tap")},
+                            onTap:
+                                () => {
+                                  print("PlayerCard Tap"),
+                                  AppStorages.setAppLogin(false),
+                                  Get.offAllNamed(Routes.INITIAL),
+                                },
                             child: Container(
                               //color: AppColors.colorBlue,
                               width: (Get.width - 30) / 2,

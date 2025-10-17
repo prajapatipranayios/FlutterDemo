@@ -105,7 +105,7 @@ class InitialController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getData();
+    getGames();
   }
 
   @override
@@ -118,17 +118,17 @@ class InitialController extends GetxController {
     super.onClose();
   }
 
-  Future<dynamic> getData() async {
+  Future<dynamic> getGames() async {
     /// Call request
     await Webservice.postRequest(
       uri: Global.getGames,
-      body: {"email": "test@gmail.com", "password": "123456"},
+      body: {},
       hasBearer: false,
       fromJson: (json) => json, // or map to your model
       onSuccess: (data, status) {
         if (status == 1) {
-          print("Login Successful: $status");
-          print("Login Successful: $data");
+          print("GetGames Successful Status: $status");
+          print("GetGames Successful Data: $data");
           // Save token, navigate to home, etc.
         } else if (status == 0) {
           print("Login Failed but handled in success: $data");
