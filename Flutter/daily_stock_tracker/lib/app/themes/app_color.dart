@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 class AppColors {
   // Primary brand colors
   static const Color themeColor = Color(0xFFF52955);
-  static const Color blackColor = Color(0xFF0A0A0A);
+  static const Color blackColor = Color(0xFF000000);
   static const Color darkBlack = Color(0xFF101010);
   static const Color whiteColor = Color(0xFFFFFFFF);
   static const Color grayColor = Color(0xFF8C8C8C);

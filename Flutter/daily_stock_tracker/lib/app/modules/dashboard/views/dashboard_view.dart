@@ -10,9 +10,9 @@ class DashboardView extends GetView<DashboardController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        backgroundColor: Colors.white,
         elevation: 0,
         // leading: IconButton(
         //   icon: SvgPicture.asset(AppAssets.backArrowIc, width: 30),
@@ -22,28 +22,72 @@ class DashboardView extends GetView<DashboardController> {
           'Dashboard',
           style: AppTextStyles.semiBold(
             fontSize: 20,
-            fontColor: AppColors.whiteColor,
+            fontColor: AppColors.blackColor,
           ),
         ),
         centerTitle: true,
       ),
       body: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        // mainAxisAlignment: MainAxisAlignment.center,
+        //crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Text(
-            'create_custom_workout_desc',
-            style: AppTextStyles.regular(
-              fontSize: 16,
-              fontColor: AppColors.whiteColor,
-            ),
-          ),
-          const SizedBox(height: 30),
           Container(
-            decoration: BoxDecoration(
-              color: AppColors.textFieldBgDisable,
-              borderRadius: BorderRadius.circular(30),
+            margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+            padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 16.0),
+            decoration: BoxDecoration(color: AppColors.disableColor),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text(
+                      'Daily Usage of :',
+                      style: AppTextStyles.regular(
+                        fontSize: 16,
+                        fontColor: AppColors.blackColor,
+                      ),
+                    ),
+                    SizedBox(width: 16.0),
+                    Expanded(
+                      child: Container(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        decoration: BoxDecoration(
+                          color: enabled
+                              ? backgroundColor
+                              : AppColors.textFieldBgDisable,
+                          border: Border.all(
+                            color: enabled
+                                ? AppColors.lightBlack
+                                : AppColors.borderColorDisable,
+                            width: 1,
+                          ),
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(radius),
+                          ),
+                        ),
+                        child: TextField(
+                          // controller: textController,
+                          textAlign: TextAlign.center,
+                          keyboardType: TextInputType.number,
+                          style: AppTextStyles.medium(
+                            fontSize: 16,
+                            fontColor: AppColors.blackColor,
+                          ),
+                          decoration: InputDecoration(
+                            border: InputBorder.none,
+                            isDense: true,
+                            contentPadding: EdgeInsets.symmetric(vertical: 16),
+                            counterText: "",
+                            hintText: 'hintText',
+                            enabledBorder: InputBorder.none,
+                            focusedBorder: InputBorder.none,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
             ),
-            child: Text('data'),
           ),
         ],
       ),
