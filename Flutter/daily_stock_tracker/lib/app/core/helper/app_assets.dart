@@ -67,4 +67,5 @@ class AppAssets {
   static const String samsungHealth = 'assets/images/samsung_connect.png';
   static const String fitBit = 'assets/images/fit_connect.png';
   static const String dummy = 'assets/images/dummy.png';
+  static const String filter = 'assets/images/filter.png';
 }
