@@ -11,6 +11,8 @@ class DashboardController extends GetxController {
 
   final db = DBService();
 
+  DateTime? editDate;
+
   @override
   void onInit() {
     super.onInit();
@@ -19,6 +21,17 @@ class DashboardController extends GetxController {
   @override
   void onReady() {
     super.onReady();
+
+    if (Get.arguments != null && Get.arguments is StockUsageModel) {
+      final selectedItem = Get.arguments as StockUsageModel;
+
+      txtIdliCtrl.text = selectedItem.idli;
+      txtChataniCtrl.text = selectedItem.chatani;
+      txtMWCtrl.text = selectedItem.meduWada;
+      txtAppeCtrl.text = selectedItem.appe;
+
+      editDate = DateTime.parse(selectedItem.createdAt);
+    }
   }
 
   @override
@@ -30,41 +43,44 @@ class DashboardController extends GetxController {
     FocusScope.of(Get.context!).unfocus();
 
     String today = DateTime.now().toIso8601String().substring(0, 10);
-    // format → YYYY-MM-DD
 
-    /// 🔍 Check if entry already exists for today
-    bool exists = await db.isEntryExistsForDate(today);
-
-    if (exists) {
-      Get.snackbar(
-        "Duplicate Entry",
-        "Entry for today already exists",
-        snackPosition: SnackPosition.BOTTOM,
-      );
-      return;
-    }
-
-    /// 🔢 Convert empty inputs to zero
     final model = StockUsageModel(
-      idli: (txtIdliCtrl.text.trim().isEmpty) ? "0" : txtIdliCtrl.text.trim(),
-      chatani: (txtChataniCtrl.text.trim().isEmpty)
+      idli: txtIdliCtrl.text.trim().isEmpty ? "0" : txtIdliCtrl.text.trim(),
+      chatani: txtChataniCtrl.text.trim().isEmpty
           ? "0"
           : txtChataniCtrl.text.trim(),
-      meduWada: (txtMWCtrl.text.trim().isEmpty) ? "0" : txtMWCtrl.text.trim(),
-      appe: (txtAppeCtrl.text.trim().isEmpty) ? "0" : txtAppeCtrl.text.trim(),
+      meduWada: txtMWCtrl.text.trim().isEmpty ? "0" : txtMWCtrl.text.trim(),
+      appe: txtAppeCtrl.text.trim().isEmpty ? "0" : txtAppeCtrl.text.trim(),
       createdAt: DateTime.now().toIso8601String(),
     );
 
-    /// 👉 Save to database
-    await db.insertUsage(model);
+    // ---------------------------
+    // CASE 1: USER IS EDITING OLD ENTRY
+    // ---------------------------
+    if (editDate != null) {
+      String editDay = editDate!.toIso8601String().substring(0, 10);
 
-    Get.snackbar(
-      "Success",
-      "Data saved successfully!",
-      snackPosition: SnackPosition.BOTTOM,
-    );
+      await db.updateUsageForDate(editDay, model);
+      Get.snackbar("Updated", "Record updated successfully!");
 
-    /// Clear fields
+      editDate = null; // reset edit mode
+    }
+    // ---------------------------
+    // CASE 2: NORMAL ADD LOGIC
+    // ---------------------------
+    else {
+      bool exists = await db.isEntryExistsForDate(today);
+
+      if (exists) {
+        await db.updateUsageForDate(today, model);
+        Get.snackbar("Updated", "Today's usage has been updated.");
+      } else {
+        await db.insertUsage(model);
+        Get.snackbar("Success", "New usage added!");
+      }
+    }
+
+    // Clear fields
     txtIdliCtrl.clear();
     txtChataniCtrl.clear();
     txtMWCtrl.clear();

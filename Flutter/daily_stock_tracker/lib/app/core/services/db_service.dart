@@ -57,6 +57,18 @@ class DBService {
     return await db.insert('stock_usage', model.toMap());
   }
 
+  /// UPDATE
+  Future<int> updateUsageForDate(String date, StockUsageModel model) async {
+    final db = await database;
+
+    return await db.update(
+      'stock_usage',
+      model.toUpdateMap(),
+      where: "createdAt LIKE ?",
+      whereArgs: ['%$date%'], // match day
+    );
+  }
+
   /// GET ALL
   Future<List<StockUsageModel>> getAllUsage() async {
     final db = await database;
@@ -67,8 +79,25 @@ class DBService {
     return res.map((e) => StockUsageModel.fromMap(e)).toList();
   }
 
+  Future<List<StockUsageModel>> getUsageByMonthYear(String yearMonth) async {
+    final db = await database;
+
+    final res = await db.query(
+      'stock_usage',
+      where: "createdAt LIKE ?",
+      whereArgs: ["$yearMonth%"], // e.g. 2025-03%
+    );
+
+    return res.map((e) => StockUsageModel.fromMap(e)).toList();
+  }
+
   /// DELETE IF NEEDED
   Future<int> deleteUsage(int id) async {
+    final db = await database;
+    return await db.delete('stock_usage', where: "id = ?", whereArgs: [id]);
+  }
+
+  Future<int> deleteUsageById(int id) async {
     final db = await database;
     return await db.delete('stock_usage', where: "id = ?", whereArgs: [id]);
   }

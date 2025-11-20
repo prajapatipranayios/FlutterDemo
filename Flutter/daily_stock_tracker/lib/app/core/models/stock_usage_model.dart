@@ -26,6 +26,16 @@ class StockUsageModel {
     };
   }
 
+  Map<String, dynamic> toUpdateMap() {
+    return {
+      'idli': idli,
+      'chatani': chatani,
+      'meduWada': meduWada,
+      'appe': appe,
+      'createdAt': createdAt,
+    };
+  }
+
   factory StockUsageModel.fromMap(Map<String, dynamic> json) {
     return StockUsageModel(
       id: json['id'],
