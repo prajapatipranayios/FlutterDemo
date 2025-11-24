@@ -8,6 +8,9 @@ class DashboardController extends GetxController {
   var txtChataniCtrl = TextEditingController();
   var txtMWCtrl = TextEditingController();
   var txtAppeCtrl = TextEditingController();
+  var txtsambharFullCtrl = TextEditingController();
+  var txtsambharHalfCtrl = TextEditingController();
+  var txtsambharOneFourthCtrl = TextEditingController();
 
   final db = DBService();
 
@@ -29,6 +32,9 @@ class DashboardController extends GetxController {
       txtChataniCtrl.text = selectedItem.chatani;
       txtMWCtrl.text = selectedItem.meduWada;
       txtAppeCtrl.text = selectedItem.appe;
+      txtsambharFullCtrl.text = selectedItem.sambhar_full;
+      txtsambharHalfCtrl.text = selectedItem.sambhar_half;
+      txtsambharOneFourthCtrl.text = selectedItem.sambhar_one_fourth;
 
       editDate = DateTime.parse(selectedItem.createdAt);
     }
@@ -51,6 +57,15 @@ class DashboardController extends GetxController {
           : txtChataniCtrl.text.trim(),
       meduWada: txtMWCtrl.text.trim().isEmpty ? "0" : txtMWCtrl.text.trim(),
       appe: txtAppeCtrl.text.trim().isEmpty ? "0" : txtAppeCtrl.text.trim(),
+      sambhar_full: txtsambharFullCtrl.text.trim().isEmpty
+          ? "0"
+          : txtsambharFullCtrl.text.trim(),
+      sambhar_half: txtsambharHalfCtrl.text.trim().isEmpty
+          ? "0"
+          : txtsambharHalfCtrl.text.trim(),
+      sambhar_one_fourth: txtsambharOneFourthCtrl.text.trim().isEmpty
+          ? "0"
+          : txtsambharOneFourthCtrl.text.trim(),
       createdAt: DateTime.now().toIso8601String(),
     );
 
@@ -85,5 +100,8 @@ class DashboardController extends GetxController {
     txtChataniCtrl.clear();
     txtMWCtrl.clear();
     txtAppeCtrl.clear();
+    txtsambharFullCtrl.clear();
+    txtsambharHalfCtrl.clear();
+    txtsambharOneFourthCtrl.clear();
   }
 }

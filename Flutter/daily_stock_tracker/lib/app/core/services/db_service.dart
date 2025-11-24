@@ -31,6 +31,9 @@ class DBService {
           chatani TEXT,
           meduWada TEXT,
           appe TEXT,
+          sambhar_full TEXT,
+          sambhar_half TEXT,
+          sambhar_one_fourth TEXT,
           createdAt TEXT
         )
         ''');

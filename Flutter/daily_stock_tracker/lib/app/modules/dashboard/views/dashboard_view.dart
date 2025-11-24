@@ -8,6 +8,7 @@ import '../controllers/dashboard_controller.dart';
 
 class DashboardView extends GetView<DashboardController> {
   const DashboardView({super.key});
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -17,10 +18,6 @@ class DashboardView extends GetView<DashboardController> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
-          // leading: IconButton(
-          //   icon: SvgPicture.asset(AppAssets.backArrowIc, width: 30),
-          //   onPressed: () => Get.back(),
-          // ),
           title: Text(
             'Dashboard',
             style: AppTextStyles.semiBold(
@@ -32,126 +29,185 @@ class DashboardView extends GetView<DashboardController> {
           actions: [
             IconButton(
               padding: EdgeInsets.zero,
-              constraints: BoxConstraints(),
+              constraints: const BoxConstraints(),
               icon: Icon(
                 Icons.filter_alt,
                 color: AppColors.blackColor,
                 size: 30,
               ),
-              onPressed: () {
-                Get.toNamed(Routes.FILTER_USAGE_LIST);
-              },
+              onPressed: () => Get.toNamed(Routes.FILTER_USAGE_LIST),
             ),
           ],
         ),
-        body: Column(
-          children: [
-            /// =============== Idli =================
-            buildUsageRow(
-              label: "Idli batter :",
-              controller: controller.txtIdliCtrl,
-              hint: "No of batter",
-            ),
-            SizedBox(height: 10),
 
-            /// =============== Chatani =================
-            buildUsageRow(
-              label: "Chatani :",
-              controller: controller.txtChataniCtrl,
-              hint: "No of Chatani",
-            ),
-            SizedBox(height: 10),
-
-            /// =============== Meduwada =================
-            buildUsageRow(
-              label: "Meduwada :",
-              controller: controller.txtMWCtrl,
-              hint: "No of MW",
-            ),
-            SizedBox(height: 10),
-
-            /// =============== Appe =================
-            buildUsageRow(
-              label: "Appe :",
-              controller: controller.txtAppeCtrl,
-              hint: "No of Appe",
-            ),
-
-            SizedBox(height: 20),
-
-            /// =============== ADD BUTTON =================
-            Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 16.0,
-              ), // LEFT + RIGHT
-              child: SizedBox(
-                width: double.infinity,
-                height: 45,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.grayColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            child: Column(
+              children: [
+                // ---------- ROW 1 ----------
+                Row(
+                  children: [
+                    Expanded(
+                      child: buildUsageRow(
+                        label: "Idli batter :",
+                        controller: controller.txtIdliCtrl,
+                        hint: "Batter",
+                      ),
                     ),
-                  ),
-                  onPressed: () {
-                    controller.onAddPressed();
-                  },
-                  child: Text(
-                    "ADD",
-                    style: AppTextStyles.semiBold(
-                      fontSize: 18,
-                      fontColor: Colors.white,
+                    Expanded(
+                      child: buildUsageRow(
+                        label: "Chatani :",
+                        controller: controller.txtChataniCtrl,
+                        hint: "Chatani",
+                        isRightPadding: true,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+
+                // ---------- ROW 2 ----------
+                Row(
+                  children: [
+                    Expanded(
+                      child: buildUsageRow(
+                        label: "Meduwada :",
+                        controller: controller.txtMWCtrl,
+                        hint: "Meduwada",
+                      ),
+                    ),
+                    Expanded(
+                      child: buildUsageRow(
+                        label: "Appe :",
+                        controller: controller.txtAppeCtrl,
+                        hint: "Appe",
+                        isRightPadding: true,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+
+                // ---------- ROW 3 ----------
+                Row(
+                  children: [
+                    Expanded(
+                      child: buildUsageRow(
+                        label: "Sambhar F :",
+                        controller: controller.txtsambharFullCtrl,
+                        hint: "Full",
+                      ),
+                    ),
+                    Expanded(
+                      child: buildUsageRow(
+                        label: "Sambhar H :",
+                        controller: controller.txtsambharHalfCtrl,
+                        hint: "Half",
+                        isRightPadding: true,
+                      ),
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 10),
+
+                // ---------- ROW 4 ----------
+                Row(
+                  children: [
+                    Expanded(
+                      child: buildUsageRow(
+                        label: "Sambhar 1/4 :",
+                        controller: controller.txtsambharOneFourthCtrl,
+                        hint: "1/4",
+                      ),
+                    ),
+                    Expanded(child: Text("")),
+                  ],
+                ),
+
+                const SizedBox(height: 20),
+
+                // ---------- ADD BUTTON ----------
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 45,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: AppColors.blueColor50,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                      ),
+                      onPressed: controller.onAddPressed,
+                      child: Text(
+                        "ADD",
+                        style: AppTextStyles.semiBold(
+                          fontSize: 18,
+                          fontColor: Colors.white,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
     );
   }
 
+  // -------------------------------------------------------------------------
+  // ------------------------ Reusable Input Row Widget ----------------------
+  // -------------------------------------------------------------------------
+
   Widget buildUsageRow({
     required String label,
     required TextEditingController controller,
     required String hint,
+    bool isRightPadding = false,
   }) {
     return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 16.0),
-      child: Row(
+      padding: !isRightPadding
+          ? const EdgeInsets.only(left: 16, right: 8)
+          : const EdgeInsets.only(left: 8, right: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
-            width: 95.0,
-            child: Text(
-              label,
-              style: AppTextStyles.regular(
-                fontSize: 16,
-                fontColor: AppColors.blackColor,
-              ),
+          Text(
+            label,
+            style: AppTextStyles.bold(
+              fontSize: 17,
+              fontColor: AppColors.blackColor,
             ),
           ),
-          SizedBox(width: 8.0),
-          Expanded(
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              height: 40.0,
-              decoration: BoxDecoration(
-                color: AppColors.white20,
-                border: Border.all(
-                  color: AppColors.borderColorDisable,
-                  width: 1,
-                ),
-                borderRadius: BorderRadius.circular(10.0),
-              ),
+          const SizedBox(height: 6),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            height: 40,
+            decoration: BoxDecoration(
+              color: AppColors.whiteColor,
+              border: Border.all(color: AppColors.borderColor, width: 1),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Center(
               child: TextField(
                 controller: controller,
                 textAlign: TextAlign.center,
                 keyboardType: TextInputType.number,
+                style: AppTextStyles.semiBold(
+                  fontSize: 17,
+                  fontColor: AppColors.blackColor,
+                ),
                 decoration: InputDecoration(
                   border: InputBorder.none,
                   hintText: hint,
+                  hintStyle: TextStyle(
+                    color: Colors.grey.shade700,
+                    fontSize: 17,
+                  ),
                 ),
               ),
             ),
