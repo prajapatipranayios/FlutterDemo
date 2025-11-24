@@ -103,6 +103,8 @@ class DashboardController extends GetxController {
     txtsambharOneFourthCtrl.text = selectedItem.sambhar_one_fourth;
 
     editDate = DateTime.parse(selectedItem.createdAt);
+
+    update(); // 🔥 REQUIRED
   }
 
   void onClearPressed() {

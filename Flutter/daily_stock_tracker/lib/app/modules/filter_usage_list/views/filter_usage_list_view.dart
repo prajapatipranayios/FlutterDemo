@@ -44,6 +44,7 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                               .toList(),
                           onChanged: (value) {
                             controller.selectedMonthFilter.value = value!;
+                            controller.getFilteredDataByWeek();
                           },
                         ),
                       ),
@@ -76,6 +77,7 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                               .toList(),
                           onChanged: (value) {
                             controller.selectedYearFilter.value = value!;
+                            controller.getFilteredDataByWeek();
                           },
                         ),
                       ),
