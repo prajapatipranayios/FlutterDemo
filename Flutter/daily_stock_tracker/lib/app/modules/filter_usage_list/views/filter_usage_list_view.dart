@@ -1,4 +1,3 @@
-import 'package:daily_stock_tracker/app/routes/app_pages.dart';
 import 'package:daily_stock_tracker/app/themes/app_color.dart';
 import 'package:daily_stock_tracker/app/themes/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -105,11 +104,17 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                     final item = controller.usageList[index];
 
                     return Card(
-                      child: ListTile(
+                      margin: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 6,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      elevation: 2,
+                      child: InkWell(
                         onTap: () {
-                          // 👇 SEND SELECTED ITEM BACK TO DASHBOARD PAGE
-                          //Get.back(result: item);
-                          Get.offNamed(Routes.DASHBOARD, arguments: item);
+                          Get.back(result: item);
                         },
                         onLongPress: () {
                           Get.dialog(
@@ -120,16 +125,14 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                               ),
                               actions: [
                                 TextButton(
-                                  onPressed: () {
-                                    Get.back(); // CLOSE POPUP
-                                  },
+                                  onPressed: () => Get.back(),
                                   child: const Text("No"),
                                 ),
                                 TextButton(
                                   onPressed: () async {
-                                    Get.back(); // 🔥 CLOSE POPUP FIRST
+                                    Get.back();
                                     await Future.delayed(
-                                      Duration(milliseconds: 100),
+                                      const Duration(milliseconds: 150),
                                     );
                                     controller.deleteRecord(item.id!);
                                   },
@@ -140,18 +143,56 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                             barrierDismissible: false,
                           );
                         },
-                        title: Text(
-                          "Date: ${controller.formatDate(item.createdAt)}",
-                          style: AppTextStyles.bold(
-                            fontSize: 18,
-                            fontColor: AppColors.blackColor,
-                          ),
-                        ),
-                        subtitle: Text(
-                          "Idli: ${item.idli} \nChatani: ${item.chatani} \nMeduWada: ${item.meduWada} \nAppe: ${item.appe}",
-                          style: AppTextStyles.semiBold(
-                            fontSize: 17,
-                            fontColor: AppColors.darkBlack,
+
+                        child: Padding(
+                          padding: const EdgeInsets.all(14),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              // ------------------------ DATE ------------------------
+                              Text(
+                                "Date: ${controller.formatDate(item.createdAt)}",
+                                style: AppTextStyles.bold(
+                                  fontSize: 19,
+                                  fontColor: AppColors.blueColor,
+                                ),
+                              ),
+
+                              const SizedBox(height: 8),
+
+                              // ------------------------ ROW 1 ------------------------
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  _itemText("Idli", item.idli),
+                                  _itemText("Chatani", item.chatani),
+                                ],
+                              ),
+                              const SizedBox(height: 6),
+
+                              // ------------------------ ROW 2 ------------------------
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  _itemText("MW", item.meduWada),
+                                  _itemText("Appe", item.appe),
+                                ],
+                              ),
+                              const SizedBox(height: 6),
+
+                              // ------------------------ ROW 3 ------------------------
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  _itemText("S Full", item.sambhar_full),
+                                  _itemText("S Half", item.sambhar_half),
+                                  _itemText("S 1/4", item.sambhar_one_fourth),
+                                ],
+                              ),
+                            ],
                           ),
                         ),
                       ),
@@ -161,6 +202,18 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
               }),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  Widget _itemText(String label, dynamic value) {
+    return Expanded(
+      child: Text(
+        "$label: $value",
+        style: AppTextStyles.bold(
+          fontSize: 17,
+          fontColor: AppColors.blackColor,
         ),
       ),
     );

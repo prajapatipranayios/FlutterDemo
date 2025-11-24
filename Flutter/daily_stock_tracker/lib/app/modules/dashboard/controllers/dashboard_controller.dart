@@ -24,20 +24,6 @@ class DashboardController extends GetxController {
   @override
   void onReady() {
     super.onReady();
-
-    if (Get.arguments != null && Get.arguments is StockUsageModel) {
-      final selectedItem = Get.arguments as StockUsageModel;
-
-      txtIdliCtrl.text = selectedItem.idli;
-      txtChataniCtrl.text = selectedItem.chatani;
-      txtMWCtrl.text = selectedItem.meduWada;
-      txtAppeCtrl.text = selectedItem.appe;
-      txtsambharFullCtrl.text = selectedItem.sambhar_full;
-      txtsambharHalfCtrl.text = selectedItem.sambhar_half;
-      txtsambharOneFourthCtrl.text = selectedItem.sambhar_one_fourth;
-
-      editDate = DateTime.parse(selectedItem.createdAt);
-    }
   }
 
   @override
@@ -103,5 +89,41 @@ class DashboardController extends GetxController {
     txtsambharFullCtrl.clear();
     txtsambharHalfCtrl.clear();
     txtsambharOneFourthCtrl.clear();
+
+    update(); // important to refresh UI
+  }
+
+  void setEditData(StockUsageModel selectedItem) {
+    txtIdliCtrl.text = selectedItem.idli;
+    txtChataniCtrl.text = selectedItem.chatani;
+    txtMWCtrl.text = selectedItem.meduWada;
+    txtAppeCtrl.text = selectedItem.appe;
+    txtsambharFullCtrl.text = selectedItem.sambhar_full;
+    txtsambharHalfCtrl.text = selectedItem.sambhar_half;
+    txtsambharOneFourthCtrl.text = selectedItem.sambhar_one_fourth;
+
+    editDate = DateTime.parse(selectedItem.createdAt);
+  }
+
+  void onClearPressed() {
+    FocusScope.of(Get.context!).unfocus();
+
+    txtIdliCtrl.clear();
+    txtChataniCtrl.clear();
+    txtMWCtrl.clear();
+    txtAppeCtrl.clear();
+    txtsambharFullCtrl.clear();
+    txtsambharHalfCtrl.clear();
+    txtsambharOneFourthCtrl.clear();
+
+    editDate = null; // exit edit mode
+
+    // FORCE UNFOCUS
+    Future.delayed(Duration(milliseconds: 10), () {
+      FocusScope.of(Get.context!).unfocus();
+    });
+
+    update(); // important to refresh UI
+    // Get.snackbar("Cleared", "Edit mode cleared. Ready for new entry.");
   }
 }

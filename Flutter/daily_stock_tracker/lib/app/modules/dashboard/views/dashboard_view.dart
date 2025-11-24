@@ -35,7 +35,17 @@ class DashboardView extends GetView<DashboardController> {
                 color: AppColors.blackColor,
                 size: 30,
               ),
-              onPressed: () => Get.toNamed(Routes.FILTER_USAGE_LIST),
+              onPressed: () async {
+                FocusScope.of(Get.context!).unfocus();
+
+                controller.onClearPressed();
+
+                final selectedItem = Get.toNamed(Routes.FILTER_USAGE_LIST);
+
+                if (selectedItem != null) {
+                  controller.setEditData(await selectedItem); // ONLY HERE
+                }
+              },
             ),
           ],
         ),
@@ -130,25 +140,57 @@ class DashboardView extends GetView<DashboardController> {
                 // ---------- ADD BUTTON ----------
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: SizedBox(
-                    width: double.infinity,
-                    height: 45,
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: AppColors.blueColor50,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                  child: Row(
+                    children: [
+                      // ADD or UPDATE BUTTON
+                      Expanded(
+                        child: SizedBox(
+                          height: 45,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.blueColor50,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                            ),
+                            onPressed: controller.onAddPressed,
+                            child: Text(
+                              controller.editDate == null ? "ADD" : "UPDATE",
+                              style: AppTextStyles.semiBold(
+                                fontSize: 18,
+                                fontColor: Colors.white,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
-                      onPressed: controller.onAddPressed,
-                      child: Text(
-                        "ADD",
-                        style: AppTextStyles.semiBold(
-                          fontSize: 18,
-                          fontColor: Colors.white,
+
+                      const SizedBox(width: 12),
+
+                      // SHOW CLEAR BUTTON ONLY IN EDIT MODE
+                      if (controller.editDate != null)
+                        Expanded(
+                          child: SizedBox(
+                            height: 45,
+                            child: ElevatedButton(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: Colors.redAccent,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
+                              onPressed: controller.onClearPressed,
+                              child: Text(
+                                "CLEAR",
+                                style: AppTextStyles.semiBold(
+                                  fontSize: 18,
+                                  fontColor: Colors.white,
+                                ),
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
+                    ],
                   ),
                 ),
               ],
