@@ -305,6 +305,30 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
       elevation: 2,
       child: InkWell(
         onTap: () => Get.back(result: item),
+        // 👇 LONG PRESS DELETE
+        onLongPress: () {
+          Get.dialog(
+            AlertDialog(
+              title: const Text("Delete?"),
+              content: const Text("Do you want to delete this entry?"),
+              actions: [
+                TextButton(
+                  onPressed: () => Get.back(),
+                  child: const Text("No"),
+                ),
+                TextButton(
+                  onPressed: () async {
+                    Get.back();
+                    await Future.delayed(const Duration(milliseconds: 150));
+                    controller.deleteRecord(item.id!);
+                  },
+                  child: const Text("Yes"),
+                ),
+              ],
+            ),
+            barrierDismissible: false,
+          );
+        },
         child: Padding(
           padding: const EdgeInsets.all(14),
           child: Column(

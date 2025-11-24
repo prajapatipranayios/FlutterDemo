@@ -1,5 +1,6 @@
 import 'package:daily_stock_tracker/app/core/models/stock_usage_model.dart';
 import 'package:daily_stock_tracker/app/core/services/db_service.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
@@ -155,5 +156,35 @@ class FilterUsageListController extends GetxController {
         "items": items,
       });
     });
+  }
+
+  Color getWeekdayColor(String dateString) {
+    DateTime dt = DateTime.parse(dateString);
+    String day = DateFormat('EEE').format(dt); // Mon, Tue, ...
+
+    switch (day) {
+      case "Mon":
+        return Colors.blue;
+      case "Tue":
+        return Colors.green;
+      case "Wed":
+        return Colors.orange;
+      case "Thu":
+        return Colors.purple;
+      case "Fri":
+        return Colors.teal;
+      case "Sat":
+        return Colors.red;
+      case "Sun":
+        return Colors.brown;
+      default:
+        return Colors.black;
+    }
+  }
+
+  int getWeekNumber(String dateString) {
+    DateTime dt = DateTime.parse(dateString);
+    int weekNo = ((dt.day - 1) / 7).floor() + 1;
+    return weekNo;
   }
 }

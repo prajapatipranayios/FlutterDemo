@@ -58,28 +58,28 @@ class DashboardController extends GetxController {
     // ---------------------------
     // CASE 1: USER IS EDITING OLD ENTRY
     // ---------------------------
-    // if (editDate != null) {
-    //   String editDay = editDate!.toIso8601String().substring(0, 10);
-    //
-    //   await db.updateUsageForDate(editDay, model);
-    //   Get.snackbar("Updated", "Record updated successfully!");
-    //
-    //   editDate = null; // reset edit mode
-    // }
-    // // ---------------------------
-    // // CASE 2: NORMAL ADD LOGIC
-    // // ---------------------------
-    // else {
+    if (editDate != null) {
+      String editDay = editDate!.toIso8601String().substring(0, 10);
+
+      await db.updateUsageForDate(editDay, model);
+      Get.snackbar("Updated", "Record updated successfully!");
+
+      editDate = null; // reset edit mode
+    }
+    // ---------------------------
+    // CASE 2: NORMAL ADD LOGIC
+    // ---------------------------
+    else {
       bool exists = await db.isEntryExistsForDate(today);
 
-      // if (exists) {
-      //   await db.updateUsageForDate(today, model);
-      //   Get.snackbar("Updated", "Today's usage has been updated.");
-      // } else {
+      if (exists) {
+        await db.updateUsageForDate(today, model);
+        Get.snackbar("Updated", "Today's usage has been updated.");
+      } else {
         await db.insertUsage(model);
         Get.snackbar("Success", "New usage added!");
-      // }
-    // }
+      }
+    }
 
     // Clear fields
     txtIdliCtrl.clear();
