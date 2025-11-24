@@ -21,10 +21,9 @@ class FilterUsageListController extends GetxController {
     "Nov",
     "Dec",
   ];
-
   List<String> filterYears = [];
-
   var usageList = <StockUsageModel>[].obs;
+  var weeklyGroups = [].obs; // List of maps
 
   final db = DBService();
 
@@ -44,7 +43,8 @@ class FilterUsageListController extends GetxController {
     filterYears = List.generate(5, (index) => (currentYear - index).toString());
 
     /// Load data for current month/year
-    getFilteredData();
+    // getFilteredDataSimple();
+    getFilteredDataByWeek();
   }
 
   @override
@@ -60,7 +60,7 @@ class FilterUsageListController extends GetxController {
   /// =========================================
   /// FETCH FILTERED DATA FROM SQLITE
   /// =========================================
-  Future<void> getFilteredData() async {
+  Future<void> getFilteredDataSimple() async {
     String month = selectedMonthFilter.value;
     String year = selectedYearFilter.value;
 
@@ -76,12 +76,84 @@ class FilterUsageListController extends GetxController {
 
   String formatDate(String dateString) {
     DateTime dt = DateTime.parse(dateString);
-    return DateFormat("dd-MMM-yyyy").format(dt);
+    return DateFormat("EEE, dd-MMM-yyyy").format(dt);
   }
 
   Future<void> deleteRecord(int id) async {
     await db.deleteUsageById(id);
-    getFilteredData(); // refresh list
+    getFilteredDataByWeek(); // refresh list
     Get.snackbar("Deleted", "Record deleted successfully");
+  }
+
+  Future<void> getFilteredDataByWeek() async {
+    String month = selectedMonthFilter.value;
+    String year = selectedYearFilter.value;
+
+    int monthNumber = filterMonths.indexOf(month) + 1;
+    String formattedMonth = monthNumber.toString().padLeft(2, '0');
+    String queryLike = "$year-$formattedMonth";
+
+    List<StockUsageModel> data = await db.getUsageByMonthYear(queryLike);
+
+    usageList.value = data;
+
+    groupByWeeks();
+  }
+
+  void groupByWeeks() {
+    Map<String, List<StockUsageModel>> temp = {};
+
+    for (var item in usageList) {
+      DateTime date = DateTime.parse(item.createdAt);
+
+      int weekOfMonth = ((date.day - 1) / 7).floor() + 1;
+      String key = "Week $weekOfMonth";
+
+      temp.putIfAbsent(key, () => []);
+      temp[key]!.add(item);
+    }
+
+    // Convert into list format
+    weeklyGroups.clear();
+
+    temp.forEach((week, items) {
+      // Calculate totals
+      int totalIdli = items.fold(0, (sum, item) => sum + int.parse(item.idli));
+      int totalChatani = items.fold(
+        0,
+        (sum, item) => sum + int.parse(item.chatani),
+      );
+      int totalMW = items.fold(
+        0,
+        (sum, item) => sum + int.parse(item.meduWada),
+      );
+      int totalAppe = items.fold(0, (sum, item) => sum + int.parse(item.appe));
+      int totalSFull = items.fold(
+        0,
+        (sum, item) => sum + int.parse(item.sambhar_full),
+      );
+      int totalSHalf = items.fold(
+        0,
+        (sum, item) => sum + int.parse(item.sambhar_half),
+      );
+      int totalSQuarter = items.fold(
+        0,
+        (sum, item) => sum + int.parse(item.sambhar_one_fourth),
+      );
+
+      weeklyGroups.add({
+        "weekLabel": week,
+        "total": {
+          "Idli": totalIdli,
+          "Chatani": totalChatani,
+          "MW": totalMW,
+          "Appe": totalAppe,
+          "S Full": totalSFull,
+          "S Half": totalSHalf,
+          "S 1/4": totalSQuarter,
+        },
+        "items": items,
+      });
+    });
   }
 }
