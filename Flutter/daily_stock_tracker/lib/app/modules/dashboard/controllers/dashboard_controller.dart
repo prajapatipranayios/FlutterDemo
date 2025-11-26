@@ -14,7 +14,9 @@ class DashboardController extends GetxController {
 
   final db = DBService();
 
-  DateTime? editDate;
+  // DateTime? editDate;
+  /// 🔥 NOW REACTIVE
+  Rx<DateTime?> editDate = Rx<DateTime?>(null);
 
   @override
   void onInit() {
@@ -52,19 +54,21 @@ class DashboardController extends GetxController {
       sambhar_one_fourth: txtsambharOneFourthCtrl.text.trim().isEmpty
           ? "0"
           : txtsambharOneFourthCtrl.text.trim(),
-      createdAt: DateTime.now().toIso8601String(),
+      createdAt: editDate.value != null
+          ? editDate.value!.toIso8601String()
+          : DateTime.now().toIso8601String(),
     );
 
     // ---------------------------
     // CASE 1: USER IS EDITING OLD ENTRY
     // ---------------------------
-    if (editDate != null) {
-      String editDay = editDate!.toIso8601String().substring(0, 10);
+    if (editDate.value != null) {
+      String editDay = editDate.value!.toIso8601String().substring(0, 10);
 
       await db.updateUsageForDate(editDay, model);
       Get.snackbar("Updated", "Record updated successfully!");
 
-      editDate = null; // reset edit mode
+      editDate.value = null;
     }
     // ---------------------------
     // CASE 2: NORMAL ADD LOGIC
@@ -102,7 +106,7 @@ class DashboardController extends GetxController {
     txtsambharHalfCtrl.text = selectedItem.sambhar_half;
     txtsambharOneFourthCtrl.text = selectedItem.sambhar_one_fourth;
 
-    editDate = DateTime.parse(selectedItem.createdAt);
+    editDate.value = DateTime.parse(selectedItem.createdAt);
 
     update(); // 🔥 REQUIRED
   }
@@ -110,15 +114,8 @@ class DashboardController extends GetxController {
   void onClearPressed() {
     FocusScope.of(Get.context!).unfocus();
 
-    txtIdliCtrl.clear();
-    txtChataniCtrl.clear();
-    txtMWCtrl.clear();
-    txtAppeCtrl.clear();
-    txtsambharFullCtrl.clear();
-    txtsambharHalfCtrl.clear();
-    txtsambharOneFourthCtrl.clear();
-
-    editDate = null; // exit edit mode
+    clearAllFields();
+    editDate.value = null; // exit edit mode
 
     // FORCE UNFOCUS
     Future.delayed(Duration(milliseconds: 10), () {
@@ -127,5 +124,15 @@ class DashboardController extends GetxController {
 
     update(); // important to refresh UI
     // Get.snackbar("Cleared", "Edit mode cleared. Ready for new entry.");
+  }
+
+  void clearAllFields() {
+    txtIdliCtrl.clear();
+    txtChataniCtrl.clear();
+    txtMWCtrl.clear();
+    txtAppeCtrl.clear();
+    txtsambharFullCtrl.clear();
+    txtsambharHalfCtrl.clear();
+    txtsambharOneFourthCtrl.clear();
   }
 }

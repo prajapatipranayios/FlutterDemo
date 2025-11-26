@@ -1,3 +1,4 @@
+import 'package:daily_stock_tracker/app/core/models/stock_usage_model.dart';
 import 'package:daily_stock_tracker/app/routes/app_pages.dart';
 import 'package:daily_stock_tracker/app/themes/app_color.dart';
 import 'package:daily_stock_tracker/app/themes/app_text_styles.dart';
@@ -40,10 +41,10 @@ class DashboardView extends GetView<DashboardController> {
 
                 controller.onClearPressed();
 
-                final selectedItem = Get.toNamed(Routes.FILTER_USAGE_LIST);
+                final result = await Get.toNamed(Routes.FILTER_USAGE_LIST);
 
-                if (selectedItem != null) {
-                  controller.setEditData(await selectedItem); // ONLY HERE
+                if (result is StockUsageModel) {
+                  controller.setEditData(result);
                 }
               },
             ),
@@ -140,48 +141,25 @@ class DashboardView extends GetView<DashboardController> {
                 // ---------- ADD BUTTON ----------
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Row(
-                    children: [
-                      // ADD or UPDATE BUTTON
-                      Expanded(
-                        child: SizedBox(
-                          height: 45,
-                          child: ElevatedButton(
-                            style: ElevatedButton.styleFrom(
-                              backgroundColor: AppColors.blueColor50,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(10),
-                              ),
-                            ),
-                            onPressed: controller.onAddPressed,
-                            child: Text(
-                              controller.editDate == null ? "ADD" : "UPDATE",
-                              style: AppTextStyles.semiBold(
-                                fontSize: 18,
-                                fontColor: Colors.white,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-
-                      const SizedBox(width: 12),
-
-                      // SHOW CLEAR BUTTON ONLY IN EDIT MODE
-                      if (controller.editDate != null)
+                  child: Obx(() {
+                    return Row(
+                      children: [
+                        // ADD or UPDATE BUTTON
                         Expanded(
                           child: SizedBox(
                             height: 45,
                             child: ElevatedButton(
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.redAccent,
+                                backgroundColor: AppColors.blueColor50,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              onPressed: controller.onClearPressed,
+                              onPressed: controller.onAddPressed,
                               child: Text(
-                                "CLEAR",
+                                controller.editDate.value == null
+                                    ? "ADD"
+                                    : "UPDATE",
                                 style: AppTextStyles.semiBold(
                                   fontSize: 18,
                                   fontColor: Colors.white,
@@ -190,8 +168,35 @@ class DashboardView extends GetView<DashboardController> {
                             ),
                           ),
                         ),
-                    ],
-                  ),
+
+                        const SizedBox(width: 12),
+
+                        // SHOW CLEAR BUTTON ONLY IN EDIT MODE
+                        if (controller.editDate.value != null)
+                          Expanded(
+                            child: SizedBox(
+                              height: 45,
+                              child: ElevatedButton(
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: Colors.redAccent,
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(10),
+                                  ),
+                                ),
+                                onPressed: controller.onClearPressed,
+                                child: Text(
+                                  "CLEAR",
+                                  style: AppTextStyles.semiBold(
+                                    fontSize: 18,
+                                    fontColor: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ),
+                          ),
+                      ],
+                    );
+                  }),
                 ),
               ],
             ),
