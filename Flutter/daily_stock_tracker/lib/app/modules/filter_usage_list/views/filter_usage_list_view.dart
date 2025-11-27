@@ -125,7 +125,8 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
 
                         // WEEK SUMMARY CARD
                         Card(
-                          color: Colors.blue.shade50,
+                          // color: Colors.blue.shade200,
+                          color: Colors.blue.shade100,
                           margin: const EdgeInsets.symmetric(horizontal: 12),
                           child: Padding(
                             padding: const EdgeInsets.all(12),
@@ -277,7 +278,7 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
               ),
               const SizedBox(height: 6.0),
 
-              /// ROW 3 (VALUES MUST BE EXACT)
+              /// ROW 3
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
