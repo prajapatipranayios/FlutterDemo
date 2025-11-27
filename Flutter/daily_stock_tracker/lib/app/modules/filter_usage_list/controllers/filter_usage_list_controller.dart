@@ -283,6 +283,7 @@ class FilterUsageListController extends GetxController {
           SizedBox(height: 10),
           ElevatedButton(
             onPressed: () async {
+              Get.back(); // close dialog
               Get.defaultDialog(
                 title: "Confirm?",
                 middleText: "Are you sure you want to delete ALL data?",
