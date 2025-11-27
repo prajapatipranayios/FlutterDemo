@@ -135,23 +135,27 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("Idli: ${total['Idli']}"),
+                                    // Text("Idli: ${total['Idli']}"),
+                                    _summaryItemText("Idli", total['Idli']),
                                     Text(
                                       "Total",
                                       style: AppTextStyles.bold(
-                                        fontSize: 20,
+                                        fontSize: 18,
                                         fontColor: AppColors.blueColor,
                                       ),
                                     ),
-                                    Text("Chatani: ${total['Chatani']}"),
+                                    _summaryItemText(
+                                      "Chatani",
+                                      total['Chatani'],
+                                    ),
                                   ],
                                 ),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("Medu Wada: ${total['MW']}"),
-                                    Text("Appe: ${total['Appe']}"),
+                                    _summaryItemText("Medu Wada", total['MW']),
+                                    _summaryItemText("Appe", total['Appe']),
                                   ],
                                 ),
                                 const SizedBox(height: 6.0),
@@ -159,16 +163,15 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("S Full: ${total['S Full']}"),
-                                    Text("S Half: ${total['S Half']}"),
-                                    Text("S 1/4: ${total['S 1/4']}"),
+                                    _summaryItemText("S Full", total['S Full']),
+                                    _summaryItemText("S Half", total['S Half']),
+                                    _summaryItemText("S 1/4", total['S 1/4']),
                                   ],
                                 ),
                               ],
                             ),
                           ),
                         ),
-
                         const SizedBox(height: 10),
 
                         // DAILY ITEMS LIST
@@ -183,6 +186,28 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _summaryItemText(
+    String label,
+    dynamic value, {
+    Color labelColor = AppColors.blackColor30,
+    Color valueColor = AppColors.UPMaroonColor,
+  }) {
+    return RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: "$label: ",
+            style: AppTextStyles.bold(fontSize: 16, fontColor: labelColor),
+          ),
+          TextSpan(
+            text: "$value",
+            style: AppTextStyles.bold(fontSize: 16, fontColor: valueColor),
+          ),
+        ],
       ),
     );
   }
@@ -226,11 +251,10 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
               Text(
                 controller.formatDate(item.createdAt),
                 style: AppTextStyles.bold(
-                  fontSize: 18,
+                  fontSize: 17.5,
                   fontColor: AppColors.blueColor50,
                 ),
               ),
-
               const SizedBox(height: 6),
 
               /// ROW 1
@@ -258,7 +282,7 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _itemText("S Full", item.sambhar_full),
-                  _itemText("H Half", item.sambhar_half), // 🔥 KEPT EXACTLY
+                  _itemText("H Half", item.sambhar_half),
                   _itemText("S 1/4", item.sambhar_one_fourth),
                 ],
               ),
@@ -269,14 +293,24 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
     );
   }
 
-  Widget _itemText(String label, dynamic value) {
-    return Expanded(
-      child: Text(
-        "$label: $value",
-        style: AppTextStyles.bold(
-          fontSize: 17,
-          fontColor: AppColors.blackColor,
-        ),
+  Widget _itemText(
+    String label,
+    dynamic value, {
+    Color labelColor = AppColors.blackColor30,
+    Color valueColor = AppColors.UPMaroonColor,
+  }) {
+    return RichText(
+      text: TextSpan(
+        children: [
+          TextSpan(
+            text: "$label: ",
+            style: AppTextStyles.bold(fontSize: 17, fontColor: labelColor),
+          ),
+          TextSpan(
+            text: "$value",
+            style: AppTextStyles.bold(fontSize: 17, fontColor: valueColor),
+          ),
+        ],
       ),
     );
   }
