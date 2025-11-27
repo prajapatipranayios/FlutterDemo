@@ -1,3 +1,4 @@
+import 'package:daily_stock_tracker/app/core/helper/app_assets.dart';
 import 'package:daily_stock_tracker/app/core/models/stock_usage_model.dart';
 import 'package:daily_stock_tracker/app/themes/app_color.dart';
 import 'package:daily_stock_tracker/app/themes/app_text_styles.dart';
@@ -86,7 +87,6 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                 ),
               ],
             ),
-
             SizedBox(height: 20),
 
             /// ==== LIST OF FILTERED RESULTS ====

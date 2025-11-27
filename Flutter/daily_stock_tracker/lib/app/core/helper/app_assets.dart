@@ -45,27 +45,6 @@ class AppAssets {
   static const String setNextIc = 'assets/svg/ic_set_next.svg';
   static const String setPreviousIc = 'assets/svg/ic_set_previous.svg';
 
-  static const String introBg = 'assets/images/intro_bg.png';
-  static const String maleIc = 'assets/images/male.png';
-  static const String femaleIc = 'assets/images/female.png';
-  static const String otherIc = 'assets/images/other.png';
-  static const String build = 'assets/images/build.png';
-  static const String lose = 'assets/images/lose.png';
-  static const String maintain = 'assets/images/maintain.png';
-  static const String slim = 'assets/images/slim.png';
-  static const String normal = 'assets/images/normal.png';
-  static const String heavy = 'assets/images/heavy.png';
-  static const String athletic = 'assets/images/athletic.png';
-  static const String muscular = 'assets/images/muscular.png';
-  static const String beer = 'assets/images/beer.png';
-  static const String wine = 'assets/images/wine.png';
-  static const String whiskey = 'assets/images/whiskey.png';
-  static const String vodka = 'assets/images/vodka.png';
-  static const String rum = 'assets/images/rum.png';
-  static const String cocktails = 'assets/images/cocktails.png';
-  static const String googleHealth = 'assets/images/google_connect.png';
-  static const String samsungHealth = 'assets/images/samsung_connect.png';
-  static const String fitBit = 'assets/images/fit_connect.png';
-  static const String dummy = 'assets/images/dummy.png';
   static const String filter = 'assets/images/filter.png';
+  static const String importExportV = 'assets/images/import_export_v.png';
 }
