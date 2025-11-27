@@ -1,4 +1,3 @@
-import 'package:daily_stock_tracker/app/core/helper/app_assets.dart';
 import 'package:daily_stock_tracker/app/core/models/stock_usage_model.dart';
 import 'package:daily_stock_tracker/app/themes/app_color.dart';
 import 'package:daily_stock_tracker/app/themes/app_text_styles.dart';
@@ -13,7 +12,24 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Usage List'), centerTitle: true),
+      appBar: AppBar(
+        title: const Text('Usage List'),
+        centerTitle: true,
+        actions: [
+          IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            icon: Icon(
+              Icons.import_export,
+              color: AppColors.blackColor,
+              size: 35,
+            ),
+            onPressed: () {
+              controller.showImportExportDialog();
+            },
+          ),
+        ],
+      ),
 
       body: Padding(
         padding: const EdgeInsets.all(16.0),

@@ -259,4 +259,79 @@ class FilterUsageListController extends GetxController {
         return Colors.black;
     }
   }
+
+  Future<void> showImportExportDialog() async {
+    Get.defaultDialog(
+      title: "Select Action",
+      content: Column(
+        children: [
+          ElevatedButton(
+            onPressed: () async {
+              Get.back();
+              await exportDbFile();
+            },
+            child: Text("Export Database"),
+          ),
+          SizedBox(height: 10),
+          ElevatedButton(
+            onPressed: () async {
+              Get.back();
+              await importDbFile();
+            },
+            child: Text("Import Database"),
+          ),
+          SizedBox(height: 10),
+          ElevatedButton(
+            onPressed: () async {
+              Get.defaultDialog(
+                title: "Confirm?",
+                middleText: "Are you sure you want to delete ALL data?",
+                textCancel: "No",
+                textConfirm: "Yes",
+                confirmTextColor: Colors.white,
+                onConfirm: () async {
+                  Get.back(); // close dialog
+                  await clearAllStockData();
+                },
+              );
+            },
+            style: ElevatedButton.styleFrom(backgroundColor: Colors.redAccent),
+            child: Text(
+              "Clear All Data",
+              style: TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<void> exportDbFile() async {
+    try {
+      String path = await db.exportDatabase();
+      Get.snackbar("Success", "Database exported:\n$path");
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    }
+  }
+
+  Future<void> importDbFile() async {
+    try {
+      await db.importDatabase();
+      Get.snackbar("Imported", "Database imported successfully!");
+      await getFilteredDataByWeek(); // refresh data
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    }
+  }
+
+  Future<void> clearAllStockData() async {
+    try {
+      await db.clearAllData();
+      await getFilteredDataByWeek(); // refresh UI
+      Get.snackbar("Cleared", "All data has been deleted!");
+    } catch (e) {
+      Get.snackbar("Error", e.toString());
+    }
+  }
 }
