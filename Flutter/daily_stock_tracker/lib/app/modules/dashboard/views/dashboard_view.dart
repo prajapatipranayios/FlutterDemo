@@ -106,14 +106,14 @@ class DashboardView extends GetView<DashboardController> {
                     Expanded(
                       child: buildUsageRow(
                         label: "Sambhar F :",
-                        controller: controller.txtsambharFullCtrl,
+                        controller: controller.txtSambharFullCtrl,
                         hint: "Full",
                       ),
                     ),
                     Expanded(
                       child: buildUsageRow(
                         label: "Sambhar H :",
-                        controller: controller.txtsambharHalfCtrl,
+                        controller: controller.txtSambharHalfCtrl,
                         hint: "Half",
                         isRightPadding: true,
                       ),
@@ -128,7 +128,7 @@ class DashboardView extends GetView<DashboardController> {
                     Expanded(
                       child: buildUsageRow(
                         label: "Sambhar 1/4 :",
-                        controller: controller.txtsambharOneFourthCtrl,
+                        controller: controller.txtSambharOneFourthCtrl,
                         hint: "1/4",
                       ),
                     ),
@@ -217,9 +217,10 @@ class DashboardView extends GetView<DashboardController> {
     bool isRightPadding = false,
   }) {
     return Padding(
-      padding: !isRightPadding
-          ? const EdgeInsets.only(left: 16, right: 8)
-          : const EdgeInsets.only(left: 8, right: 16),
+      padding: EdgeInsets.only(
+        left: isRightPadding ? 8 : 16,
+        right: isRightPadding ? 16 : 8,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -232,11 +233,10 @@ class DashboardView extends GetView<DashboardController> {
           ),
           const SizedBox(height: 6),
           Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
             height: 40,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              color: AppColors.whiteColor,
-              border: Border.all(color: AppColors.borderColor, width: 1),
+              border: Border.all(color: AppColors.borderColor),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Center(

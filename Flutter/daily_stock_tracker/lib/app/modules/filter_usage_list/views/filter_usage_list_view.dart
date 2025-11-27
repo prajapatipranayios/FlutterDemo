@@ -150,10 +150,11 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text("MW: ${total['MW']}"),
+                                    Text("Medu Wada: ${total['MW']}"),
                                     Text("Appe: ${total['Appe']}"),
                                   ],
                                 ),
+                                const SizedBox(height: 6.0),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -193,7 +194,6 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
       elevation: 2,
       child: InkWell(
         onTap: () => Get.back(result: item),
-        // 👇 LONG PRESS DELETE
         onLongPress: () {
           Get.dialog(
             AlertDialog(
@@ -222,6 +222,7 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              /// DATE
               Text(
                 controller.formatDate(item.createdAt),
                 style: AppTextStyles.bold(
@@ -229,8 +230,10 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                   fontColor: AppColors.blueColor50,
                 ),
               ),
+
               const SizedBox(height: 6),
 
+              /// ROW 1
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -238,18 +241,24 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                   _itemText("Chatani", item.chatani),
                 ],
               ),
+              const SizedBox(height: 6.0),
+
+              /// ROW 2
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _itemText("MW", item.meduWada),
+                  _itemText("Medu Wada", item.meduWada),
                   _itemText("Appe", item.appe),
                 ],
               ),
+              const SizedBox(height: 6.0),
+
+              /// ROW 3 (VALUES MUST BE EXACT)
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   _itemText("S Full", item.sambhar_full),
-                  _itemText("H Half", item.sambhar_half),
+                  _itemText("H Half", item.sambhar_half), // 🔥 KEPT EXACTLY
                   _itemText("S 1/4", item.sambhar_one_fourth),
                 ],
               ),
@@ -263,7 +272,7 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
   Widget _itemText(String label, dynamic value) {
     return Expanded(
       child: Text(
-        "$label : $value",
+        "$label: $value",
         style: AppTextStyles.bold(
           fontSize: 17,
           fontColor: AppColors.blackColor,

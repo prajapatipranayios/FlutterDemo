@@ -5,10 +5,10 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class FilterUsageListController extends GetxController {
-  var selectedMonthFilter = "".obs;
-  var selectedYearFilter = "".obs;
+  final selectedMonthFilter = "".obs;
+  final selectedYearFilter = "".obs;
 
-  List<String> filterMonths = [
+  final filterMonths = const [
     "Jan",
     "Feb",
     "Mar",
@@ -22,29 +22,44 @@ class FilterUsageListController extends GetxController {
     "Nov",
     "Dec",
   ];
-  List<String> filterYears = [];
+
+  var filterYears = <String>[];
+
   var usageList = <StockUsageModel>[].obs;
-  var weeklyGroups = [].obs; // List of maps
+  var weeklyGroups = <dynamic>[].obs;
 
   final db = DBService();
+
+  // List<String> filterYears = [];
+  // var usageList = <StockUsageModel>[].obs;
+  // var weeklyGroups = [].obs; // List of maps
+  // final db = DBService();
 
   @override
   void onInit() {
     super.onInit();
 
-    /// ========== Set Current Month ==========
-    int monthIndex = DateTime.now().month - 1;
-    selectedMonthFilter.value = filterMonths[monthIndex];
+    // /// ========== Set Current Month ==========
+    // int monthIndex = DateTime.now().month - 1;
+    // selectedMonthFilter.value = filterMonths[monthIndex];
+    //
+    // /// ========== Set Current Year ==========
+    // int currentYear = DateTime.now().year;
+    // selectedYearFilter.value = currentYear.toString();
+    //
+    // /// Populate last 5 years for dropdown
+    // filterYears = List.generate(5, (index) => (currentYear - index).toString());
+    //
+    // /// Load data for current month/year
+    // // getFilteredDataSimple();
+    // getFilteredDataByWeek();
 
-    /// ========== Set Current Year ==========
-    int currentYear = DateTime.now().year;
-    selectedYearFilter.value = currentYear.toString();
+    final now = DateTime.now();
+    selectedMonthFilter.value = filterMonths[now.month - 1];
+    selectedYearFilter.value = now.year.toString();
 
-    /// Populate last 5 years for dropdown
-    filterYears = List.generate(5, (index) => (currentYear - index).toString());
+    filterYears.addAll(List.generate(5, (i) => (now.year - i).toString()));
 
-    /// Load data for current month/year
-    // getFilteredDataSimple();
     getFilteredDataByWeek();
   }
 
@@ -75,18 +90,21 @@ class FilterUsageListController extends GetxController {
     usageList.value = await db.getUsageByMonthYear(queryLike);
   }
 
-  String formatDate(String dateString) {
-    DateTime dt = DateTime.parse(dateString);
-    return DateFormat("EEE, dd-MMM-yyyy").format(dt);
-  }
-
-  Future<void> deleteRecord(int id) async {
-    await db.deleteUsageById(id);
-    getFilteredDataByWeek(); // refresh list
-    Get.snackbar("Deleted", "Record deleted successfully");
+  String _monthToNumber(String month) {
+    return (filterMonths.indexOf(month) + 1).toString().padLeft(2, '0');
   }
 
   Future<void> getFilteredDataByWeek() async {
+    final monthNum = _monthToNumber(selectedMonthFilter.value);
+    final queryLike = "${selectedYearFilter.value}-$monthNum";
+
+    final data = await db.getUsageByMonthYear(queryLike);
+    usageList.value = data;
+
+    groupByWeeks();
+  }
+
+  /*Future<void> getFilteredDataByWeek() async {
     String month = selectedMonthFilter.value;
     String year = selectedYearFilter.value;
 
@@ -99,9 +117,9 @@ class FilterUsageListController extends GetxController {
     usageList.value = data;
 
     groupByWeeks();
-  }
+  }*/
 
-  void groupByWeeks() {
+  /*void groupByWeeks() {
     Map<String, List<StockUsageModel>> temp = {};
 
     for (var item in usageList) {
@@ -156,6 +174,66 @@ class FilterUsageListController extends GetxController {
         "items": items,
       });
     });
+  }*/
+
+  void groupByWeeks() {
+    final temp = <String, List<StockUsageModel>>{};
+
+    for (final item in usageList) {
+      final date = DateTime.parse(item.createdAt);
+      final weekNo = ((date.day - 1) / 7).floor() + 1;
+
+      final key = "Week $weekNo";
+
+      temp.putIfAbsent(key, () => []);
+      temp[key]!.add(item);
+    }
+
+    weeklyGroups.clear();
+
+    temp.forEach((week, items) {
+      weeklyGroups.add({
+        "weekLabel": week,
+        "total": _calculateTotals(items),
+        "items": items,
+      });
+    });
+  }
+
+  Map<String, int> _calculateTotals(List<StockUsageModel> items) {
+    return {
+      "Idli": items.fold(0, (sum, i) => sum + int.parse(i.idli)),
+      "Chatani": items.fold(0, (sum, i) => sum + int.parse(i.chatani)),
+      "MW": items.fold(0, (sum, i) => sum + int.parse(i.meduWada)),
+      "Appe": items.fold(0, (sum, i) => sum + int.parse(i.appe)),
+      "S Full": items.fold(0, (sum, i) => sum + int.parse(i.sambhar_full)),
+      "S Half": items.fold(0, (sum, i) => sum + int.parse(i.sambhar_half)),
+      "S 1/4": items.fold(0, (sum, i) => sum + int.parse(i.sambhar_one_fourth)),
+    };
+  }
+
+  Future<void> deleteRecord(int id) async {
+    await db.deleteUsageById(id);
+    getFilteredDataByWeek(); // refresh list
+    Get.snackbar("Deleted", "Record deleted successfully");
+  }
+
+  /*String formatDate(String dateString) {
+    DateTime dt = DateTime.parse(dateString);
+    return DateFormat("EEE, dd-MMM-yyyy").format(dt);
+  }*/
+  String formatDate(String date) =>
+      DateFormat("EEE, dd-MMM-yyyy").format(DateTime.parse(date));
+
+  /*int getWeekNumber(String dateString) {
+    DateTime dt = DateTime.parse(dateString);
+    int weekNo = ((dt.day - 1) / 7).floor() + 1;
+    return weekNo;
+  }*/
+
+  int getWeekNumber(String date) {
+    final dt = DateTime.parse(date);
+    return ((dt.day - 1) / 7).floor() + 1;
   }
 
   Color getWeekdayColor(String dateString) {
@@ -180,11 +258,5 @@ class FilterUsageListController extends GetxController {
       default:
         return Colors.black;
     }
-  }
-
-  int getWeekNumber(String dateString) {
-    DateTime dt = DateTime.parse(dateString);
-    int weekNo = ((dt.day - 1) / 7).floor() + 1;
-    return weekNo;
   }
 }
