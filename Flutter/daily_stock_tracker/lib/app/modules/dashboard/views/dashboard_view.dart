@@ -51,141 +51,116 @@ class DashboardView extends GetView<DashboardController> {
           ],
         ),
 
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            child: Column(
-              children: [
-                // ---------- ROW 1 ----------
-                Row(
-                  children: [
-                    Expanded(
-                      child: buildUsageRow(
-                        label: "Idli batter :",
-                        controller: controller.txtIdliCtrl,
-                        hint: "Batter",
-                      ),
-                    ),
-                    Expanded(
-                      child: buildUsageRow(
-                        label: "Chatani :",
-                        controller: controller.txtChataniCtrl,
-                        hint: "Chatani",
-                        isRightPadding: true,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-
-                // ---------- ROW 2 ----------
-                Row(
-                  children: [
-                    Expanded(
-                      child: buildUsageRow(
-                        label: "Meduwada :",
-                        controller: controller.txtMWCtrl,
-                        hint: "Meduwada",
-                      ),
-                    ),
-                    Expanded(
-                      child: buildUsageRow(
-                        label: "Appe :",
-                        controller: controller.txtAppeCtrl,
-                        hint: "Appe",
-                        isRightPadding: true,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-
-                // ---------- ROW 3 ----------
-                Row(
-                  children: [
-                    Expanded(
-                      child: buildUsageRow(
-                        label: "Sambhar F :",
-                        controller: controller.txtSambharFullCtrl,
-                        hint: "Full",
-                      ),
-                    ),
-                    Expanded(
-                      child: buildUsageRow(
-                        label: "Sambhar H :",
-                        controller: controller.txtSambharHalfCtrl,
-                        hint: "Half",
-                        isRightPadding: true,
-                      ),
-                    ),
-                  ],
-                ),
-                const SizedBox(height: 10),
-
-                // ---------- ROW 4 ----------
-                Row(
-                  children: [
-                    Expanded(
-                      child: buildUsageRow(
-                        label: "Sambhar 1/4 :",
-                        controller: controller.txtSambharOneFourthCtrl,
-                        hint: "1/4",
-                      ),
-                    ),
-                    Expanded(child: Text("")),
-                  ],
-                ),
-
-                const SizedBox(height: 20),
-
-                // ---------- ADD BUTTON ----------
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                  child: Obx(() {
-                    return Row(
-                      children: [
-                        // ADD or UPDATE BUTTON
-                        Expanded(
-                          child: SizedBox(
-                            height: 45,
-                            child: ElevatedButton(
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.blueColor50,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
-                              onPressed: controller.onAddPressed,
-                              child: Text(
-                                controller.editDate.value == null
-                                    ? "ADD"
-                                    : "UPDATE",
-                                style: AppTextStyles.semiBold(
-                                  fontSize: 18,
-                                  fontColor: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
+        body: SafeArea(
+          child: SingleChildScrollView(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              child: Column(
+                children: [
+                  // ---------- ROW 1 ----------
+                  Row(
+                    children: [
+                      Expanded(
+                        child: buildUsageRow(
+                          label: "Idli batter :",
+                          controller: controller.txtIdliCtrl,
+                          hint: "Batter",
                         ),
+                      ),
+                      Expanded(
+                        child: buildUsageRow(
+                          label: "Chatani :",
+                          controller: controller.txtChataniCtrl,
+                          hint: "Chatani",
+                          isRightPadding: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
 
-                        const SizedBox(width: 12),
+                  // ---------- ROW 2 ----------
+                  Row(
+                    children: [
+                      Expanded(
+                        child: buildUsageRow(
+                          label: "Meduwada :",
+                          controller: controller.txtMWCtrl,
+                          hint: "Meduwada",
+                        ),
+                      ),
+                      Expanded(
+                        child: buildUsageRow(
+                          label: "Appe :",
+                          controller: controller.txtAppeCtrl,
+                          hint: "Appe",
+                          isRightPadding: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
 
-                        // SHOW CLEAR BUTTON ONLY IN EDIT MODE
-                        if (controller.editDate.value != null)
+                  // ---------- ROW 3 ----------
+                  Row(
+                    children: [
+                      Expanded(
+                        child: buildUsageRow(
+                          label: "Sambhar F :",
+                          controller: controller.txtSambharFullCtrl,
+                          hint: "Full",
+                        ),
+                      ),
+                      Expanded(
+                        child: buildUsageRow(
+                          label: "Sambhar H :",
+                          controller: controller.txtSambharHalfCtrl,
+                          hint: "Half",
+                          isRightPadding: true,
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+
+                  // ---------- ROW 4 ----------
+                  Row(
+                    children: [
+                      Expanded(
+                        child: buildUsageRow(
+                          label: "Sambhar 1/4 :",
+                          controller: controller.txtSambharOneFourthCtrl,
+                          hint: "1/4",
+                        ),
+                      ),
+                      Expanded(child: Text("")),
+                    ],
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  // ---------- ADD BUTTON ----------
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Obx(() {
+                      return Row(
+                        children: [
+                          // ADD or UPDATE BUTTON
                           Expanded(
                             child: SizedBox(
                               height: 45,
                               child: ElevatedButton(
                                 style: ElevatedButton.styleFrom(
-                                  backgroundColor: Colors.redAccent,
+                                  backgroundColor: AppColors.blueColor50,
                                   shape: RoundedRectangleBorder(
                                     borderRadius: BorderRadius.circular(10),
                                   ),
                                 ),
-                                onPressed: controller.onClearPressed,
+                                onPressed: controller.onAddPressed,
                                 child: Text(
-                                  "CLEAR",
+                                  controller.editDate.value == null
+                                      ? "ADD"
+                                      : "UPDATE",
                                   style: AppTextStyles.semiBold(
                                     fontSize: 18,
                                     fontColor: Colors.white,
@@ -194,11 +169,38 @@ class DashboardView extends GetView<DashboardController> {
                               ),
                             ),
                           ),
-                      ],
-                    );
-                  }),
-                ),
-              ],
+
+                          const SizedBox(width: 12),
+
+                          // SHOW CLEAR BUTTON ONLY IN EDIT MODE
+                          if (controller.editDate.value != null)
+                            Expanded(
+                              child: SizedBox(
+                                height: 45,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                    backgroundColor: Colors.redAccent,
+                                    shape: RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.circular(10),
+                                    ),
+                                  ),
+                                  onPressed: controller.onClearPressed,
+                                  child: Text(
+                                    "CLEAR",
+                                    style: AppTextStyles.semiBold(
+                                      fontSize: 18,
+                                      fontColor: Colors.white,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      );
+                    }),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
