@@ -136,8 +136,7 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    // Text("Idli: ${total['Idli']}"),
-                                    _summaryItemText("Idli", total['Idli']),
+                                    _summaryItemText("I Batter", total['Idli']),
                                     Text(
                                       "Total",
                                       style: AppTextStyles.bold(
@@ -262,7 +261,7 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _itemText("Idli", item.idli),
+                  _itemText("I Batter", item.idli),
                   _itemText("Chatani", item.chatani),
                 ],
               ),
