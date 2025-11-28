@@ -128,8 +128,11 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         // WEEK LABEL
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
+                        Container(
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 16.0,
+                            vertical: 4.0,
+                          ),
                           child: Text(
                             group["weekLabel"],
                             style: AppTextStyles.bold(
@@ -149,10 +152,8 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                             child: Column(
                               children: [
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    _summaryItemText("I Batter", total['Idli']),
                                     Text(
                                       "Total",
                                       style: AppTextStyles.bold(
@@ -160,21 +161,43 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                                         fontColor: AppColors.blueColor,
                                       ),
                                     ),
-                                    _summaryItemText(
-                                      "Chatani",
-                                      total['Chatani'],
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    Expanded(
+                                      child: _summaryItemText(
+                                        "I Batter",
+                                        total['Idli'],
+                                      ),
+                                    ),
+                                    Expanded(
+                                      child: Align(
+                                        alignment: Alignment.centerRight,
+                                        child: _summaryItemText(
+                                          "Chatani",
+                                          total['Chatani'],
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
+                                const SizedBox(height: 3.0),
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
                                   children: [
-                                    _summaryItemText("Medu Wada", total['MW']),
+                                    _summaryItemText("Meduwada", total['MW']),
                                     _summaryItemText("Appe", total['Appe']),
                                   ],
                                 ),
-                                const SizedBox(height: 6.0),
+                                const SizedBox(height: 3.0),
+                                Divider(
+                                  color: Colors.grey.shade400,
+                                  thickness: 1.1,
+                                  height: 20,
+                                ),
+
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -263,17 +286,17 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              /// DATE
+              /// DAY and DATE
               Text(
                 controller.formatDate(item.createdAt),
                 style: AppTextStyles.bold(
                   fontSize: 17.5,
-                  fontColor: AppColors.blueColor50,
+                  fontColor: AppColors.persianIndigoColor,
                 ),
               ),
               const SizedBox(height: 6),
 
-              /// ROW 1
+              /// ROW 1 -- I Batter, Chatani
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -283,23 +306,37 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
               ),
               const SizedBox(height: 6.0),
 
-              /// ROW 2
+              /// ROW 2 -- Meduwada, Appe
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _itemText("Medu Wada", item.meduWada),
+                  _itemText("Meduwada", item.meduWada),
                   _itemText("Appe", item.appe),
                 ],
               ),
-              const SizedBox(height: 6.0),
+              const SizedBox(height: 3.0),
+              Divider(color: Colors.grey.shade400, thickness: 1.1, height: 20),
 
-              /// ROW 3
+              /// ROW 3 -- S Full, H Half, S 1/4
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _itemText("S Full", item.sambhar_full),
-                  _itemText("H Half", item.sambhar_half),
-                  _itemText("S 1/4", item.sambhar_one_fourth),
+                  Text(
+                    "Sambhar",
+                    style: AppTextStyles.bold(
+                      fontSize: 17.5,
+                      fontColor: AppColors.persianIndigoColor,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 3.5),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  _itemText("Full", item.sambhar_full),
+                  _itemText("Half", item.sambhar_half),
+                  _itemText("1/4", item.sambhar_one_fourth),
                 ],
               ),
             ],
