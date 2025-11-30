@@ -99,44 +99,99 @@ class DashboardView extends GetView<DashboardController> {
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
+                  const SizedBox(height: 8),
 
                   // ---------- ROW 3 ----------
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Divider(color: Colors.grey.shade400, thickness: 1.1, height: 20),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        "Sambhar",
+                        style: AppTextStyles.bold(
+                          fontSize: 19,
+                          fontColor: AppColors.persianIndigoColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+
                   Row(
                     children: [
                       Expanded(
                         child: buildUsageRow(
-                          label: "Sambhar F :",
+                          label: "Full :",
                           controller: controller.txtSambharFullCtrl,
                           hint: "Full",
                         ),
                       ),
                       Expanded(
                         child: buildUsageRow(
-                          label: "Sambhar H :",
+                          label: "Half :",
                           controller: controller.txtSambharHalfCtrl,
                           hint: "Half",
+                          isThreeOption: true,
+                        ),
+                      ),
+                      Expanded(
+                        child: buildUsageRow(
+                          label: "1/4 :",
+                          controller: controller.txtSambharOneFourthCtrl,
+                          hint: "1/4",
+                          isRightPadding: true,
+                          isThreeOption: true,
+                        ),
+                      ),
+                    ],
+                  ),
+
+                  // ---------- ROW 4 ----------
+                  const SizedBox(height: 10),
+
+                  // ---------- ROW 3 ----------
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Divider(color: Colors.grey.shade400, thickness: 1.1, height: 20),
+                  ),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 16.0),
+                      child: Text(
+                        "Water bottle",
+                        style: AppTextStyles.bold(
+                          fontSize: 19,
+                          fontColor: AppColors.persianIndigoColor,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const SizedBox(height: 6),
+
+                  Row(
+                    children: [
+                      Expanded(
+                        child: buildUsageRow(
+                          label: "1 Liter :",
+                          controller: controller.txtWaterOneLiterCtrl,
+                          hint: "1 L",
+                        ),
+                      ),
+                      Expanded(
+                        child: buildUsageRow(
+                          label: "500 ml :",
+                          controller: controller.txtWater500MLCtrl,
+                          hint: "500 ml",
                           isRightPadding: true,
                         ),
                       ),
                     ],
                   ),
-                  const SizedBox(height: 10),
-
-                  // ---------- ROW 4 ----------
-                  Row(
-                    children: [
-                      Expanded(
-                        child: buildUsageRow(
-                          label: "Sambhar 1/4 :",
-                          controller: controller.txtSambharOneFourthCtrl,
-                          hint: "1/4",
-                        ),
-                      ),
-                      Expanded(child: Text("")),
-                    ],
-                  ),
-
                   const SizedBox(height: 20),
 
                   // ---------- ADD BUTTON ----------
@@ -170,7 +225,8 @@ class DashboardView extends GetView<DashboardController> {
                             ),
                           ),
 
-                          const SizedBox(width: 12),
+                          if (controller.editDate.value != null)
+                            const SizedBox(width: 12),
 
                           // SHOW CLEAR BUTTON ONLY IN EDIT MODE
                           if (controller.editDate.value != null)
@@ -217,10 +273,11 @@ class DashboardView extends GetView<DashboardController> {
     required TextEditingController controller,
     required String hint,
     bool isRightPadding = false,
+    bool isThreeOption = false,
   }) {
     return Padding(
       padding: EdgeInsets.only(
-        left: isRightPadding ? 8 : 16,
+        left: isRightPadding ? 8 : (isThreeOption ? 8 : 16),
         right: isRightPadding ? 16 : 8,
       ),
       child: Column(

@@ -32,7 +32,7 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
       ),
 
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(8.0),
         child: Column(
           children: [
             Row(
@@ -191,13 +191,12 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                                     _summaryItemText("Appe", total['Appe']),
                                   ],
                                 ),
-                                const SizedBox(height: 3.0),
+
                                 Divider(
                                   color: Colors.grey.shade400,
                                   thickness: 1.1,
                                   height: 20,
                                 ),
-
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -205,6 +204,27 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                                     _summaryItemText("S Full", total['S Full']),
                                     _summaryItemText("S Half", total['S Half']),
                                     _summaryItemText("S 1/4", total['S 1/4']),
+                                  ],
+                                ),
+
+                                Divider(
+                                  color: Colors.grey.shade400,
+                                  thickness: 1.1,
+                                  height: 20,
+                                ),
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Water bottle",
+                                      style: AppTextStyles.bold(
+                                        fontSize: 17.5,
+                                        fontColor: AppColors.persianIndigoColor,
+                                      ),
+                                    ),
+                                    _summaryItemText("1 ltr", total['1 ltr']),
+                                    _summaryItemText("500 ml", total['500 ml']),
                                   ],
                                 ),
                               ],
@@ -314,10 +334,9 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                   _itemText("Appe", item.appe),
                 ],
               ),
-              const SizedBox(height: 3.0),
-              Divider(color: Colors.grey.shade400, thickness: 1.1, height: 20),
 
               /// ROW 3 -- S Full, H Half, S 1/4
+              Divider(color: Colors.grey.shade400, thickness: 1.1, height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -337,6 +356,23 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                   _itemText("Full", item.sambhar_full),
                   _itemText("Half", item.sambhar_half),
                   _itemText("1/4", item.sambhar_one_fourth),
+                ],
+              ),
+
+              /// ROW 4 -- Water bottle - 1l, 500ml
+              Divider(color: Colors.grey.shade400, thickness: 1.1, height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "Water bottle",
+                    style: AppTextStyles.bold(
+                      fontSize: 17.5,
+                      fontColor: AppColors.persianIndigoColor,
+                    ),
+                  ),
+                  _itemText("1 ltr", item.water_bottle_1l),
+                  _itemText("500 ml", item.water_bottle_halfl),
                 ],
               ),
             ],
