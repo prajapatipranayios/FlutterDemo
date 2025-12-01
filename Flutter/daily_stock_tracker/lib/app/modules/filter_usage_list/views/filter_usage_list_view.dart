@@ -51,14 +51,15 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
                           value: controller.selectedMonthFilter.value,
-                          items: controller.filterMonths
-                              .map(
-                                (item) => DropdownMenuItem(
-                                  value: item,
-                                  child: Text(item),
-                                ),
-                              )
-                              .toList(),
+                          items:
+                              controller.filterMonths
+                                  .map(
+                                    (item) => DropdownMenuItem(
+                                      value: item,
+                                      child: Text(item),
+                                    ),
+                                  )
+                                  .toList(),
                           onChanged: (value) {
                             controller.selectedMonthFilter.value = value!;
                             controller.getFilteredDataByWeek();
@@ -84,14 +85,15 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                       child: DropdownButtonHideUnderline(
                         child: DropdownButton<String>(
                           value: controller.selectedYearFilter.value,
-                          items: controller.filterYears
-                              .map(
-                                (item) => DropdownMenuItem(
-                                  value: item,
-                                  child: Text(item),
-                                ),
-                              )
-                              .toList(),
+                          items:
+                              controller.filterYears
+                                  .map(
+                                    (item) => DropdownMenuItem(
+                                      value: item,
+                                      child: Text(item),
+                                    ),
+                                  )
+                                  .toList(),
                           onChanged: (value) {
                             controller.selectedYearFilter.value = value!;
                             controller.getFilteredDataByWeek();
@@ -183,6 +185,7 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                                   ],
                                 ),
                                 const SizedBox(height: 3.0),
+
                                 Row(
                                   mainAxisAlignment:
                                       MainAxisAlignment.spaceBetween,
@@ -191,42 +194,68 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                                     _summaryItemText("Appe", total['Appe']),
                                   ],
                                 ),
-
-                                Divider(
-                                  color: Colors.grey.shade400,
-                                  thickness: 1.1,
-                                  height: 20,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    _summaryItemText("S Full", total['S Full']),
-                                    _summaryItemText("S Half", total['S Half']),
-                                    _summaryItemText("S 1/4", total['S 1/4']),
-                                  ],
-                                ),
-
-                                Divider(
-                                  color: Colors.grey.shade400,
-                                  thickness: 1.1,
-                                  height: 20,
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(
-                                      "Water bottle",
-                                      style: AppTextStyles.bold(
-                                        fontSize: 17.5,
-                                        fontColor: AppColors.persianIndigoColor,
+                                if ((total['S Full']?.toString().trim() ??
+                                            '0') !=
+                                        '0' ||
+                                    (total['S Half']?.toString().trim() ??
+                                            '0') !=
+                                        '0' ||
+                                    (total['S 1/4']?.toString().trim() ??
+                                            '0') !=
+                                        '0') ...[
+                                  Divider(
+                                    color: Colors.grey.shade400,
+                                    thickness: 1.1,
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      _summaryItemText(
+                                        "S Full",
+                                        total['S Full'],
                                       ),
-                                    ),
-                                    _summaryItemText("1 ltr", total['1 ltr']),
-                                    _summaryItemText("500 ml", total['500 ml']),
-                                  ],
-                                ),
+                                      _summaryItemText(
+                                        "S Half",
+                                        total['S Half'],
+                                      ),
+                                      _summaryItemText("S 1/4", total['S 1/4']),
+                                    ],
+                                  ),
+                                ],
+
+                                if ((total['1 ltr']?.toString().trim() ??
+                                            '0') !=
+                                        '0' ||
+                                    (total['500 ml']?.toString().trim() ??
+                                            '0') !=
+                                        '0') ...[
+                                  Divider(
+                                    color: Colors.grey.shade400,
+                                    thickness: 1.1,
+                                    height: 20,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text(
+                                        "Water bottle",
+                                        style: AppTextStyles.bold(
+                                          fontSize: 17.5,
+                                          fontColor:
+                                              AppColors.persianIndigoColor,
+                                        ),
+                                      ),
+                                      _summaryItemText("1 ltr", total['1 ltr']),
+                                      _summaryItemText(
+                                        "500 ml",
+                                        total['500 ml'],
+                                      ),
+                                    ],
+                                  ),
+                                ],
                               ],
                             ),
                           ),
@@ -336,45 +365,60 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
               ),
 
               /// ROW 3 -- S Full, H Half, S 1/4
-              Divider(color: Colors.grey.shade400, thickness: 1.1, height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Sambhar",
-                    style: AppTextStyles.bold(
-                      fontSize: 17.5,
-                      fontColor: AppColors.persianIndigoColor,
+              if (item.sambhar_full != '0' ||
+                  item.sambhar_half != '0' ||
+                  item.sambhar_one_fourth != '0') ...[
+                Divider(
+                  color: Colors.grey.shade400,
+                  thickness: 1.1,
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Sambhar",
+                      style: AppTextStyles.bold(
+                        fontSize: 17.5,
+                        fontColor: AppColors.persianIndigoColor,
+                      ),
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 3.5),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  _itemText("Full", item.sambhar_full),
-                  _itemText("Half", item.sambhar_half),
-                  _itemText("1/4", item.sambhar_one_fourth),
-                ],
-              ),
+                  ],
+                ),
+                const SizedBox(height: 3.5),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    _itemText("Full", item.sambhar_full),
+                    _itemText("Half", item.sambhar_half),
+                    _itemText("1/4", item.sambhar_one_fourth),
+                  ],
+                ),
+              ],
 
               /// ROW 4 -- Water bottle - 1l, 500ml
-              Divider(color: Colors.grey.shade400, thickness: 1.1, height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    "Water bottle",
-                    style: AppTextStyles.bold(
-                      fontSize: 17.5,
-                      fontColor: AppColors.persianIndigoColor,
+              if (item.water_bottle_1l != '0' ||
+                  item.water_bottle_halfl != '0') ...[
+                Divider(
+                  color: Colors.grey.shade400,
+                  thickness: 1.1,
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Water bottle",
+                      style: AppTextStyles.bold(
+                        fontSize: 17.5,
+                        fontColor: AppColors.persianIndigoColor,
+                      ),
                     ),
-                  ),
-                  _itemText("1 ltr", item.water_bottle_1l),
-                  _itemText("500 ml", item.water_bottle_halfl),
-                ],
-              ),
+                    _itemText("1 ltr", item.water_bottle_1l),
+                    _itemText("500 ml", item.water_bottle_halfl),
+                  ],
+                ),
+              ],
             ],
           ),
         ),

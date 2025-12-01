@@ -30,29 +30,9 @@ class FilterUsageListController extends GetxController {
 
   final db = DBService();
 
-  // List<String> filterYears = [];
-  // var usageList = <StockUsageModel>[].obs;
-  // var weeklyGroups = [].obs; // List of maps
-  // final db = DBService();
-
   @override
   void onInit() {
     super.onInit();
-
-    // /// ========== Set Current Month ==========
-    // int monthIndex = DateTime.now().month - 1;
-    // selectedMonthFilter.value = filterMonths[monthIndex];
-    //
-    // /// ========== Set Current Year ==========
-    // int currentYear = DateTime.now().year;
-    // selectedYearFilter.value = currentYear.toString();
-    //
-    // /// Populate last 5 years for dropdown
-    // filterYears = List.generate(5, (index) => (currentYear - index).toString());
-    //
-    // /// Load data for current month/year
-    // // getFilteredDataSimple();
-    // getFilteredDataByWeek();
 
     final now = DateTime.now();
     selectedMonthFilter.value = filterMonths[now.month - 1];
@@ -138,7 +118,10 @@ class FilterUsageListController extends GetxController {
       "S Half": items.fold(0, (sum, i) => sum + int.parse(i.sambhar_half)),
       "S 1/4": items.fold(0, (sum, i) => sum + int.parse(i.sambhar_one_fourth)),
       "1 ltr": items.fold(0, (sum, i) => sum + int.parse(i.water_bottle_1l)),
-      "500 ml": items.fold(0, (sum, i) => sum + int.parse(i.water_bottle_halfl)),
+      "500 ml": items.fold(
+        0,
+        (sum, i) => sum + int.parse(i.water_bottle_halfl),
+      ),
     };
   }
 
@@ -154,12 +137,6 @@ class FilterUsageListController extends GetxController {
   }*/
   String formatDate(String date) =>
       DateFormat("EEE, dd-MMM-yyyy").format(DateTime.parse(date));
-
-  /*int getWeekNumber(String dateString) {
-    DateTime dt = DateTime.parse(dateString);
-    int weekNo = ((dt.day - 1) / 7).floor() + 1;
-    return weekNo;
-  }*/
 
   int getWeekNumber(String date) {
     final dt = DateTime.parse(date);

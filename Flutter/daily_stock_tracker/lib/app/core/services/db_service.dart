@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:daily_stock_tracker/app/core/models/StockArrivalModel.dart';
 import 'package:daily_stock_tracker/app/core/models/stock_usage_model.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:path/path.dart';
@@ -21,12 +22,11 @@ class DBService {
   }
 
   Future<Database> initDB() async {
-    // String path = join(await getDatabasesPath(), "stock_usage.db");
     String path = join(await getDatabasesPath(), _dbName);
 
     return await openDatabase(
       path,
-      version: 1,
+      version: 2, // IMPORTANT: increase version
       onCreate: (db, version) async {
         await db.execute('''
         CREATE TABLE stock_usage(
@@ -42,7 +42,41 @@ class DBService {
           water_bottle_halfl TEXT,
           createdAt TEXT
         )
-        ''');
+      ''');
+
+        await db.execute('''
+        CREATE TABLE stock_table(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          idli TEXT,
+          chatani TEXT,
+          meduWada TEXT,
+          appe TEXT,
+          sambhar_full TEXT,
+          sambhar_half TEXT,
+          sambhar_one_fourth TEXT,
+          water_bottle_1l TEXT,
+          water_bottle_halfl TEXT,
+          createdAt TEXT
+        )
+      ''');
+      },
+
+      onUpgrade: (db, oldV, newV) async {
+        await db.execute('''
+        CREATE TABLE IF NOT EXISTS stock_table(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          idli TEXT,
+          chatani TEXT,
+          meduWada TEXT,
+          appe TEXT,
+          sambhar_full TEXT,
+          sambhar_half TEXT,
+          sambhar_one_fourth TEXT,
+          water_bottle_1l TEXT,
+          water_bottle_halfl TEXT,
+          createdAt TEXT
+        )
+      ''');
       },
     );
   }
@@ -185,5 +219,39 @@ class DBService {
 
     // Replace old DB
     await pickedFile.copy(dbPath);
+  }
+
+  // -----------------------------
+  // STOCK OPERATION
+  // -----------------------------
+
+  Future<int> insertStock(StockTableModel model) async {
+    final db = await database;
+    return await db.insert("stock_table", model.toMap());
+  }
+
+  Future<List<StockTableModel>> getAllStock() async {
+    final db = await database;
+    final res = await db.query("stock_table", orderBy: "id DESC");
+    return res.map((e) => StockTableModel.fromMap(e)).toList();
+  }
+
+  Future<Map<String, int>> getTotalStockAdded() async {
+    final db = await database;
+    final res = await db.query("stock_table");
+
+    int sum(String key) => res.fold(0, (a, b) => a + int.parse(b[key] ?? "0"));
+
+    return {
+      "idli": sum("idli"),
+      "chatani": sum("chatani"),
+      "meduWada": sum("meduWada"),
+      "appe": sum("appe"),
+      "sambhar_full": sum("sambhar_full"),
+      "sambhar_half": sum("sambhar_half"),
+      "sambhar_one_fourth": sum("sambhar_one_fourth"),
+      "water_bottle_1l": sum("water_bottle_1l"),
+      "water_bottle_halfl": sum("water_bottle_halfl"),
+    };
   }
 }
