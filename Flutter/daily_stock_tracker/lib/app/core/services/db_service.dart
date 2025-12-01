@@ -38,6 +38,8 @@ class DBService {
           sambhar_full TEXT,
           sambhar_half TEXT,
           sambhar_one_fourth TEXT,
+          water_bottle_1l TEXT,
+          water_bottle_halfl TEXT,
           createdAt TEXT
         )
         ''');
@@ -103,10 +105,10 @@ class DBService {
   }
 
   /// DELETE IF NEEDED
-  // Future<int> deleteUsage(int id) async {
-  //   final db = await database;
-  //   return await db.delete('stock_usage', where: "id = ?", whereArgs: [id]);
-  // }
+  Future<int> deleteUsage(int id) async {
+    final db = await database;
+    return await db.delete('stock_usage', where: "id = ?", whereArgs: [id]);
+  }
 
   Future<int> deleteUsageById(int id) async {
     final db = await database;

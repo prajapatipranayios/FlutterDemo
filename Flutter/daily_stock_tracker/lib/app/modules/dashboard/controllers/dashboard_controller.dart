@@ -12,6 +12,8 @@ class DashboardController extends GetxController {
   var txtSambharFullCtrl = TextEditingController();
   var txtSambharHalfCtrl = TextEditingController();
   var txtSambharOneFourthCtrl = TextEditingController();
+  var txtWaterOneLiterCtrl = TextEditingController();
+  var txtWater500MLCtrl = TextEditingController();
 
   final db = DBService();
 
@@ -39,6 +41,8 @@ class DashboardController extends GetxController {
       sambhar_full: _parseOrZero(txtSambharFullCtrl),
       sambhar_half: _parseOrZero(txtSambharHalfCtrl),
       sambhar_one_fourth: _parseOrZero(txtSambharOneFourthCtrl),
+      water_bottle_1l: _parseOrZero(txtWaterOneLiterCtrl),
+      water_bottle_halfl: _parseOrZero(txtWater500MLCtrl),
       createdAt:
           selectedDate?.toIso8601String() ?? DateTime.now().toIso8601String(),
     );
@@ -75,6 +79,8 @@ class DashboardController extends GetxController {
     txtSambharFullCtrl.text = item.sambhar_full;
     txtSambharHalfCtrl.text = item.sambhar_half;
     txtSambharOneFourthCtrl.text = item.sambhar_one_fourth;
+    txtWaterOneLiterCtrl.text = item.water_bottle_1l;
+    txtWater500MLCtrl.text = item.water_bottle_halfl;
 
     editDate.value = DateTime.parse(item.createdAt);
     update();
@@ -100,5 +106,7 @@ class DashboardController extends GetxController {
     txtSambharFullCtrl.clear();
     txtSambharHalfCtrl.clear();
     txtSambharOneFourthCtrl.clear();
+    txtWaterOneLiterCtrl.clear();
+    txtWater500MLCtrl.clear();
   }
 }

@@ -7,6 +7,8 @@ class StockUsageModel {
   String sambhar_full;
   String sambhar_half;
   String sambhar_one_fourth;
+  String water_bottle_1l;
+  String water_bottle_halfl;
   String createdAt;
 
   StockUsageModel({
@@ -18,6 +20,8 @@ class StockUsageModel {
     required this.sambhar_full,
     required this.sambhar_half,
     required this.sambhar_one_fourth,
+    required this.water_bottle_1l,
+    required this.water_bottle_halfl,
     required this.createdAt,
   });
 
@@ -31,6 +35,8 @@ class StockUsageModel {
       'sambhar_full': sambhar_full,
       'sambhar_half': sambhar_half,
       'sambhar_one_fourth': sambhar_one_fourth,
+      'water_bottle_1l': water_bottle_1l,
+      'water_bottle_halfl': water_bottle_halfl,
       'createdAt': createdAt,
     };
   }
@@ -44,6 +50,8 @@ class StockUsageModel {
       'sambhar_full': sambhar_full,
       'sambhar_half': sambhar_half,
       'sambhar_one_fourth': sambhar_one_fourth,
+      'water_bottle_1l': water_bottle_1l,
+      'water_bottle_halfl': water_bottle_halfl,
       'createdAt': createdAt,
     };
   }
@@ -58,6 +66,8 @@ class StockUsageModel {
       sambhar_full: json['sambhar_full'],
       sambhar_half: json['sambhar_half'],
       sambhar_one_fourth: json['sambhar_one_fourth'],
+      water_bottle_1l: json['water_bottle_1l'],
+      water_bottle_halfl: json['water_bottle_halfl'],
       createdAt: json['createdAt'],
     );
   }
