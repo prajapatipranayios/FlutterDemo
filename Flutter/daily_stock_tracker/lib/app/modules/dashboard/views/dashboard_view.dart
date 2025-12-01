@@ -19,6 +19,21 @@ class DashboardView extends GetView<DashboardController> {
         appBar: AppBar(
           backgroundColor: Colors.white,
           elevation: 0,
+          // LEFT BUTTON 👇
+          leading: IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            icon: Icon(
+              Icons.inventory_outlined, // Example: Stock button
+              color: AppColors.blackColor,
+              size: 30,
+            ),
+            onPressed: () {
+              // YOUR LEFT ACTION HERE
+              // Get.toNamed(Routes.ADD_STOCK);
+              Get.toNamed(Routes.STOCK_DISPLAY);
+            },
+          ),
           title: Text(
             'Dashboard',
             style: AppTextStyles.semiBold(
@@ -104,7 +119,11 @@ class DashboardView extends GetView<DashboardController> {
                   // ---------- ROW 3 ----------
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Divider(color: Colors.grey.shade400, thickness: 1.1, height: 20),
+                    child: Divider(
+                      color: Colors.grey.shade400,
+                      thickness: 1.1,
+                      height: 20,
+                    ),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
@@ -156,7 +175,11 @@ class DashboardView extends GetView<DashboardController> {
                   // ---------- ROW 3 ----------
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Divider(color: Colors.grey.shade400, thickness: 1.1, height: 20),
+                    child: Divider(
+                      color: Colors.grey.shade400,
+                      thickness: 1.1,
+                      height: 20,
+                    ),
                   ),
                   Align(
                     alignment: Alignment.centerLeft,
@@ -214,8 +237,8 @@ class DashboardView extends GetView<DashboardController> {
                                 onPressed: controller.onAddPressed,
                                 child: Text(
                                   controller.editDate.value == null
-                                      ? "ADD"
-                                      : "UPDATE",
+                                      ? "Add Usage"
+                                      : "Update",
                                   style: AppTextStyles.semiBold(
                                     fontSize: 18,
                                     fontColor: Colors.white,

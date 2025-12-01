@@ -236,11 +236,12 @@ class DBService {
     return res.map((e) => StockTableModel.fromMap(e)).toList();
   }
 
-  Future<Map<String, int>> getTotalStockAdded() async {
+  /*Future<Map<String, int>> getTotalStockAdded() async {
     final db = await database;
     final res = await db.query("stock_table");
 
-    int sum(String key) => res.fold(0, (a, b) => a + int.parse(b[key] ?? "0"));
+    int sum(String key) =>
+        res.fold(0, (a, b) => a + int.parse((b[key] ?? "0").toString()));
 
     return {
       "idli": sum("idli"),
@@ -253,5 +254,59 @@ class DBService {
       "water_bottle_1l": sum("water_bottle_1l"),
       "water_bottle_halfl": sum("water_bottle_halfl"),
     };
+  }*/
+
+  Future<Map<String, int>> getTotalStockAdded() async {
+    final db = await database;
+    final res = await db.query("stock_table");
+
+    int sum(String key) =>
+        res.fold(0, (a, b) => a + int.parse((b[key] ?? "0").toString()));
+
+    return {
+      "Idli": sum("idli"),
+      "Chatani": sum("chatani"),
+      "MeduWada": sum("meduWada"),
+      "Appe": sum("appe"),
+      "S Full": sum("sambhar_full"),
+      "S Half": sum("sambhar_half"),
+      "S 1/4": sum("sambhar_one_fourth"),
+      "1 ltr": sum("water_bottle_1l"),
+      "500 ml": sum("water_bottle_halfl"),
+    };
+  }
+
+  Future<Map<String, int>> getTotalUsage() async {
+    final db = await database;
+    final res = await db.query("stock_usage");
+
+    int sum(String key) =>
+        res.fold(0, (a, b) => a + int.parse((b[key] ?? "0").toString()));
+
+    return {
+      "Idli": sum("idli"),
+      "Chatani": sum("chatani"),
+      "MeduWada": sum("meduWada"),
+      "Appe": sum("appe"),
+      "S Full": sum("sambhar_full"),
+      "S Half": sum("sambhar_half"),
+      "S 1/4": sum("sambhar_one_fourth"),
+      "1 ltr": sum("water_bottle_1l"),
+      "500 ml": sum("water_bottle_halfl"),
+    };
+  }
+
+  Future<Map<String, int>> getStockBalance() async {
+    final added = await getTotalStockAdded();
+    final used = await getTotalUsage();
+
+    Map<String, int> balance = {};
+
+    added.forEach((key, value) {
+      final usedValue = used[key] ?? 0;
+      balance[key] = value - usedValue;
+    });
+
+    return balance;
   }
 }
