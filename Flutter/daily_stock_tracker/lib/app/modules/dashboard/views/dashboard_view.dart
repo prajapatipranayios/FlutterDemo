@@ -56,11 +56,12 @@ class DashboardView extends GetView<DashboardController> {
 
                 controller.onClearPressed();
 
-                final result = await Get.toNamed(Routes.FILTER_USAGE_LIST);
-
-                if (result is StockUsageModel) {
-                  controller.setEditData(result);
-                }
+                // final result = await Get.toNamed(Routes.FILTER_USAGE_LIST);
+                Get.toNamed(Routes.FILTER_USAGE_LIST)?.then((value) {
+                  if (value is StockUsageModel) {
+                    controller.setEditData(value);
+                  }
+                });
               },
             ),
           ],

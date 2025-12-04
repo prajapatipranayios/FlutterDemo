@@ -1,4 +1,5 @@
 import 'package:daily_stock_tracker/app/modules/add_stock/controllers/add_stock_controller.dart';
+import 'package:daily_stock_tracker/app/routes/app_pages.dart';
 import 'package:daily_stock_tracker/app/themes/app_color.dart';
 import 'package:daily_stock_tracker/app/themes/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,20 @@ class AddStockView extends GetView<AddStockController> {
           ),
         ),
         centerTitle: true,
+        actions: [
+          IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            icon: Icon(
+              Icons.add_box_outlined,
+              color: AppColors.blackColor,
+              size: 30,
+            ),
+            onPressed: () async {
+              Get.toNamed(Routes.ADD_STOCK);
+            },
+          ),
+        ],
       ),
 
       body: SingleChildScrollView(

@@ -7,6 +7,7 @@ abstract class Routes {
   static const FILTER_USAGE_LIST = _Paths.FILTER_USAGE_LIST;
   static const ADD_STOCK = _Paths.ADD_STOCK;
   static const STOCK_DISPLAY = _Paths.STOCK_DISPLAY;
+  static const STOCK_ENTRY_LIST = _Paths.STOCK_ENTRY_LIST;
 }
 
 abstract class _Paths {
@@ -15,4 +16,5 @@ abstract class _Paths {
   static const FILTER_USAGE_LIST = '/filter-usage-list';
   static const ADD_STOCK = '/add-stock';
   static const STOCK_DISPLAY = '/stock-display';
+  static const STOCK_ENTRY_LIST = '/stock-entry-list';
 }

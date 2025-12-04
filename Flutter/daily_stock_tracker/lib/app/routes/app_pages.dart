@@ -8,6 +8,8 @@ import '../modules/filter_usage_list/bindings/filter_usage_list_binding.dart';
 import '../modules/filter_usage_list/views/filter_usage_list_view.dart';
 import '../modules/stock_display/bindings/stock_display_binding.dart';
 import '../modules/stock_display/views/stock_display_view.dart';
+import '../modules/stock_entry_list/bindings/stock_entry_list_binding.dart';
+import '../modules/stock_entry_list/views/stock_entry_list_view.dart';
 
 part 'app_routes.dart';
 
@@ -36,6 +38,11 @@ class AppPages {
       name: _Paths.STOCK_DISPLAY,
       page: () => const StockDisplayView(),
       binding: StockDisplayBinding(),
+    ),
+    GetPage(
+      name: _Paths.STOCK_ENTRY_LIST,
+      page: () => const StockEntryListView(),
+      binding: StockEntryListBinding(),
     ),
   ];
 }
