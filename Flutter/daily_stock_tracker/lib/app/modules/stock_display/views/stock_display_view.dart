@@ -40,7 +40,6 @@ class StockDisplayView extends GetView<StockDisplayController> {
           if (controller.totalAdded.isEmpty) {
             return const Center(child: CircularProgressIndicator());
           }
-
           return Padding(
             padding: const EdgeInsets.all(0.0),
             child: ListView(
