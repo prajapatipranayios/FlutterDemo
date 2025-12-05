@@ -20,6 +20,9 @@
         <option name="gradleJvm" value="#GRADLE_LOCAL_JAVA_HOME" />
         <option name="modules">
           <set>
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/file_picker-10.3.7/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/flutter_plugin_android_lifecycle-2.0.33/android" />
+            <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/path_provider_android-2.2.22/android" />
             <option value="$USER_HOME$/.pub-cache/hosted/pub.dev/sqflite_android-2.4.2+2/android" />
             <option value="$PROJECT_DIR$/../../../../Flutter SDK/flutter/packages/flutter_tools/gradle" />
             <option value="$PROJECT_DIR$" />

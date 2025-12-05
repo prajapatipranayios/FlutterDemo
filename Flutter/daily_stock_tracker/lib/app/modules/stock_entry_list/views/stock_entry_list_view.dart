@@ -289,28 +289,19 @@ class StockEntryListView extends GetWidget<StockEntryListController> {
               Row(
                 children: [
                   Expanded(child: _field("S Full", txtSFull)),
-                  SizedBox(width: 10),
+                  SizedBox(width: 8),
                   Expanded(child: _field("S Half", txtSHalf)),
-                  SizedBox(width: 10),
+                  SizedBox(width: 8),
                   Expanded(child: _field("S 1/4", txtSOneFourth)),
                 ],
               ),
               Row(
                 children: [
                   Expanded(child: _field("1 Litre", txtW1l)),
-                  SizedBox(width: 10),
+                  SizedBox(width: 8),
                   Expanded(child: _field("500 ml", txtW500ml)),
                 ],
               ),
-              /*_field("Idli", txtIdli),
-              _field("Chatani", txtChatani),
-              _field("Medu Wada", txtMW),
-              _field("Appe", txtAppe),
-              _field("S Full", txtSFull),
-              _field("S Half", txtSHalf),
-              _field("S 1/4", txtSOneFourth),
-              _field("1 Litre", txtW1l),
-              _field("500 ml", txtW500ml),*/
             ],
           ),
         ),
