@@ -27,7 +27,9 @@ class StockDisplayView extends GetView<StockDisplayController> {
             icon: Icon(Icons.list, color: AppColors.blackColor, size: 30),
             onPressed: () async {
               // Get.toNamed(Routes.ADD_STOCK);
-              Get.toNamed(Routes.STOCK_ENTRY_LIST);
+              Get.toNamed(Routes.STOCK_ENTRY_LIST)?.then((value) {
+                controller.loadStockSummary();
+              });
             },
           ),
         ],
@@ -40,18 +42,13 @@ class StockDisplayView extends GetView<StockDisplayController> {
           }
 
           return Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(0.0),
             child: ListView(
               children: [
-                // ===================== TOTAL ADDED =====================
-                _sectionHeader("Total Stock Added"),
-                _summaryCard(
-                  controller.totalAdded,
-                  Colors.blue.shade100,
-                  Colors.blue.shade50,
-                ),
-
-                const SizedBox(height: 12),
+                // ===================== REMAINING =====================
+                _sectionHeader("Remaining Stock"),
+                _remainingStockCard(controller.totalRemaining),
+                const SizedBox(height: 8),
 
                 // ===================== TOTAL USED =====================
                 _sectionHeader("Total Used"),
@@ -60,12 +57,15 @@ class StockDisplayView extends GetView<StockDisplayController> {
                   Colors.red.shade100,
                   Colors.red.shade50,
                 ),
+                const SizedBox(height: 8),
 
-                const SizedBox(height: 12),
-
-                // ===================== REMAINING =====================
-                _sectionHeader("Remaining Stock"),
-                _remainingStockCard(controller.totalRemaining),
+                // ===================== TOTAL ADDED =====================
+                _sectionHeader("Total Stock Added"),
+                _summaryCard(
+                  controller.totalAdded,
+                  Colors.blue.shade100,
+                  Colors.blue.shade50,
+                ),
               ],
             ),
           );

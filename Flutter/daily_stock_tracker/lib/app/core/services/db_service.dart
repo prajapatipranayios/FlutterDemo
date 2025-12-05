@@ -63,6 +63,22 @@ class DBService {
 
       onUpgrade: (db, oldV, newV) async {
         await db.execute('''
+        CREATE TABLE stock_usage(
+          id INTEGER PRIMARY KEY AUTOINCREMENT,
+          idli TEXT,
+          chatani TEXT,
+          meduWada TEXT,
+          appe TEXT,
+          sambhar_full TEXT,
+          sambhar_half TEXT,
+          sambhar_one_fourth TEXT,
+          water_bottle_1l TEXT,
+          water_bottle_halfl TEXT,
+          createdAt TEXT
+        )
+      ''');
+
+        await db.execute('''
         CREATE TABLE IF NOT EXISTS stock_table(
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           idli TEXT,
@@ -228,6 +244,46 @@ class DBService {
   Future<int> insertStock(StockTableModel model) async {
     final db = await database;
     return await db.insert("stock_table", model.toMap());
+  }
+
+  // ---------------------------------------------------------------------------
+  // FETCH ALL STOCK ENTRIES
+  // ---------------------------------------------------------------------------
+  // Future<List<StockTableModel>> fetchAllStock() async {
+  //   final dbClient = await database;
+  //   final List<Map<String, dynamic>> res = await dbClient.query(
+  //     "stock_table",
+  //     orderBy: "id DESC",
+  //   );
+  //   return res.map((e) => StockTableModel.fromMap(e)).toList();
+  // }
+
+  Future<List<StockTableModel>> fetchAllStock() async {
+    final dbClient = await database;
+    final result = await dbClient.query("stock_table", orderBy: "id DESC");
+
+    return result.map((e) => StockTableModel.fromMap(e)).toList();
+  }
+
+  // ---------------------------------------------------------------------------
+  // DELETE STOCK ENTRY BY ID
+  // ---------------------------------------------------------------------------
+  Future<void> deleteStock(int id) async {
+    final dbClient = await database;
+    await dbClient.delete("stock_table", where: "id = ?", whereArgs: [id]);
+  }
+
+  // ---------------------------------------------------------------------------
+  // UPDATE STOCK ENTRY
+  // ---------------------------------------------------------------------------
+  Future<void> updateStock(StockTableModel model) async {
+    final dbClient = await database;
+    await dbClient.update(
+      "stock_table",
+      model.toMap(),
+      where: "id = ?",
+      whereArgs: [model.id],
+    );
   }
 
   Future<List<StockTableModel>> getAllStock() async {

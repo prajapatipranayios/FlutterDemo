@@ -24,20 +24,20 @@ class AddStockView extends GetView<AddStockController> {
           ),
         ),
         centerTitle: true,
-        actions: [
-          IconButton(
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-            icon: Icon(
-              Icons.add_box_outlined,
-              color: AppColors.blackColor,
-              size: 30,
-            ),
-            onPressed: () async {
-              Get.toNamed(Routes.ADD_STOCK);
-            },
-          ),
-        ],
+        // actions: [
+        //   IconButton(
+        //     padding: EdgeInsets.zero,
+        //     constraints: const BoxConstraints(),
+        //     icon: Icon(
+        //       Icons.add_box_outlined,
+        //       color: AppColors.blackColor,
+        //       size: 30,
+        //     ),
+        //     onPressed: () async {
+        //       Get.toNamed(Routes.ADD_STOCK);
+        //     },
+        //   ),
+        // ],
       ),
 
       body: SingleChildScrollView(

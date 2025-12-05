@@ -1,7 +1,12 @@
 import 'package:daily_stock_tracker/app/core/models/StockArrivalModel.dart';
+import 'package:daily_stock_tracker/app/core/services/db_service.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 
 class StockEntryListController extends GetxController {
+  final db = DBService();
+
+  /// List of all stock entries (REAL DB DATA)
   RxList<StockTableModel> stockList = <StockTableModel>[].obs;
 
   @override
@@ -10,46 +15,43 @@ class StockEntryListController extends GetxController {
     loadStockEntries();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  // @override
+  // void onReady() {
+  //   super.onReady();
+  //   loadStockEntries();
+  // }
+
+  // @override
+  // void onClose() {
+  //   super.onClose();
+  // }
+
+  /// Load all stock entries from SQLite
+  Future<void> loadStockEntries() async {
+    final List<StockTableModel> entries = await db.fetchAllStock();
+    stockList.assignAll(entries);
+    stockList.refresh();
   }
 
-  @override
-  void onClose() {
-    super.onClose();
+  /// Delete entry by ID
+  Future<void> deleteStock(int id) async {
+    await db.deleteStock(id);
+    await loadStockEntries(); // Refresh list
   }
 
-  // Load from database later
-  void loadStockEntries() async {
-    // Example dummy data
-    stockList.value = [
-      StockTableModel(
-        id: 1,
-        idli: "50",
-        chatani: "20",
-        meduWada: "15",
-        appe: "10",
-        sambhar_full: "30",
-        sambhar_half: "20",
-        sambhar_one_fourth: "10",
-        water_bottle_1l: "5",
-        water_bottle_halfl: "12",
-        createdAt: DateTime.now().toString(),
-      ),
-    ];
+  /// Update an entry in DB
+  Future<void> updateStock(StockTableModel updated) async {
+    await db.updateStock(updated);
+    await loadStockEntries(); // Refresh list
   }
 
-  void deleteStock(int id) {
-    stockList.removeWhere((e) => e.id == id);
-    update();
-  }
-
-  void updateStock(StockTableModel updated) {
-    final index = stockList.indexWhere((e) => e.id == updated.id);
-    if (index != -1) {
-      stockList[index] = updated;
-      update();
+  /// Format created date for UI
+  String formatDate(String date) {
+    try {
+      final dt = DateTime.parse(date);
+      return DateFormat("EEE, dd-MMM-yyyy").format(dt);
+    } catch (e) {
+      return date;
     }
   }
 }
