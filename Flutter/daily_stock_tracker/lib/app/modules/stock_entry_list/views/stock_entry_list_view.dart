@@ -241,12 +241,199 @@ class StockEntryListView extends GetWidget<StockEntryListController> {
   }
 
   // OPEN EDIT POPUP
-  void _openEdit(StockTableModel entry) {
+  /*void _openEdit(StockTableModel entry) {
     Get.defaultDialog(
       title: "Edit ${entry.id}",
       content: const Text("Implement edit popup here..."),
       textConfirm: "OK",
       onConfirm: () => Get.back(),
     );
+  }*/
+
+  void _openEdit(StockTableModel entry) {
+    // Create temporary editing controllers
+    final txtIdli = TextEditingController(text: entry.idli);
+    final txtChatani = TextEditingController(text: entry.chatani);
+    final txtMW = TextEditingController(text: entry.meduWada);
+    final txtAppe = TextEditingController(text: entry.appe);
+    final txtSFull = TextEditingController(text: entry.sambhar_full);
+    final txtSHalf = TextEditingController(text: entry.sambhar_half);
+    final txtSOneFourth = TextEditingController(text: entry.sambhar_one_fourth);
+    final txtW1l = TextEditingController(text: entry.water_bottle_1l);
+    final txtW500ml = TextEditingController(text: entry.water_bottle_halfl);
+
+    Get.dialog(
+      AlertDialog(
+        title: Text("Edit Record #${entry.id}"),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 8,
+          vertical: 8,
+        ), // 🔥 reduced padding
+        content: SingleChildScrollView(
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  Expanded(child: _field("Idli", txtIdli)),
+                  const SizedBox(width: 8),
+                  Expanded(child: _field("Chatani", txtChatani)),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(child: _field("Medu Wada", txtMW)),
+                  const SizedBox(width: 8),
+                  Expanded(child: _field("Appe", txtAppe)),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(child: _field("S Full", txtSFull)),
+                  SizedBox(width: 10),
+                  Expanded(child: _field("S Half", txtSHalf)),
+                  SizedBox(width: 10),
+                  Expanded(child: _field("S 1/4", txtSOneFourth)),
+                ],
+              ),
+              Row(
+                children: [
+                  Expanded(child: _field("1 Litre", txtW1l)),
+                  SizedBox(width: 10),
+                  Expanded(child: _field("500 ml", txtW500ml)),
+                ],
+              ),
+              /*_field("Idli", txtIdli),
+              _field("Chatani", txtChatani),
+              _field("Medu Wada", txtMW),
+              _field("Appe", txtAppe),
+              _field("S Full", txtSFull),
+              _field("S Half", txtSHalf),
+              _field("S 1/4", txtSOneFourth),
+              _field("1 Litre", txtW1l),
+              _field("500 ml", txtW500ml),*/
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Get.back(), child: const Text("CANCEL")),
+
+          TextButton(
+            onPressed: () async {
+              // Create updated model
+              final updated = StockTableModel(
+                id: entry.id,
+                idli: txtIdli.text.trim(),
+                chatani: txtChatani.text.trim(),
+                meduWada: txtMW.text.trim(),
+                appe: txtAppe.text.trim(),
+                sambhar_full: txtSFull.text.trim(),
+                sambhar_half: txtSHalf.text.trim(),
+                sambhar_one_fourth: txtSOneFourth.text.trim(),
+                water_bottle_1l: txtW1l.text.trim(),
+                water_bottle_halfl: txtW500ml.text.trim(),
+                createdAt: entry.createdAt, // keep original date
+              );
+
+              // Call update function
+              await Get.find<StockEntryListController>().updateStock(updated);
+
+              Get.back();
+              Get.snackbar(
+                "Success",
+                "Record updated successfully",
+                snackPosition: SnackPosition.BOTTOM,
+              );
+            },
+            child: const Text("SAVE"),
+          ),
+        ],
+      ),
+    );
   }
+
+  /// Reusable TextField inside popup
+  /*Widget _field(String label, TextEditingController c) {
+    return Padding(
+      padding: const EdgeInsets.only(top: 8, bottom: 8),
+      child: TextField(
+        controller: c,
+        decoration: InputDecoration(
+          labelText: label,
+          border: const OutlineInputBorder(),
+        ),
+        keyboardType: TextInputType.number,
+      ),
+    );
+  }*/
+
+  Widget _field(
+    String label,
+    TextEditingController c, {
+    double height = 40,
+    double fontSize = 16,
+    Color textColor = Colors.black,
+    EdgeInsets padding = const EdgeInsets.symmetric(vertical: 4),
+    Color borderColor = Colors.grey,
+  }) {
+    return Padding(
+      padding: padding,
+      child: SizedBox(
+        height: height,
+        child: TextField(
+          controller: c,
+          style: TextStyle(
+            fontSize: fontSize,
+            color: textColor,
+            fontWeight: FontWeight.w400,
+          ),
+          decoration: InputDecoration(
+            labelText: label,
+            labelStyle: TextStyle(
+              fontSize: fontSize - 2,
+              color: Colors.grey.shade900,
+            ),
+            contentPadding: const EdgeInsets.symmetric(
+              horizontal: 8,
+              vertical: 8,
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
+              borderSide: BorderSide(color: borderColor),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(5),
+              borderSide: BorderSide(color: Colors.blue.shade400, width: 1.8),
+            ),
+          ),
+          keyboardType: TextInputType.number,
+        ),
+      ),
+    );
+  }
+
+  /*Widget _field(String label, TextEditingController c) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(label, style: const TextStyle(fontWeight: FontWeight.bold)),
+        const SizedBox(height: 4),
+        SizedBox(
+          height: 40,
+          child: TextField(
+            controller: c,
+            keyboardType: TextInputType.number,
+            decoration: InputDecoration(
+              contentPadding: const EdgeInsets.symmetric(
+                horizontal: 10,
+                vertical: 8,
+              ),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }*/
 }

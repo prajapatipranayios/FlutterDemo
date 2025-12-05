@@ -65,6 +65,7 @@ class StockDisplayView extends GetView<StockDisplayController> {
                   Colors.blue.shade100,
                   Colors.blue.shade50,
                 ),
+                const SizedBox(height: 8),
               ],
             ),
           );
