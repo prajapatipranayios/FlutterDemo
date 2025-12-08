@@ -62,7 +62,7 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                     return InkWell(
                       onTap: controller.pickFromDate,
                       child: Container(
-                        height: 45,
+                        height: 40,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),
@@ -84,7 +84,7 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                     return InkWell(
                       onTap: controller.pickToDate,
                       child: Container(
-                        height: 45,
+                        height: 40,
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(10),

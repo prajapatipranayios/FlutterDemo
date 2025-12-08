@@ -48,6 +48,53 @@ class DashboardView extends GetView<DashboardController> {
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: Column(
                 children: [
+                  // ---------- Date ----------
+                  Padding(
+                    padding: EdgeInsets.only(left: 16, right: 4),
+                    child: Row(
+                      children: [
+                        Text(
+                          "Date: ",
+                          style: AppTextStyles.bold(
+                            fontSize: 19,
+                            fontColor: AppColors.persianIndigoColor,
+                          ),
+                        ),
+                        Obx(
+                          () => Expanded(
+                            child: InkWell(
+                              onTap: controller.pickToDate,
+                              child: Container(
+                                height: 40,
+                                margin: EdgeInsets.only(right: 16),
+                                padding: EdgeInsets.symmetric(horizontal: 16.0),
+                                alignment: Alignment.center,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(10),
+                                  border: Border.all(color: Colors.grey),
+                                  color: Colors.white,
+                                ),
+                                child: Text(
+                                  controller.usageDate.value,
+                                  style: TextStyle(fontSize: 16),
+                                ),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0),
+                    child: Divider(
+                      color: Colors.grey.shade400,
+                      thickness: 1.1,
+                      height: 20,
+                    ),
+                  ),
+                  const SizedBox(height: 3),
                   // ---------- ROW 1 ----------
                   Row(
                     children: [

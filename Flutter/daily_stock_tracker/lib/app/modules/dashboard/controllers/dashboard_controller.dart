@@ -16,6 +16,8 @@ class DashboardController extends GetxController {
 
   late StockUsageModel tempData;
 
+  final usageDate = "".obs;
+
   final db = DBService();
 
   /// Reactive edit date
@@ -24,6 +26,9 @@ class DashboardController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    final now = DateTime.now();
+    usageDate.value = _format(now); // Today
+
     if (Get.arguments != null) {
       tempData = StockUsageModel();
       tempData = Get.arguments;
@@ -41,7 +46,7 @@ class DashboardController extends GetxController {
   Future<void> onAddPressed() async {
     FocusScope.of(Get.context!).unfocus();
 
-    final today = DateTime.now().toIso8601String().substring(0, 10);
+    final today = usageDate.value;
     final selectedDate = editDate.value;
 
     final model = StockUsageModel(
@@ -53,8 +58,7 @@ class DashboardController extends GetxController {
       sambhar_half: _parseOrZero(txtSambharHalfCtrl),
       sambhar_one_fourth: _parseOrZero(txtSambharOneFourthCtrl),
       water_bottle_20l: _parseOrZero(txtWater20LiterCtrl),
-      createdAt:
-          selectedDate?.toIso8601String() ?? DateTime.now().toIso8601String(),
+      createdAt: selectedDate?.toIso8601String() ?? today,
     );
 
     if (selectedDate != null) {
@@ -116,5 +120,20 @@ class DashboardController extends GetxController {
     txtSambharHalfCtrl.clear();
     txtSambharOneFourthCtrl.clear();
     txtWater20LiterCtrl.clear();
+  }
+
+  String _format(DateTime dt) => dt.toIso8601String().split("T").first;
+
+  Future<void> pickToDate() async {
+    final picked = await showDatePicker(
+      context: Get.context!,
+      initialDate: DateTime.now(), // default → today
+      firstDate: DateTime(2020), // allow any past date
+      lastDate: DateTime.now(), // max limit → today
+    );
+
+    if (picked != null) {
+      usageDate.value = _format(picked);
+    }
   }
 }
