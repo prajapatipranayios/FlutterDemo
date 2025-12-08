@@ -171,7 +171,7 @@ class FilterUsageListController extends GetxController {
   }
 
   Future<void> deleteRecord(int id) async {
-    await db.deleteStock(id);
+    await db.deleteUsage(id);
     getFilteredDataByWeek(); // refresh list
     Get.snackbar("Deleted", "Record deleted successfully");
   }

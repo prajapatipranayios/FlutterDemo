@@ -201,7 +201,7 @@ class StockDisplayView extends GetView<StockDisplayController> {
 
     // Custom rules per item
     switch (label) {
-      case "Idli":
+      case "Idli batter":
       case "Chatani":
         if (value <= 40) {
           color = Colors.red;
@@ -253,20 +253,10 @@ class StockDisplayView extends GetView<StockDisplayController> {
         }
         break;
 
-      case "1 Ltr":
+      case "20 Ltr":
         if (value <= 100) {
           color = Colors.red;
         } else if (value <= 150) {
-          color = Colors.orange;
-        } else {
-          color = Colors.green;
-        }
-        break;
-
-      case "500 ml":
-        if (value <= 150) {
-          color = Colors.red;
-        } else if (value <= 200) {
           color = Colors.orange;
         } else {
           color = Colors.green;

@@ -203,6 +203,7 @@ class DBService {
 
   Future<void> deleteStock(int id) async {
     final db = await database;
+    print("object delete id: $id");
     await db.delete("stock_table", where: "id = ?", whereArgs: [id]);
   }
 
@@ -227,7 +228,7 @@ class DBService {
         res.fold(0, (a, b) => a + int.parse((b[key] ?? "0").toString()));
 
     return {
-      "Idli": sum("idli"),
+      "Idli batter": sum("idli"),
       "Chatani": sum("chatani"),
       "MeduWada": sum("meduWada"),
       "Appe": sum("appe"),
@@ -249,7 +250,7 @@ class DBService {
         res.fold(0, (a, b) => a + int.parse((b[key] ?? "0").toString()));
 
     return {
-      "Idli": sum("idli"),
+      "Idli batter": sum("idli"),
       "Chatani": sum("chatani"),
       "MeduWada": sum("meduWada"),
       "Appe": sum("appe"),

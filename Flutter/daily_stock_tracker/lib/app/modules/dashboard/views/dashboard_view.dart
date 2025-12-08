@@ -33,7 +33,7 @@ class DashboardView extends GetView<DashboardController> {
           //   },
           // ),
           title: Text(
-            'Dashboard',
+            'Daily Use',
             style: AppTextStyles.semiBold(
               fontSize: 20,
               fontColor: AppColors.blackColor,

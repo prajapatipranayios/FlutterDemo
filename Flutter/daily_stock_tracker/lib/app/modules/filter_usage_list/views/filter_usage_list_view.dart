@@ -316,7 +316,8 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                 TextButton(
                   onPressed: () async {
                     Get.back();
-                    await Future.delayed(const Duration(milliseconds: 150));
+                    print("object delete id : ${item.id!}");
+                    // await Future.delayed(const Duration(milliseconds: 150));
                     controller.deleteRecord(item.id!);
                   },
                   child: const Text("Yes"),
