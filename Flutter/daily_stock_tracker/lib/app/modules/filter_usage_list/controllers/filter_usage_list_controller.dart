@@ -5,25 +5,11 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 
 class FilterUsageListController extends GetxController {
-  final selectedMonthFilter = "".obs;
-  final selectedYearFilter = "".obs;
+  // final selectedMonthFilter = "".obs;
+  // final selectedYearFilter = "".obs;
 
-  final filterMonths = const [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "Jun",
-    "Jul",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec",
-  ];
-
-  var filterYears = <String>[];
+  final fromDate = "".obs;
+  final toDate = "".obs;
 
   var usageList = <StockUsageModel>[].obs;
   var weeklyGroups = <dynamic>[].obs;
@@ -35,28 +21,75 @@ class FilterUsageListController extends GetxController {
     super.onInit();
 
     final now = DateTime.now();
-    selectedMonthFilter.value = filterMonths[now.month - 1];
-    selectedYearFilter.value = now.year.toString();
 
-    filterYears.addAll(List.generate(5, (i) => (now.year - i).toString()));
+    // NEW DEFAULT RANGE --------------------
+    final from = now.subtract(Duration(days: 15)); // 15 days ago
+    fromDate.value = _format(from);
+
+    toDate.value = _format(now); // Today
+    // --------------------------------------
 
     getFilteredDataByWeek();
   }
 
-  @override
-  void onReady() {
-    super.onReady();
+  String _format(DateTime dt) => dt.toIso8601String().split("T").first;
+
+  Future<void> pickFromDate() async {
+    final picked = await showDatePicker(
+      context: Get.context!,
+      initialDate: DateTime.parse(fromDate.value),
+      firstDate: DateTime(2020),
+      lastDate: DateTime.parse(toDate.value), // ⛔ cannot go beyond TO date
+    );
+
+    if (picked != null) {
+      final newDate = _format(picked);
+
+      // IF fromDate > toDate → prevent
+      if (picked.isAfter(DateTime.parse(toDate.value))) {
+        Get.snackbar(
+          "Invalid Date",
+          "From date cannot be greater than To date.",
+        );
+        return;
+      }
+
+      fromDate.value = newDate;
+      getFilteredDataByWeek();
+    }
   }
 
-  @override
-  void onClose() {
-    super.onClose();
+  Future<void> pickToDate() async {
+    final picked = await showDatePicker(
+      context: Get.context!,
+      initialDate: DateTime.parse(toDate.value),
+      firstDate: DateTime.parse(
+        fromDate.value,
+      ), // ⛔ cannot be less than FROM date
+      lastDate: DateTime.now(), // ⛔ cannot go beyond today
+    );
+
+    if (picked != null) {
+      final newDate = _format(picked);
+
+      // IF toDate < fromDate → prevent
+      if (picked.isBefore(DateTime.parse(fromDate.value))) {
+        Get.snackbar(
+          "Invalid Date",
+          "To date cannot be earlier than From date.",
+        );
+        return;
+      }
+
+      toDate.value = newDate;
+      getFilteredDataByWeek();
+    }
   }
 
   /// =========================================
   /// FETCH FILTERED DATA FROM SQLITE
   /// =========================================
-  Future<void> getFilteredDataSimple() async {
+  /*Future<void> getFilteredDataSimple() async {
     String month = selectedMonthFilter.value;
     String year = selectedYearFilter.value;
 
@@ -68,17 +101,21 @@ class FilterUsageListController extends GetxController {
     String queryLike = "$year-$formattedMonth";
 
     usageList.value = await db.getUsageByMonthYear(queryLike);
-  }
+  }*/
 
-  String _monthToNumber(String month) {
-    return (filterMonths.indexOf(month) + 1).toString().padLeft(2, '0');
-  }
-
-  Future<void> getFilteredDataByWeek() async {
+  /*Future<void> getFilteredDataByWeek() async {
     final monthNum = _monthToNumber(selectedMonthFilter.value);
     final queryLike = "${selectedYearFilter.value}-$monthNum";
 
     final data = await db.getUsageByMonthYear(queryLike);
+    usageList.value = data;
+
+    groupByWeeks();
+  }*/
+
+  /// FETCH DATA BETWEEN DATES
+  Future<void> getFilteredDataByWeek() async {
+    final data = await db.getUsageBetweenDates(fromDate.value, toDate.value);
     usageList.value = data;
 
     groupByWeeks();
@@ -88,7 +125,7 @@ class FilterUsageListController extends GetxController {
     final temp = <String, List<StockUsageModel>>{};
 
     for (final item in usageList) {
-      final date = DateTime.parse(item.createdAt);
+      final date = DateTime.parse(item.createdAt ?? '0');
       final weekNo = ((date.day - 1) / 7).floor() + 1;
 
       final key = "Week $weekNo";
@@ -110,23 +147,31 @@ class FilterUsageListController extends GetxController {
 
   Map<String, int> _calculateTotals(List<StockUsageModel> items) {
     return {
-      "Idli": items.fold(0, (sum, i) => sum + int.parse(i.idli)),
-      "Chatani": items.fold(0, (sum, i) => sum + int.parse(i.chatani)),
-      "MW": items.fold(0, (sum, i) => sum + int.parse(i.meduWada)),
-      "Appe": items.fold(0, (sum, i) => sum + int.parse(i.appe)),
-      "S Full": items.fold(0, (sum, i) => sum + int.parse(i.sambhar_full)),
-      "S Half": items.fold(0, (sum, i) => sum + int.parse(i.sambhar_half)),
-      "S 1/4": items.fold(0, (sum, i) => sum + int.parse(i.sambhar_one_fourth)),
-      "1 ltr": items.fold(0, (sum, i) => sum + int.parse(i.water_bottle_1l)),
-      "500 ml": items.fold(
+      "Idli": items.fold(0, (sum, i) => sum + int.parse(i.idli ?? '0')),
+      "Chatani": items.fold(0, (sum, i) => sum + int.parse(i.chatani ?? '0')),
+      "MW": items.fold(0, (sum, i) => sum + int.parse(i.meduWada ?? '0')),
+      "Appe": items.fold(0, (sum, i) => sum + int.parse(i.appe ?? '0')),
+      "S Full": items.fold(
         0,
-        (sum, i) => sum + int.parse(i.water_bottle_halfl),
+        (sum, i) => sum + int.parse(i.sambhar_full ?? '0'),
+      ),
+      "S Half": items.fold(
+        0,
+        (sum, i) => sum + int.parse(i.sambhar_half ?? '0'),
+      ),
+      "S 1/4": items.fold(
+        0,
+        (sum, i) => sum + int.parse(i.sambhar_one_fourth ?? '0'),
+      ),
+      "20 ltr": items.fold(
+        0,
+        (sum, i) => sum + int.parse(i.water_bottle_20l ?? '0'),
       ),
     };
   }
 
   Future<void> deleteRecord(int id) async {
-    await db.deleteUsageById(id);
+    await db.deleteStock(id);
     getFilteredDataByWeek(); // refresh list
     Get.snackbar("Deleted", "Record deleted successfully");
   }

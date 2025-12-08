@@ -1,5 +1,4 @@
 import 'package:daily_stock_tracker/app/modules/add_stock/controllers/add_stock_controller.dart';
-import 'package:daily_stock_tracker/app/routes/app_pages.dart';
 import 'package:daily_stock_tracker/app/themes/app_color.dart';
 import 'package:daily_stock_tracker/app/themes/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -24,20 +23,6 @@ class AddStockView extends GetView<AddStockController> {
           ),
         ),
         centerTitle: true,
-        // actions: [
-        //   IconButton(
-        //     padding: EdgeInsets.zero,
-        //     constraints: const BoxConstraints(),
-        //     icon: Icon(
-        //       Icons.add_box_outlined,
-        //       color: AppColors.blackColor,
-        //       size: 30,
-        //     ),
-        //     onPressed: () async {
-        //       Get.toNamed(Routes.ADD_STOCK);
-        //     },
-        //   ),
-        // ],
       ),
 
       body: SingleChildScrollView(
@@ -48,14 +33,14 @@ class AddStockView extends GetView<AddStockController> {
             Row(
               children: [
                 Expanded(
-                  child: buildStockRow(
+                  child: buildStockMultiRow(
                     label: "Idli batter :",
                     ctrl: controller.txtIdli,
                     hint: "Batter",
                   ),
                 ),
                 Expanded(
-                  child: buildStockRow(
+                  child: buildStockMultiRow(
                     label: "Chatani :",
                     ctrl: controller.txtChatani,
                     hint: "Chatani",
@@ -71,14 +56,14 @@ class AddStockView extends GetView<AddStockController> {
             Row(
               children: [
                 Expanded(
-                  child: buildStockRow(
+                  child: buildStockMultiRow(
                     label: "Meduwada :",
                     ctrl: controller.txtMW,
                     hint: "Meduwada",
                   ),
                 ),
                 Expanded(
-                  child: buildStockRow(
+                  child: buildStockMultiRow(
                     label: "Appe :",
                     ctrl: controller.txtAppe,
                     hint: "Appe",
@@ -114,14 +99,14 @@ class AddStockView extends GetView<AddStockController> {
             Row(
               children: [
                 Expanded(
-                  child: buildStockRow(
+                  child: buildStockMultiRow(
                     label: "Full :",
                     ctrl: controller.txtSFull,
                     hint: "Full",
                   ),
                 ),
                 Expanded(
-                  child: buildStockRow(
+                  child: buildStockMultiRow(
                     label: "Half :",
                     ctrl: controller.txtSHalf,
                     hint: "Half",
@@ -129,7 +114,7 @@ class AddStockView extends GetView<AddStockController> {
                   ),
                 ),
                 Expanded(
-                  child: buildStockRow(
+                  child: buildStockMultiRow(
                     label: "1/4 :",
                     ctrl: controller.txtSOneFourth,
                     hint: "1/4",
@@ -147,43 +132,28 @@ class AddStockView extends GetView<AddStockController> {
               child: Divider(thickness: 1.2, color: Colors.grey.shade400),
             ),
 
-            Align(
-              alignment: Alignment.centerLeft,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                child: Text(
-                  "Water Bottle",
-                  style: AppTextStyles.bold(
-                    fontSize: 19,
-                    fontColor: AppColors.persianIndigoColor,
-                  ),
-                ),
-              ),
-            ),
-
-            const SizedBox(height: 8),
-
             // ---------- Row 4 ----------
             Row(
               children: [
-                Expanded(
-                  child: buildStockRow(
-                    label: "1 Liter :",
-                    ctrl: controller.txtW1l,
-                    hint: "1 L",
+                Padding(
+                  padding: EdgeInsets.only(left: 16, right: 4),
+                  child: Text(
+                    "Water bottle",
+                    style: AppTextStyles.bold(
+                      fontSize: 19,
+                      fontColor: AppColors.persianIndigoColor,
+                    ),
                   ),
                 ),
                 Expanded(
-                  child: buildStockRow(
-                    label: "500 ml :",
-                    ctrl: controller.txtW500ml,
-                    hint: "500 ml",
-                    isRightPadding: true,
+                  child: buildUsageMonoRow(
+                    label: "20 Liter :",
+                    controller: controller.txtW20l,
+                    hint: "20 L",
                   ),
                 ),
               ],
             ),
-
             const SizedBox(height: 30),
 
             // ---------- SAVE BUTTON ----------
@@ -219,7 +189,7 @@ class AddStockView extends GetView<AddStockController> {
   // ------------------------------------------------------------------
   // Reusable input widget (same as Dashboard)
   // ------------------------------------------------------------------
-  Widget buildStockRow({
+  Widget buildStockMultiRow({
     required String label,
     required TextEditingController ctrl,
     required String hint,
@@ -265,6 +235,60 @@ class AddStockView extends GetView<AddStockController> {
                   hintStyle: TextStyle(
                     color: Colors.grey.shade700,
                     fontSize: 17,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildUsageMonoRow({
+    required String label,
+    required TextEditingController controller,
+    required String hint,
+  }) {
+    return Padding(
+      padding: EdgeInsets.only(left: 8, right: 16),
+      // padding: EdgeInsets.symmetric(horizontal: 8),
+      child: Row(
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: AppTextStyles.bold(
+              fontSize: 17,
+              fontColor: AppColors.blackColor,
+            ),
+          ),
+          Expanded(
+            child: Container(
+              height: 40,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              margin: const EdgeInsets.only(left: 8),
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.borderColor),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(
+                child: TextField(
+                  controller: controller,
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  style: AppTextStyles.semiBold(
+                    fontSize: 17,
+                    fontColor: AppColors.blackColor,
+                  ),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: hint,
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade700,
+                      fontSize: 17,
+                    ),
                   ),
                 ),
               ),

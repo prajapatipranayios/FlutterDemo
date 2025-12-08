@@ -1,4 +1,5 @@
 import 'package:daily_stock_tracker/app/core/models/stock_usage_model.dart';
+import 'package:daily_stock_tracker/app/routes/app_pages.dart';
 import 'package:daily_stock_tracker/app/themes/app_color.dart';
 import 'package:daily_stock_tracker/app/themes/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +14,21 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        // LEFT BUTTON 👇
+        leading: IconButton(
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(),
+          icon: Icon(
+            Icons.inventory_outlined, // Example: Stock button
+            color: AppColors.blackColor,
+            size: 30,
+          ),
+          onPressed: () {
+            // YOUR LEFT ACTION HERE
+            // Get.toNamed(Routes.ADD_STOCK);
+            Get.toNamed(Routes.STOCK_DISPLAY);
+          },
+        ),
         title: const Text('Usage List'),
         centerTitle: true,
         actions: [
@@ -20,12 +36,16 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
             icon: Icon(
-              Icons.import_export,
+              // Icons.import_export,
+              Icons.add_circle_outline_sharp,
               color: AppColors.blackColor,
               size: 35,
             ),
             onPressed: () {
-              controller.showImportExportDialog();
+              // controller.showImportExportDialog();
+              Get.toNamed(Routes.DASHBOARD)?.then((value) {
+                controller.getFilteredDataByWeek();
+              });
             },
           ),
         ],
@@ -37,67 +57,43 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
           children: [
             Row(
               children: [
-                /// ======= MONTH DROPDOWN SECTION =======
                 Expanded(
                   child: Obx(() {
-                    return Container(
-                      height: 45.0,
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.grey),
-                        color: Colors.white,
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: controller.selectedMonthFilter.value,
-                          items:
-                              controller.filterMonths
-                                  .map(
-                                    (item) => DropdownMenuItem(
-                                      value: item,
-                                      child: Text(item),
-                                    ),
-                                  )
-                                  .toList(),
-                          onChanged: (value) {
-                            controller.selectedMonthFilter.value = value!;
-                            controller.getFilteredDataByWeek();
-                          },
+                    return InkWell(
+                      onTap: controller.pickFromDate,
+                      child: Container(
+                        height: 45,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.grey),
+                          color: Colors.white,
+                        ),
+                        child: Text(
+                          "From: ${controller.fromDate.value}",
+                          style: TextStyle(fontSize: 16),
                         ),
                       ),
                     );
                   }),
                 ),
-                SizedBox(width: 16.0),
+                SizedBox(width: 12),
 
-                /// ======= YEAR DROPDOWN SECTION =======
                 Expanded(
                   child: Obx(() {
-                    return Container(
-                      height: 45.0,
-                      padding: EdgeInsets.symmetric(horizontal: 12),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(10),
-                        border: Border.all(color: Colors.grey),
-                        color: Colors.white,
-                      ),
-                      child: DropdownButtonHideUnderline(
-                        child: DropdownButton<String>(
-                          value: controller.selectedYearFilter.value,
-                          items:
-                              controller.filterYears
-                                  .map(
-                                    (item) => DropdownMenuItem(
-                                      value: item,
-                                      child: Text(item),
-                                    ),
-                                  )
-                                  .toList(),
-                          onChanged: (value) {
-                            controller.selectedYearFilter.value = value!;
-                            controller.getFilteredDataByWeek();
-                          },
+                    return InkWell(
+                      onTap: controller.pickToDate,
+                      child: Container(
+                        height: 45,
+                        alignment: Alignment.center,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(10),
+                          border: Border.all(color: Colors.grey),
+                          color: Colors.white,
+                        ),
+                        child: Text(
+                          "To: ${controller.toDate.value}",
+                          style: TextStyle(fontSize: 16),
                         ),
                       ),
                     );
@@ -169,7 +165,7 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                                   children: [
                                     Expanded(
                                       child: _summaryItemText(
-                                        "I Batter",
+                                        "Idli Batter",
                                         total['Idli'],
                                       ),
                                     ),
@@ -225,12 +221,9 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                                   ),
                                 ],
 
-                                if ((total['1 ltr']?.toString().trim() ??
-                                            '0') !=
-                                        '0' ||
-                                    (total['500 ml']?.toString().trim() ??
-                                            '0') !=
-                                        '0') ...[
+                                if ((total['20 ltr']?.toString().trim() ??
+                                        '0') !=
+                                    '0') ...[
                                   Divider(
                                     color: Colors.grey.shade400,
                                     thickness: 1.1,
@@ -248,10 +241,9 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                                               AppColors.persianIndigoColor,
                                         ),
                                       ),
-                                      _summaryItemText("1 ltr", total['1 ltr']),
                                       _summaryItemText(
-                                        "500 ml",
-                                        total['500 ml'],
+                                        "20 ltr",
+                                        total['20 ltr'],
                                       ),
                                     ],
                                   ),
@@ -306,7 +298,11 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       elevation: 2,
       child: InkWell(
-        onTap: () => Get.back(result: item),
+        // onTap: () => Get.back(result: item),
+        onTap:
+            () => Get.toNamed(Routes.DASHBOARD, arguments: item)?.then((value) {
+              controller.getFilteredDataByWeek();
+            }),
         onLongPress: () {
           Get.dialog(
             AlertDialog(
@@ -337,7 +333,7 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
             children: [
               /// DAY and DATE
               Text(
-                controller.formatDate(item.createdAt),
+                controller.formatDate(item.createdAt ?? '0'),
                 style: AppTextStyles.bold(
                   fontSize: 17.5,
                   fontColor: AppColors.persianIndigoColor,
@@ -345,11 +341,11 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
               ),
               const SizedBox(height: 6),
 
-              /// ROW 1 -- I Batter, Chatani
+              /// ROW 1 -- Idli Batter, Chatani
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  _itemText("I Batter", item.idli),
+                  _itemText("Idli Batter", item.idli),
                   _itemText("Chatani", item.chatani),
                 ],
               ),
@@ -396,9 +392,8 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                 ),
               ],
 
-              /// ROW 4 -- Water bottle - 1l, 500ml
-              if (item.water_bottle_1l != '0' ||
-                  item.water_bottle_halfl != '0') ...[
+              /// ROW 4 -- Water bottle - 20l
+              if (item.water_bottle_20l != '0') ...[
                 Divider(
                   color: Colors.grey.shade400,
                   thickness: 1.1,
@@ -414,8 +409,7 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                         fontColor: AppColors.persianIndigoColor,
                       ),
                     ),
-                    _itemText("1 ltr", item.water_bottle_1l),
-                    _itemText("500 ml", item.water_bottle_halfl),
+                    _itemText("20 ltr", item.water_bottle_20l),
                   ],
                 ),
               ],

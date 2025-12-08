@@ -1,5 +1,3 @@
-import 'package:daily_stock_tracker/app/core/models/stock_usage_model.dart';
-import 'package:daily_stock_tracker/app/routes/app_pages.dart';
 import 'package:daily_stock_tracker/app/themes/app_color.dart';
 import 'package:daily_stock_tracker/app/themes/app_text_styles.dart';
 import 'package:flutter/material.dart';
@@ -20,20 +18,20 @@ class DashboardView extends GetView<DashboardController> {
           backgroundColor: Colors.white,
           elevation: 0,
           // LEFT BUTTON 👇
-          leading: IconButton(
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints(),
-            icon: Icon(
-              Icons.inventory_outlined, // Example: Stock button
-              color: AppColors.blackColor,
-              size: 30,
-            ),
-            onPressed: () {
-              // YOUR LEFT ACTION HERE
-              // Get.toNamed(Routes.ADD_STOCK);
-              Get.toNamed(Routes.STOCK_DISPLAY);
-            },
-          ),
+          // leading: IconButton(
+          //   padding: EdgeInsets.zero,
+          //   constraints: const BoxConstraints(),
+          //   icon: Icon(
+          //     Icons.inventory_outlined, // Example: Stock button
+          //     color: AppColors.blackColor,
+          //     size: 30,
+          //   ),
+          //   onPressed: () {
+          //     // YOUR LEFT ACTION HERE
+          //     // Get.toNamed(Routes.ADD_STOCK);
+          //     Get.toNamed(Routes.STOCK_DISPLAY);
+          //   },
+          // ),
           title: Text(
             'Dashboard',
             style: AppTextStyles.semiBold(
@@ -42,29 +40,6 @@ class DashboardView extends GetView<DashboardController> {
             ),
           ),
           centerTitle: true,
-          actions: [
-            IconButton(
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              icon: Icon(
-                Icons.filter_alt,
-                color: AppColors.blackColor,
-                size: 30,
-              ),
-              onPressed: () async {
-                FocusScope.of(Get.context!).unfocus();
-
-                controller.onClearPressed();
-
-                // final result = await Get.toNamed(Routes.FILTER_USAGE_LIST);
-                Get.toNamed(Routes.FILTER_USAGE_LIST)?.then((value) {
-                  if (value is StockUsageModel) {
-                    controller.setEditData(value);
-                  }
-                });
-              },
-            ),
-          ],
         ),
 
         body: SafeArea(
@@ -77,14 +52,14 @@ class DashboardView extends GetView<DashboardController> {
                   Row(
                     children: [
                       Expanded(
-                        child: buildUsageRow(
+                        child: buildUsageMultiRow(
                           label: "Idli batter :",
                           controller: controller.txtIdliCtrl,
                           hint: "Batter",
                         ),
                       ),
                       Expanded(
-                        child: buildUsageRow(
+                        child: buildUsageMultiRow(
                           label: "Chatani :",
                           controller: controller.txtChataniCtrl,
                           hint: "Chatani",
@@ -99,14 +74,14 @@ class DashboardView extends GetView<DashboardController> {
                   Row(
                     children: [
                       Expanded(
-                        child: buildUsageRow(
+                        child: buildUsageMultiRow(
                           label: "Meduwada :",
                           controller: controller.txtMWCtrl,
                           hint: "Meduwada",
                         ),
                       ),
                       Expanded(
-                        child: buildUsageRow(
+                        child: buildUsageMultiRow(
                           label: "Appe :",
                           controller: controller.txtAppeCtrl,
                           hint: "Appe",
@@ -144,14 +119,14 @@ class DashboardView extends GetView<DashboardController> {
                   Row(
                     children: [
                       Expanded(
-                        child: buildUsageRow(
+                        child: buildUsageMultiRow(
                           label: "Full :",
                           controller: controller.txtSambharFullCtrl,
                           hint: "Full",
                         ),
                       ),
                       Expanded(
-                        child: buildUsageRow(
+                        child: buildUsageMultiRow(
                           label: "Half :",
                           controller: controller.txtSambharHalfCtrl,
                           hint: "Half",
@@ -159,7 +134,7 @@ class DashboardView extends GetView<DashboardController> {
                         ),
                       ),
                       Expanded(
-                        child: buildUsageRow(
+                        child: buildUsageMultiRow(
                           label: "1/4 :",
                           controller: controller.txtSambharOneFourthCtrl,
                           hint: "1/4",
@@ -182,36 +157,24 @@ class DashboardView extends GetView<DashboardController> {
                       height: 20,
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 16.0),
-                      child: Text(
-                        "Water bottle",
-                        style: AppTextStyles.bold(
-                          fontSize: 19,
-                          fontColor: AppColors.persianIndigoColor,
-                        ),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: 6),
 
                   Row(
                     children: [
-                      Expanded(
-                        child: buildUsageRow(
-                          label: "1 Liter :",
-                          controller: controller.txtWaterOneLiterCtrl,
-                          hint: "1 L",
+                      Padding(
+                        padding: EdgeInsets.only(left: 16, right: 4),
+                        child: Text(
+                          "Water bottle",
+                          style: AppTextStyles.bold(
+                            fontSize: 19,
+                            fontColor: AppColors.persianIndigoColor,
+                          ),
                         ),
                       ),
                       Expanded(
-                        child: buildUsageRow(
-                          label: "500 ml :",
-                          controller: controller.txtWater500MLCtrl,
-                          hint: "500 ml",
-                          isRightPadding: true,
+                        child: buildUsageMonoRow(
+                          label: "20 Liter :",
+                          controller: controller.txtWater20LiterCtrl,
+                          hint: "20 L",
                         ),
                       ),
                     ],
@@ -292,7 +255,7 @@ class DashboardView extends GetView<DashboardController> {
   // ------------------------ Reusable Input Row Widget ----------------------
   // -------------------------------------------------------------------------
 
-  Widget buildUsageRow({
+  Widget buildUsageMultiRow({
     required String label,
     required TextEditingController controller,
     required String hint,
@@ -337,6 +300,60 @@ class DashboardView extends GetView<DashboardController> {
                   hintStyle: TextStyle(
                     color: Colors.grey.shade700,
                     fontSize: 17,
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildUsageMonoRow({
+    required String label,
+    required TextEditingController controller,
+    required String hint,
+  }) {
+    return Padding(
+      padding: EdgeInsets.only(left: 8, right: 16),
+      // padding: EdgeInsets.symmetric(horizontal: 8),
+      child: Row(
+        // crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: AppTextStyles.bold(
+              fontSize: 17,
+              fontColor: AppColors.blackColor,
+            ),
+          ),
+          Expanded(
+            child: Container(
+              height: 40,
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              margin: const EdgeInsets.only(left: 8),
+              decoration: BoxDecoration(
+                border: Border.all(color: AppColors.borderColor),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(
+                child: TextField(
+                  controller: controller,
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  style: AppTextStyles.semiBold(
+                    fontSize: 17,
+                    fontColor: AppColors.blackColor,
+                  ),
+                  decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: hint,
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade700,
+                      fontSize: 17,
+                    ),
                   ),
                 ),
               ),

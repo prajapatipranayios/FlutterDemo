@@ -1,28 +1,26 @@
 class StockUsageModel {
   int? id;
-  String idli;
-  String chatani;
-  String meduWada;
-  String appe;
-  String sambhar_full;
-  String sambhar_half;
-  String sambhar_one_fourth;
-  String water_bottle_1l;
-  String water_bottle_halfl;
-  String createdAt;
+  String? idli;
+  String? chatani;
+  String? meduWada;
+  String? appe;
+  String? sambhar_full;
+  String? sambhar_half;
+  String? sambhar_one_fourth;
+  String? water_bottle_20l;
+  String? createdAt;
 
   StockUsageModel({
     this.id,
-    required this.idli,
-    required this.chatani,
-    required this.meduWada,
-    required this.appe,
-    required this.sambhar_full,
-    required this.sambhar_half,
-    required this.sambhar_one_fourth,
-    required this.water_bottle_1l,
-    required this.water_bottle_halfl,
-    required this.createdAt,
+    this.idli,
+    this.chatani,
+    this.meduWada,
+    this.appe,
+    this.sambhar_full,
+    this.sambhar_half,
+    this.sambhar_one_fourth,
+    this.water_bottle_20l,
+    this.createdAt,
   });
 
   Map<String, dynamic> toMap() {
@@ -35,8 +33,7 @@ class StockUsageModel {
       'sambhar_full': sambhar_full,
       'sambhar_half': sambhar_half,
       'sambhar_one_fourth': sambhar_one_fourth,
-      'water_bottle_1l': water_bottle_1l,
-      'water_bottle_halfl': water_bottle_halfl,
+      'water_bottle_20l': water_bottle_20l,
       'createdAt': createdAt,
     };
   }
@@ -50,8 +47,7 @@ class StockUsageModel {
       'sambhar_full': sambhar_full,
       'sambhar_half': sambhar_half,
       'sambhar_one_fourth': sambhar_one_fourth,
-      'water_bottle_1l': water_bottle_1l,
-      'water_bottle_halfl': water_bottle_halfl,
+      'water_bottle_20l': water_bottle_20l,
       'createdAt': createdAt,
     };
   }
@@ -66,8 +62,7 @@ class StockUsageModel {
       sambhar_full: json['sambhar_full'],
       sambhar_half: json['sambhar_half'],
       sambhar_one_fourth: json['sambhar_one_fourth'],
-      water_bottle_1l: json['water_bottle_1l'],
-      water_bottle_halfl: json['water_bottle_halfl'],
+      water_bottle_20l: json['water_bottle_20l'],
       createdAt: json['createdAt'],
     );
   }

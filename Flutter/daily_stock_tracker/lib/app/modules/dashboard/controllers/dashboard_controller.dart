@@ -12,13 +12,24 @@ class DashboardController extends GetxController {
   var txtSambharFullCtrl = TextEditingController();
   var txtSambharHalfCtrl = TextEditingController();
   var txtSambharOneFourthCtrl = TextEditingController();
-  var txtWaterOneLiterCtrl = TextEditingController();
-  var txtWater500MLCtrl = TextEditingController();
+  var txtWater20LiterCtrl = TextEditingController();
+
+  late StockUsageModel tempData;
 
   final db = DBService();
 
   /// Reactive edit date
   final Rx<DateTime?> editDate = Rx<DateTime?>(null);
+
+  @override
+  void onInit() {
+    super.onInit();
+    if (Get.arguments != null) {
+      tempData = StockUsageModel();
+      tempData = Get.arguments;
+      setEditData(tempData);
+    }
+  }
 
   /// Converts blank text → "0"
   String _parseOrZero(TextEditingController ctrl) {
@@ -41,8 +52,7 @@ class DashboardController extends GetxController {
       sambhar_full: _parseOrZero(txtSambharFullCtrl),
       sambhar_half: _parseOrZero(txtSambharHalfCtrl),
       sambhar_one_fourth: _parseOrZero(txtSambharOneFourthCtrl),
-      water_bottle_1l: _parseOrZero(txtWaterOneLiterCtrl),
-      water_bottle_halfl: _parseOrZero(txtWater500MLCtrl),
+      water_bottle_20l: _parseOrZero(txtWater20LiterCtrl),
       createdAt:
           selectedDate?.toIso8601String() ?? DateTime.now().toIso8601String(),
     );
@@ -72,17 +82,16 @@ class DashboardController extends GetxController {
   }
 
   void setEditData(StockUsageModel item) {
-    txtIdliCtrl.text = item.idli;
-    txtChataniCtrl.text = item.chatani;
-    txtMWCtrl.text = item.meduWada;
-    txtAppeCtrl.text = item.appe;
-    txtSambharFullCtrl.text = item.sambhar_full;
-    txtSambharHalfCtrl.text = item.sambhar_half;
-    txtSambharOneFourthCtrl.text = item.sambhar_one_fourth;
-    txtWaterOneLiterCtrl.text = item.water_bottle_1l;
-    txtWater500MLCtrl.text = item.water_bottle_halfl;
+    txtIdliCtrl.text = item.idli ?? '0';
+    txtChataniCtrl.text = item.chatani ?? '0';
+    txtMWCtrl.text = item.meduWada ?? '0';
+    txtAppeCtrl.text = item.appe ?? '0';
+    txtSambharFullCtrl.text = item.sambhar_full ?? '0';
+    txtSambharHalfCtrl.text = item.sambhar_half ?? '0';
+    txtSambharOneFourthCtrl.text = item.sambhar_one_fourth ?? '0';
+    txtWater20LiterCtrl.text = item.water_bottle_20l ?? '0';
 
-    editDate.value = DateTime.parse(item.createdAt);
+    editDate.value = DateTime.parse(item.createdAt ?? '0');
     update();
   }
 
@@ -106,7 +115,6 @@ class DashboardController extends GetxController {
     txtSambharFullCtrl.clear();
     txtSambharHalfCtrl.clear();
     txtSambharOneFourthCtrl.clear();
-    txtWaterOneLiterCtrl.clear();
-    txtWater500MLCtrl.clear();
+    txtWater20LiterCtrl.clear();
   }
 }

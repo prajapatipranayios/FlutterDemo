@@ -16,7 +16,8 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static final INITIAL = Routes.DASHBOARD;
+  // static final INITIAL = Routes.DASHBOARD;
+  static final INITIAL = Routes.FILTER_USAGE_LIST;
 
   static final routes = [
     GetPage(

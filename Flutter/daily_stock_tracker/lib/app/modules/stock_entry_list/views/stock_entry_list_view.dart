@@ -188,9 +188,8 @@ class StockEntryListView extends GetWidget<StockEntryListController> {
                 ),
               ],
 
-              /// ROW 4 -- Water bottle - 1l, 500ml
-              if (item.water_bottle_1l != '0' ||
-                  item.water_bottle_halfl != '0') ...[
+              /// ROW 4 -- Water bottle - 20l
+              if (item.water_bottle_20l != '0') ...[
                 Divider(
                   color: Colors.grey.shade400,
                   thickness: 1.1,
@@ -206,8 +205,7 @@ class StockEntryListView extends GetWidget<StockEntryListController> {
                         fontColor: AppColors.persianIndigoColor,
                       ),
                     ),
-                    _itemText("1 ltr", item.water_bottle_1l),
-                    _itemText("500 ml", item.water_bottle_halfl),
+                    _itemText("20 ltr", item.water_bottle_20l),
                   ],
                 ),
               ],
@@ -240,16 +238,6 @@ class StockEntryListView extends GetWidget<StockEntryListController> {
     );
   }
 
-  // OPEN EDIT POPUP
-  /*void _openEdit(StockTableModel entry) {
-    Get.defaultDialog(
-      title: "Edit ${entry.id}",
-      content: const Text("Implement edit popup here..."),
-      textConfirm: "OK",
-      onConfirm: () => Get.back(),
-    );
-  }*/
-
   void _openEdit(StockTableModel entry) {
     // Create temporary editing controllers
     final txtIdli = TextEditingController(text: entry.idli);
@@ -259,8 +247,7 @@ class StockEntryListView extends GetWidget<StockEntryListController> {
     final txtSFull = TextEditingController(text: entry.sambhar_full);
     final txtSHalf = TextEditingController(text: entry.sambhar_half);
     final txtSOneFourth = TextEditingController(text: entry.sambhar_one_fourth);
-    final txtW1l = TextEditingController(text: entry.water_bottle_1l);
-    final txtW500ml = TextEditingController(text: entry.water_bottle_halfl);
+    final txtW20l = TextEditingController(text: entry.water_bottle_20l);
 
     Get.dialog(
       AlertDialog(
@@ -295,13 +282,7 @@ class StockEntryListView extends GetWidget<StockEntryListController> {
                   Expanded(child: _field("S 1/4", txtSOneFourth)),
                 ],
               ),
-              Row(
-                children: [
-                  Expanded(child: _field("1 Litre", txtW1l)),
-                  SizedBox(width: 8),
-                  Expanded(child: _field("500 ml", txtW500ml)),
-                ],
-              ),
+              Row(children: [Expanded(child: _field("20 Litre", txtW20l))]),
             ],
           ),
         ),
@@ -320,8 +301,7 @@ class StockEntryListView extends GetWidget<StockEntryListController> {
                 sambhar_full: txtSFull.text.trim(),
                 sambhar_half: txtSHalf.text.trim(),
                 sambhar_one_fourth: txtSOneFourth.text.trim(),
-                water_bottle_1l: txtW1l.text.trim(),
-                water_bottle_halfl: txtW500ml.text.trim(),
+                water_bottle_20l: txtW20l.text.trim(),
                 createdAt: entry.createdAt, // keep original date
               );
 

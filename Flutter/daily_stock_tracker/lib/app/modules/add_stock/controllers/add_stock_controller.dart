@@ -12,8 +12,7 @@ class AddStockController extends GetxController {
   final txtSFull = TextEditingController();
   final txtSHalf = TextEditingController();
   final txtSOneFourth = TextEditingController();
-  final txtW1l = TextEditingController();
-  final txtW500ml = TextEditingController();
+  final txtW20l = TextEditingController();
 
   final db = DBService();
 
@@ -28,8 +27,7 @@ class AddStockController extends GetxController {
     txtSFull.clear();
     txtSHalf.clear();
     txtSOneFourth.clear();
-    txtW1l.clear();
-    txtW500ml.clear();
+    txtW20l.clear();
   }
 
   Future<void> saveStock() async {
@@ -41,8 +39,7 @@ class AddStockController extends GetxController {
       sambhar_full: _zero(txtSFull),
       sambhar_half: _zero(txtSHalf),
       sambhar_one_fourth: _zero(txtSOneFourth),
-      water_bottle_1l: _zero(txtW1l),
-      water_bottle_halfl: _zero(txtW500ml),
+      water_bottle_20l: _zero(txtW20l),
       createdAt: DateTime.now().toIso8601String(),
     );
 
