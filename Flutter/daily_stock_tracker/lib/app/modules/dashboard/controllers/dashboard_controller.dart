@@ -96,6 +96,17 @@ class DashboardController extends GetxController {
     txtWater20LiterCtrl.text = item.water_bottle_20l ?? '0';
 
     editDate.value = DateTime.parse(item.createdAt ?? '0');
+
+    if (item.createdAt != null && item.createdAt!.isNotEmpty) {
+      final date = DateTime.parse(item.createdAt!);
+
+      /// Set edit date for saving logic
+      editDate.value = date;
+
+      /// Set usageDate to show on screen
+      usageDate.value = _format(date);
+    }
+
     update();
   }
 
