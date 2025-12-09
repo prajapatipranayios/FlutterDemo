@@ -88,32 +88,9 @@ class FilterUsageListController extends GetxController {
 
   /// =========================================
   /// FETCH FILTERED DATA FROM SQLITE
-  /// =========================================
-  /*Future<void> getFilteredDataSimple() async {
-    String month = selectedMonthFilter.value;
-    String year = selectedYearFilter.value;
-
-    /// Convert short month → number
-    int monthNumber = filterMonths.indexOf(month) + 1;
-    String formattedMonth = monthNumber.toString().padLeft(2, '0');
-
-    /// Query format example: "2025-03%"
-    String queryLike = "$year-$formattedMonth";
-
-    usageList.value = await db.getUsageByMonthYear(queryLike);
-  }*/
-
-  /*Future<void> getFilteredDataByWeek() async {
-    final monthNum = _monthToNumber(selectedMonthFilter.value);
-    final queryLike = "${selectedYearFilter.value}-$monthNum";
-
-    final data = await db.getUsageByMonthYear(queryLike);
-    usageList.value = data;
-
-    groupByWeeks();
-  }*/
-
   /// FETCH DATA BETWEEN DATES
+  /// =========================================
+
   Future<void> getFilteredDataByWeek() async {
     final data = await db.getUsageBetweenDates(fromDate.value, toDate.value);
     usageList.value = data;
@@ -121,13 +98,12 @@ class FilterUsageListController extends GetxController {
     groupByWeeks();
   }
 
-  void groupByWeeks() {
+  /*void groupByWeeks() {
     final temp = <String, List<StockUsageModel>>{};
 
     for (final item in usageList) {
       final date = DateTime.parse(item.createdAt ?? '0');
       final weekNo = ((date.day - 1) / 7).floor() + 1;
-
       final key = "Week $weekNo";
 
       temp.putIfAbsent(key, () => []);
@@ -140,10 +116,108 @@ class FilterUsageListController extends GetxController {
       weeklyGroups.add({
         "weekLabel": week,
         "total": _calculateTotals(items),
-        "items": items,
+        // "items": items,
+        "items": items.reversed.toList(),
       });
     });
+  }*/
+
+  /*void groupByWeeks() {
+    final temp = <String, List<StockUsageModel>>{};
+
+    // GROUP ITEMS BY WEEK
+    for (final item in usageList) {
+      final date = DateTime.parse(item.createdAt ?? '0');
+      final weekNo = ((date.day - 1) / 7).floor() + 1;
+      final key = "Week $weekNo";
+
+      temp.putIfAbsent(key, () => []);
+      temp[key]!.add(item);
+    }
+
+    // SORT WEEK KEYS IN DESC ORDER
+    final sortedKeys = temp.keys.toList()
+      ..sort((a, b) {
+        int wkA = int.parse(a.split(" ").last);
+        int wkB = int.parse(b.split(" ").last);
+        return wkB.compareTo(wkA); // DESC
+      });
+
+    weeklyGroups.clear();
+
+    // ADD GROUPS IN ORDER + SORT ITEMS IN EACH GROUP
+    for (final week in sortedKeys) {
+      final items = temp[week]!;
+
+      // SORT DATE IN DESC ORDER INSIDE WEEK
+      items.sort((a, b) => DateTime.parse(b.createdAt!)
+          .compareTo(DateTime.parse(a.createdAt!)));
+
+      weeklyGroups.add({
+        "weekLabel": week,
+        "total": _calculateTotals(items),
+        "items": items,
+      });
+    }
+  }*/
+
+  void groupByWeeks() {
+    final temp = <String, Map<String, List<StockUsageModel>>>{};
+    // Structure:
+    // {
+    //   "2024-12": {
+    //       "Week 1": [items],
+    //       "Week 2": [items]
+    //   },
+    //   "2024-11": { ... }
+    // }
+
+    for (final item in usageList) {
+      final date = DateTime.parse(item.createdAt!);
+
+      final monthKey = "${date.year}-${date.month.toString().padLeft(2, '0')}";
+      final weekNo = ((date.day - 1) / 7).floor() + 1;
+      final weekKey = "Week $weekNo";
+
+      temp.putIfAbsent(monthKey, () => {});
+      temp[monthKey]!.putIfAbsent(weekKey, () => []);
+      temp[monthKey]![weekKey]!.add(item);
+    }
+
+    weeklyGroups.clear();
+
+    // SORT MONTHS DESC
+    final sortedMonths = temp.keys.toList()
+      ..sort((a, b) => b.compareTo(a));
+
+    for (final month in sortedMonths) {
+      final weeksMap = temp[month]!;
+
+      // SORT WEEKS DESC
+      final sortedWeeks = weeksMap.keys.toList()
+        ..sort((a, b) {
+          int wkA = int.parse(a.split(" ").last);
+          int wkB = int.parse(b.split(" ").last);
+          return wkB.compareTo(wkA);
+        });
+
+      for (final week in sortedWeeks) {
+        final items = weeksMap[week]!;
+
+        // SORT DATES DESC
+        items.sort((a, b) =>
+            DateTime.parse(b.createdAt!).compareTo(DateTime.parse(a.createdAt!)));
+
+        weeklyGroups.add({
+          "month": month,          // Example: "2024-12"
+          "weekLabel": week,       // Week 1, Week 2
+          "total": _calculateTotals(items),
+          "items": items,
+        });
+      }
+    }
   }
+
 
   Map<String, int> _calculateTotals(List<StockUsageModel> items) {
     return {

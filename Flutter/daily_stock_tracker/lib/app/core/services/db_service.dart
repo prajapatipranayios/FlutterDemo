@@ -120,7 +120,7 @@ class DBService {
       'stock_usage',
       where: "date(createdAt) BETWEEN date(?) AND date(?)",
       whereArgs: [start, end],
-      orderBy: "createdAt ASC",
+      orderBy: "createdAt DESC",
     );
 
     return res.map((e) => StockUsageModel.fromMap(e)).toList();
