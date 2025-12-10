@@ -80,13 +80,6 @@ class DashboardController extends GetxController {
         SnackbarHelper.show(Get.context!,type: SnackbarType.warning, "Today's usage has been updated.");
       } else {
         await db.insertUsage(model);
-
-        print(">>>>>>>New usage added!>>>>>>>");
-        // ScaffoldMessenger.of(Get.context!).showSnackBar(
-        //   SnackBar(
-        //     content: Text("New usage added!"),
-        //   ),
-        // );
         SnackbarHelper.show(Get.context!,type: SnackbarType.success, "New usage added.");
       }
     }

@@ -1,5 +1,6 @@
 import 'package:daily_stock_tracker/app/core/models/stock_usage_model.dart';
 import 'package:daily_stock_tracker/app/core/services/db_service.dart';
+import 'package:daily_stock_tracker/app/widgets/utilities/snackbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -247,7 +248,8 @@ class FilterUsageListController extends GetxController {
   Future<void> deleteRecord(int id) async {
     await db.deleteUsage(id);
     getFilteredDataByWeek(); // refresh list
-    Get.snackbar("Deleted", "Record deleted successfully");
+    //Get.snackbar("Deleted", "Record deleted successfully");
+    SnackbarHelper.show(Get.context!,type: SnackbarType.success, "Record deleted successfully.");
   }
 
   /*String formatDate(String dateString) {
@@ -336,19 +338,23 @@ class FilterUsageListController extends GetxController {
   Future<void> exportDbFile() async {
     try {
       String path = await db.exportDatabase();
-      Get.snackbar("Success", "Database exported:\n$path");
+      // Get.snackbar("Success", "Database exported:\n$path");
+      SnackbarHelper.show(Get.context!,type: SnackbarType.success, "Database exported:\n$path.");
     } catch (e) {
-      Get.snackbar("Error", e.toString());
+      // Get.snackbar("Error", e.toString());
+      SnackbarHelper.show(Get.context!,type: SnackbarType.error, "Error:\n${e.toString()}.");
     }
   }
 
   Future<void> importDbFile() async {
     try {
       await db.importDatabase();
-      Get.snackbar("Imported", "Database imported successfully!");
+      // Get.snackbar("Imported", "Database imported successfully!");
+      SnackbarHelper.show(Get.context!,type: SnackbarType.error, "Database imported successfully.");
       await getFilteredDataByWeek(); // refresh data
     } catch (e) {
-      Get.snackbar("Error", e.toString());
+      // Get.snackbar("Error", e.toString());
+      SnackbarHelper.show(Get.context!,type: SnackbarType.error, "Error:\n${e.toString()}.");
     }
   }
 
@@ -356,9 +362,11 @@ class FilterUsageListController extends GetxController {
     try {
       await db.clearAllData();
       await getFilteredDataByWeek(); // refresh UI
-      Get.snackbar("Cleared", "All data has been deleted!");
+      // Get.snackbar("Cleared", "All data has been deleted!");
+      SnackbarHelper.show(Get.context!,type: SnackbarType.error, "All data has been deleted.");
     } catch (e) {
-      Get.snackbar("Error", e.toString());
+      // Get.snackbar("Error", e.toString());
+      SnackbarHelper.show(Get.context!,type: SnackbarType.error, "Error:\n${e.toString()}.");
     }
   }
 }

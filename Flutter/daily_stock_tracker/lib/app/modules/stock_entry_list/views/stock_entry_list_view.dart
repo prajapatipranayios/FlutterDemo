@@ -1,5 +1,6 @@
 import 'package:daily_stock_tracker/app/core/models/StockArrivalModel.dart';
 import 'package:daily_stock_tracker/app/routes/app_pages.dart';
+import 'package:daily_stock_tracker/app/widgets/utilities/snackbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -309,11 +310,12 @@ class StockEntryListView extends GetWidget<StockEntryListController> {
               await Get.find<StockEntryListController>().updateStock(updated);
 
               Get.back();
-              Get.snackbar(
-                "Success",
-                "Record updated successfully",
-                snackPosition: SnackPosition.BOTTOM,
-              );
+              // Get.snackbar(
+              //   "Success",
+              //   "Record updated successfully",
+              //   snackPosition: SnackPosition.BOTTOM,
+              // );
+              SnackbarHelper.show(Get.context!,type: SnackbarType.error, "Record updated successfully.");
             },
             child: const Text("SAVE"),
           ),
