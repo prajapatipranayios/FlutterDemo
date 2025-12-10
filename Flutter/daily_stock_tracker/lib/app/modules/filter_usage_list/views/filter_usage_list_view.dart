@@ -315,9 +315,12 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
                 ),
                 TextButton(
                   onPressed: () async {
-                    Get.back();
+                    Get.close(1);
                     print("object delete id : ${item.id!}");
-                    // await Future.delayed(const Duration(milliseconds: 150));
+
+                    // Wait a tiny moment so Flutter can rebuild safely
+                    await Future.delayed(const Duration(milliseconds: 100));
+
                     controller.deleteRecord(item.id!);
                   },
                   child: const Text("Yes"),

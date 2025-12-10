@@ -1,5 +1,6 @@
 import 'package:daily_stock_tracker/app/core/models/stock_usage_model.dart';
 import 'package:daily_stock_tracker/app/core/services/db_service.dart';
+import 'package:daily_stock_tracker/app/widgets/utilities/snackbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -66,7 +67,8 @@ class DashboardController extends GetxController {
       final editDay = selectedDate.toIso8601String().substring(0, 10);
 
       await db.updateUsageForDate(editDay, model);
-      Get.snackbar("Updated", "Record updated successfully!");
+      // Get.snackbar("Updated", "Record updated successfully!");
+      SnackbarHelper.show(Get.context!,type: SnackbarType.success, "Record updated successfully.");
       editDate.value = null;
     } else {
       // ADD MODE
@@ -74,16 +76,25 @@ class DashboardController extends GetxController {
 
       if (exists) {
         await db.updateUsageForDate(today, model);
-        Get.snackbar("Updated", "Today's usage has been updated.");
+        // Get.snackbar("Updated", "Today's usage has been updated.");
+        SnackbarHelper.show(Get.context!,type: SnackbarType.warning, "Today's usage has been updated.");
       } else {
         await db.insertUsage(model);
-        Get.snackbar("Success", "New usage added!");
+
+        print(">>>>>>>New usage added!>>>>>>>");
+        // ScaffoldMessenger.of(Get.context!).showSnackBar(
+        //   SnackBar(
+        //     content: Text("New usage added!"),
+        //   ),
+        // );
+        SnackbarHelper.show(Get.context!,type: SnackbarType.success, "New usage added.");
       }
     }
 
     clearAllFields();
     update();
   }
+
 
   void setEditData(StockUsageModel item) {
     txtIdliCtrl.text = item.idli ?? '0';
