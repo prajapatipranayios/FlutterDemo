@@ -310,12 +310,8 @@ class StockEntryListView extends GetWidget<StockEntryListController> {
               await Get.find<StockEntryListController>().updateStock(updated);
 
               Get.back();
-              // Get.snackbar(
-              //   "Success",
-              //   "Record updated successfully",
-              //   snackPosition: SnackPosition.BOTTOM,
-              // );
-              SnackbarHelper.show(Get.context!,type: SnackbarType.error, "Record updated successfully.");
+
+              SnackbarHelper.show(Get.context!,type: SnackbarType.success, "Record updated successfully.");
             },
             child: const Text("SAVE"),
           ),

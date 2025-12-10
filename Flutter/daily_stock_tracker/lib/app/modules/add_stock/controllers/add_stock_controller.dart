@@ -1,5 +1,6 @@
 import 'package:daily_stock_tracker/app/core/models/StockArrivalModel.dart';
 import 'package:daily_stock_tracker/app/core/services/db_service.dart';
+import 'package:daily_stock_tracker/app/widgets/utilities/snackbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -45,11 +46,7 @@ class AddStockController extends GetxController {
 
     await db.insertStock(model);
 
-    Get.snackbar(
-      "Success",
-      "Stock added successfully!",
-      snackPosition: SnackPosition.BOTTOM,
-    );
+    SnackbarHelper.show(Get.context!,type: SnackbarType.success, "Stock added successfully.");
 
     clearAll();
     update();

@@ -67,7 +67,6 @@ class DashboardController extends GetxController {
       final editDay = selectedDate.toIso8601String().substring(0, 10);
 
       await db.updateUsageForDate(editDay, model);
-      // Get.snackbar("Updated", "Record updated successfully!");
       SnackbarHelper.show(Get.context!,type: SnackbarType.success, "Record updated successfully.");
       editDate.value = null;
     } else {
@@ -76,7 +75,6 @@ class DashboardController extends GetxController {
 
       if (exists) {
         await db.updateUsageForDate(today, model);
-        // Get.snackbar("Updated", "Today's usage has been updated.");
         SnackbarHelper.show(Get.context!,type: SnackbarType.warning, "Today's usage has been updated.");
       } else {
         await db.insertUsage(model);

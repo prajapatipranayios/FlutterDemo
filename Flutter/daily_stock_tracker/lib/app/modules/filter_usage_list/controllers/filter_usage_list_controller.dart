@@ -48,10 +48,7 @@ class FilterUsageListController extends GetxController {
 
       // IF fromDate > toDate → prevent
       if (picked.isAfter(DateTime.parse(toDate.value))) {
-        Get.snackbar(
-          "Invalid Date",
-          "From date cannot be greater than To date.",
-        );
+        SnackbarHelper.show(Get.context!,type: SnackbarType.error, "From date cannot be greater than To date.");
         return;
       }
 
@@ -75,10 +72,7 @@ class FilterUsageListController extends GetxController {
 
       // IF toDate < fromDate → prevent
       if (picked.isBefore(DateTime.parse(fromDate.value))) {
-        Get.snackbar(
-          "Invalid Date",
-          "To date cannot be earlier than From date.",
-        );
+        SnackbarHelper.show(Get.context!,type: SnackbarType.error, "To date cannot be earlier than From date.");
         return;
       }
 
@@ -248,7 +242,6 @@ class FilterUsageListController extends GetxController {
   Future<void> deleteRecord(int id) async {
     await db.deleteUsage(id);
     getFilteredDataByWeek(); // refresh list
-    //Get.snackbar("Deleted", "Record deleted successfully");
     SnackbarHelper.show(Get.context!,type: SnackbarType.success, "Record deleted successfully.");
   }
 
@@ -338,10 +331,8 @@ class FilterUsageListController extends GetxController {
   Future<void> exportDbFile() async {
     try {
       String path = await db.exportDatabase();
-      // Get.snackbar("Success", "Database exported:\n$path");
       SnackbarHelper.show(Get.context!,type: SnackbarType.success, "Database exported:\n$path.");
     } catch (e) {
-      // Get.snackbar("Error", e.toString());
       SnackbarHelper.show(Get.context!,type: SnackbarType.error, "Error:\n${e.toString()}.");
     }
   }
@@ -349,11 +340,9 @@ class FilterUsageListController extends GetxController {
   Future<void> importDbFile() async {
     try {
       await db.importDatabase();
-      // Get.snackbar("Imported", "Database imported successfully!");
-      SnackbarHelper.show(Get.context!,type: SnackbarType.error, "Database imported successfully.");
+      SnackbarHelper.show(Get.context!,type: SnackbarType.success, "Database imported successfully.");
       await getFilteredDataByWeek(); // refresh data
     } catch (e) {
-      // Get.snackbar("Error", e.toString());
       SnackbarHelper.show(Get.context!,type: SnackbarType.error, "Error:\n${e.toString()}.");
     }
   }
@@ -362,10 +351,8 @@ class FilterUsageListController extends GetxController {
     try {
       await db.clearAllData();
       await getFilteredDataByWeek(); // refresh UI
-      // Get.snackbar("Cleared", "All data has been deleted!");
-      SnackbarHelper.show(Get.context!,type: SnackbarType.error, "All data has been deleted.");
+      SnackbarHelper.show(Get.context!,type: SnackbarType.success, "All data has been deleted.");
     } catch (e) {
-      // Get.snackbar("Error", e.toString());
       SnackbarHelper.show(Get.context!,type: SnackbarType.error, "Error:\n${e.toString()}.");
     }
   }
