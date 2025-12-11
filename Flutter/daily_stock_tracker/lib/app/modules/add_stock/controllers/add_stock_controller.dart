@@ -1,6 +1,6 @@
 import 'package:daily_stock_tracker/app/core/models/StockArrivalModel.dart';
 import 'package:daily_stock_tracker/app/core/services/db_service.dart';
-import 'package:daily_stock_tracker/app/widgets/utilities/snackbar_helper.dart';
+import 'package:daily_stock_tracker/app/utilities/snackbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 

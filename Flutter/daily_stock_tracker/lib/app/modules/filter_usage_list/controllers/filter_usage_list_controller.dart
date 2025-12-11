@@ -1,8 +1,9 @@
 import 'package:daily_stock_tracker/app/core/models/stock_usage_model.dart';
 import 'package:daily_stock_tracker/app/core/services/db_service.dart';
-import 'package:daily_stock_tracker/app/widgets/utilities/snackbar_helper.dart';
+import 'package:daily_stock_tracker/app/utilities/snackbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:intl/intl.dart';
 
 class FilterUsageListController extends GetxController {
@@ -20,6 +21,10 @@ class FilterUsageListController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
+    final box = GetStorage();
+    box.write("isLogin", true);
+    print("Read value from storage - ${box.read("isLogin")}");
 
     final now = DateTime.now();
 
@@ -213,7 +218,6 @@ class FilterUsageListController extends GetxController {
     }
   }
 
-
   Map<String, int> _calculateTotals(List<StockUsageModel> items) {
     return {
       "Idli": items.fold(0, (sum, i) => sum + int.parse(i.idli ?? '0')),
@@ -280,6 +284,10 @@ class FilterUsageListController extends GetxController {
         return Colors.black;
     }
   }
+
+  ///---------------------------------------------------------------------------
+  /// Export / Import Database, and Clear All data.
+  ///---------------------------------------------------------------------------
 
   Future<void> showImportExportDialog() async {
     Get.defaultDialog(

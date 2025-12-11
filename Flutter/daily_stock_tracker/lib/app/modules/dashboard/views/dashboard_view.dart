@@ -1,6 +1,9 @@
 import 'package:daily_stock_tracker/app/themes/app_color.dart';
 import 'package:daily_stock_tracker/app/themes/app_text_styles.dart';
+import 'package:daily_stock_tracker/app/utilities/date_utils.dart';
+import 'package:daily_stock_tracker/app/utilities/snackbar_helper.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 import '../controllers/dashboard_controller.dart';
@@ -40,6 +43,18 @@ class DashboardView extends GetView<DashboardController> {
             ),
           ),
           centerTitle: true,
+          actions: [
+            IconButton(
+              padding: EdgeInsets.zero,
+              constraints: const BoxConstraints(),
+              icon: Icon(Icons.edit_calendar_outlined, color: AppColors.blackColor, size: 30),
+              onPressed: () {
+                if (!controller.isValid.value) {
+                  _openToEnterPassword();
+                }
+              },
+            ),
+          ],
         ),
 
         body: SafeArea(
@@ -48,53 +63,64 @@ class DashboardView extends GetView<DashboardController> {
               padding: const EdgeInsets.symmetric(vertical: 16),
               child: Column(
                 children: [
-                  // ---------- Date ----------
-                  Padding(
-                    padding: EdgeInsets.only(left: 16, right: 4),
-                    child: Row(
+                  // ---------- Date + Divider ----------
+                  Obx(() {
+                    if (!controller.isValid.value) {
+                      return SizedBox.shrink(); // hide everything
+                    }
+
+                    return Column(
                       children: [
-                        Text(
-                          "Date: ",
-                          style: AppTextStyles.bold(
-                            fontSize: 19,
-                            fontColor: AppColors.persianIndigoColor,
-                          ),
-                        ),
-                        Obx(
-                          () => Expanded(
-                            child: InkWell(
-                              onTap: controller.pickToDate,
-                              child: Container(
-                                height: 40,
-                                margin: EdgeInsets.only(right: 16),
-                                padding: EdgeInsets.symmetric(horizontal: 16.0),
-                                alignment: Alignment.center,
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10),
-                                  border: Border.all(color: Colors.grey),
-                                  color: Colors.white,
-                                ),
-                                child: Text(
-                                  controller.usageDate.value,
-                                  style: TextStyle(fontSize: 16),
+                        Padding(
+                          padding: const EdgeInsets.only(left: 16, right: 4),
+                          child: Row(
+                            children: [
+                              Text(
+                                "Date: ",
+                                style: AppTextStyles.bold(
+                                  fontSize: 19,
+                                  fontColor: AppColors.persianIndigoColor,
                                 ),
                               ),
-                            ),
+                              Expanded(
+                                child: InkWell(
+                                  onTap: controller.pickToDate,
+                                  child: Container(
+                                    height: 40,
+                                    margin: const EdgeInsets.only(right: 16),
+                                    padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(10),
+                                      border: Border.all(color: Colors.grey),
+                                      color: Colors.white,
+                                    ),
+                                    child: Text(
+                                      controller.usageDate.value,
+                                      style: const TextStyle(fontSize: 16),
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
 
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 16.0),
-                    child: Divider(
-                      color: Colors.grey.shade400,
-                      thickness: 1.1,
-                      height: 20,
-                    ),
-                  ),
-                  const SizedBox(height: 3),
+                        // Divider
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                          child: Divider(
+                            color: Colors.grey.shade400,
+                            thickness: 1.1,
+                            height: 20,
+                          ),
+                        ),
+
+                        const SizedBox(height: 3),
+                      ],
+                    );
+                  }),
+
                   // ---------- ROW 1 ----------
                   Row(
                     children: [
@@ -349,6 +375,9 @@ class DashboardView extends GetView<DashboardController> {
                     fontSize: 17,
                   ),
                 ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                ],
               ),
             ),
           ),
@@ -402,9 +431,107 @@ class DashboardView extends GetView<DashboardController> {
                       fontSize: 17,
                     ),
                   ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                  ],
                 ),
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  void _openToEnterPassword() {
+    // Create temporary editing controllers
+    // final txtIdli = TextEditingController(text: entry.idli);
+
+    Get.dialog(
+      AlertDialog(
+        title: Text(
+          "Enter Password to edit date",
+          style: TextStyle(
+            fontSize: 17.5,
+            fontWeight: FontWeight.w400,
+            color: AppColors.fireEngineRedColor,
+          ),
+        ),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 0,
+          vertical: 0,
+        ), // 🔥 reduced padding
+        content: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                child: SizedBox(
+                  height: 45,        // 👈 FIXED HEIGHT
+                  child: TextField(
+                    controller: controller.txtPasswordCtrl,
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
+                    style: AppTextStyles.semiBold(
+                      fontSize: 17,
+                      fontColor: AppColors.blackColor,
+                    ),
+                    decoration: InputDecoration(
+                      filled: true,
+                      fillColor: Colors.grey.shade100,
+
+                      enabledBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide(
+                          color: Colors.grey.shade400,
+                          width: 1.2,
+                        ),
+                      ),
+
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Colors.blueGrey,
+                          width: 2,
+                        ),
+                      ),
+
+                      hintText: "Enter password",
+                      hintStyle: TextStyle(
+                        color: Colors.grey.shade600,
+                        fontSize: 16,
+                      ),
+
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 12,
+                        vertical: 10,
+                      ),
+                    ),
+                    inputFormatters: [
+                      FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(onPressed: () => Get.back(), child: const Text("CANCEL")),
+
+          TextButton(
+            onPressed: () async {
+              if (DateUtilsHelper.generateCodedPin() == controller.txtPasswordCtrl.text) {
+                controller.isValid.value = true;
+                controller.txtPasswordCtrl.clear();
+                Get.back();
+              }
+              else {
+                SnackbarHelper.show(Get.context!,type: SnackbarType.error, "Wrong Password.");
+              }
+              // SnackbarHelper.show(Get.context!,type: SnackbarType.success, "Record updated successfully.");
+            },
+            child: const Text("SAVE"),
           ),
         ],
       ),

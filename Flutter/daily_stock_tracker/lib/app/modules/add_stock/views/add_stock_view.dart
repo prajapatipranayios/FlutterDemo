@@ -2,6 +2,7 @@ import 'package:daily_stock_tracker/app/modules/add_stock/controllers/add_stock_
 import 'package:daily_stock_tracker/app/themes/app_color.dart';
 import 'package:daily_stock_tracker/app/themes/app_text_styles.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 
 class AddStockView extends GetView<AddStockController> {
@@ -237,6 +238,9 @@ class AddStockView extends GetView<AddStockController> {
                     fontSize: 17,
                   ),
                 ),
+                inputFormatters: [
+                  FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                ],
               ),
             ),
           ),
@@ -290,6 +294,9 @@ class AddStockView extends GetView<AddStockController> {
                       fontSize: 17,
                     ),
                   ),
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'^\d*\.?\d{0,2}')),
+                  ],
                 ),
               ),
             ),

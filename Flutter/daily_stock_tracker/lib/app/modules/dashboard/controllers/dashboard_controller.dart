@@ -1,6 +1,6 @@
 import 'package:daily_stock_tracker/app/core/models/stock_usage_model.dart';
 import 'package:daily_stock_tracker/app/core/services/db_service.dart';
-import 'package:daily_stock_tracker/app/widgets/utilities/snackbar_helper.dart';
+import 'package:daily_stock_tracker/app/utilities/snackbar_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -14,10 +14,12 @@ class DashboardController extends GetxController {
   var txtSambharHalfCtrl = TextEditingController();
   var txtSambharOneFourthCtrl = TextEditingController();
   var txtWater20LiterCtrl = TextEditingController();
+  var txtPasswordCtrl = TextEditingController();
 
   late StockUsageModel tempData;
 
   final usageDate = "".obs;
+  RxBool isValid = false.obs;
 
   final db = DBService();
 

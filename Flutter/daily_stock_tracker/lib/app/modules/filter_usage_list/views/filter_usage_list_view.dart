@@ -36,6 +36,18 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
             padding: EdgeInsets.zero,
             constraints: const BoxConstraints(),
             icon: Icon(
+              Icons.import_export,
+              color: AppColors.blackColor,
+              size: 35,
+            ),
+            onPressed: () {
+              controller.showImportExportDialog();
+            },
+          ),
+          IconButton(
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(),
+            icon: Icon(
               // Icons.import_export,
               Icons.add_circle_outline_sharp,
               color: AppColors.blackColor,

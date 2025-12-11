@@ -140,16 +140,19 @@ class DBService {
   // EXPORT DATABASE
   // ---------------------------------------------------------------------------
   Future<String> exportDatabase() async {
-    Directory appDir = await getApplicationDocumentsDirectory();
-    String dbPath = join(appDir.path, _dbName);
+    // Directory appDir = await getApplicationDocumentsDirectory();
+    // String dbPath = join(appDir.path, _dbName);
+    String dbDir = await getDatabasesPath();
+    String dbPath = join(dbDir, _dbName);
 
     File originalDb = File(dbPath);
     if (!originalDb.existsSync()) {
+      print("Database file not found!");
       throw Exception("Database file not found!");
     }
 
     Directory downloadDir = Directory(
-      "/storage/emulated/0/Download/StockUsage",
+      "/storage/emulated/0/Download/DailyUsage",
     );
 
     if (!downloadDir.existsSync()) {
@@ -180,16 +183,41 @@ class DBService {
 
     File picked = File(result.files.single.path!);
 
-    Directory appDir = await getApplicationDocumentsDirectory();
-    String dbPath = join(appDir.path, _dbName);
+    // Check: must be a valid backup file
+    if (!basename(picked.path).endsWith(".db")) {
+      throw Exception("Invalid file type");
+    }
 
+    // Close existing DB
+    await closeDb();
+
+    // Path where your real DB lives
+    String dbDir = await getDatabasesPath();
+    String dbPath = join(dbDir, _dbName);
+
+    // If old DB exists, delete before replacing
+    if (File(dbPath).existsSync()) {
+      await File(dbPath).delete();
+    }
+
+    // Copy with correct name
     await picked.copy(dbPath);
+
+    print("Database imported successfully!");
+    await _database;
   }
+
+  static Future<void> closeDb() async {
+    if (_database != null) {
+      await _database!.close();
+      _database = null;
+    }
+  }
+
 
   // ---------------------------------------------------------------------------
   // STOCK OPERATIONS
   // ---------------------------------------------------------------------------
-
   Future<int> insertStock(StockTableModel model) async {
     final db = await database;
     return await db.insert("stock_table", model.toMap());
