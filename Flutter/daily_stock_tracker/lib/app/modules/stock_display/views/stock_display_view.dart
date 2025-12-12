@@ -205,7 +205,7 @@ class StockDisplayView extends GetView<StockDisplayController> {
       case "Chatani":
         if (value <= 40) {
           color = Colors.red;
-        } else if (value <= 60) {
+        } else if (value <= 70) {
           color = Colors.orange;
         } else {
           color = Colors.green;
@@ -214,9 +214,9 @@ class StockDisplayView extends GetView<StockDisplayController> {
 
       case "MeduWada":
       case "Appe":
-        if (value <= 20) {
+        if (value <= 12) {
           color = Colors.red;
-        } else if (value <= 30) {
+        } else if (value <= 25) {
           color = Colors.orange;
         } else {
           color = Colors.green;
@@ -224,9 +224,9 @@ class StockDisplayView extends GetView<StockDisplayController> {
         break;
 
       case "S Full":
-        if (value <= 25) {
+        if (value <= 18) {
           color = Colors.red;
-        } else if (value <= 45) {
+        } else if (value <= 40) {
           color = Colors.orange;
         } else {
           color = Colors.green;
@@ -234,33 +234,28 @@ class StockDisplayView extends GetView<StockDisplayController> {
         break;
 
       case "S Half":
-        if (value <= 25) {
-          color = Colors.red;
-        } else if (value <= 45) {
-          color = Colors.orange;
-        } else {
-          color = Colors.green;
-        }
-        break;
-
       case "S 1/4":
-        if (value <= 25) {
+        if (value <= 10) {
           color = Colors.red;
-        } else if (value <= 45) {
+        } else if (value <= 20) {
           color = Colors.orange;
         } else {
           color = Colors.green;
         }
         break;
 
-      case "20 Ltr":
-        if (value <= 100) {
+      /*case "S 1/4":
+        if (value <= 10) {
           color = Colors.red;
-        } else if (value <= 150) {
+        } else if (value <= 20) {
           color = Colors.orange;
         } else {
           color = Colors.green;
         }
+        break;*/
+
+      case "20 ltr":
+        color = Colors.green;
         break;
 
       default:
