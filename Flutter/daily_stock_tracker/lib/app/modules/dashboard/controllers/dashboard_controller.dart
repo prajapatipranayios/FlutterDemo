@@ -84,6 +84,11 @@ class DashboardController extends GetxController {
       }
     }
 
+    /// 🔥 RESET DATE TO TODAY (same as onInit)
+    final now = DateTime.now();
+    usageDate.value = _format(now);
+    editDate.value = null;
+
     clearAllFields();
     update();
   }
