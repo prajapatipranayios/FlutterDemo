@@ -77,7 +77,7 @@ class DashboardController extends GetxController {
 
       if (exists) {
         await db.updateUsageForDate(today, model);
-        SnackbarHelper.show(Get.context!,type: SnackbarType.warning, "Today's usage has been updated.");
+        SnackbarHelper.show(Get.context!,type: SnackbarType.warning, "Usage has been updated.");
       } else {
         await db.insertUsage(model);
         SnackbarHelper.show(Get.context!,type: SnackbarType.success, "New usage added.");
