@@ -1,8 +1,10 @@
-import 'package:daily_stock_tracker/app/core/models/stock_usage_model.dart';
-import 'package:daily_stock_tracker/app/core/services/db_service.dart';
-import 'package:daily_stock_tracker/app/utilities/snackbar_helper.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../../core/models/stock_usage_model.dart';
+import '../../../core/services/db_service.dart';
+import '../../../utilities/snackbar_helper.dart';
 
 class DashboardController extends GetxController {
   // Text controllers
