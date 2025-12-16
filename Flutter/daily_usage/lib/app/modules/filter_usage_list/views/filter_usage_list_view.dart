@@ -121,9 +121,23 @@ class FilterUsageListView extends GetView<FilterUsageListController> {
               child: Obx(() {
                 if (controller.weeklyGroups.isEmpty) {
                   return Center(
-                    child: Text(
-                      "No data available",
-                      style: TextStyle(fontSize: 16),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.bar_chart_outlined,
+                          size: 30,
+                          color: AppColors.grayColor,
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          "No data available",
+                          style: AppTextStyles.medium(
+                            fontSize: 16,
+                            fontColor: AppColors.grayColor,
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 }

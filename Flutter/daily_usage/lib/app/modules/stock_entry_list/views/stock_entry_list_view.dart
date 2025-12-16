@@ -42,17 +42,41 @@ class StockEntryListView extends GetWidget<StockEntryListController> {
         ],
       ),
       body: Obx(
-        () => ListView.builder(
-          padding: const EdgeInsets.all(2),
-          itemCount: controller.stockList.length,
-          itemBuilder: (context, index) {
-            // final entry = controller.stockList[index];
-            return Padding(
-              padding: const EdgeInsets.all(4),
-              child: _buildStockCard(index),
+            () {
+          if (controller.stockList.isEmpty) {
+            return Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Icon(
+                    Icons.inventory_2_outlined,
+                    size: 30,
+                    color: AppColors.grayColor,
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    "No stock entries found",
+                    style: AppTextStyles.medium(
+                      fontSize: 16,
+                      fontColor: AppColors.grayColor,
+                    ),
+                  ),
+                ],
+              ),
             );
-          },
-        ),
+          }
+
+          return ListView.builder(
+            padding: const EdgeInsets.all(2),
+            itemCount: controller.stockList.length,
+            itemBuilder: (context, index) {
+              return Padding(
+                padding: const EdgeInsets.all(4),
+                child: _buildStockCard(index),
+              );
+            },
+          );
+        },
       ),
     );
   }
