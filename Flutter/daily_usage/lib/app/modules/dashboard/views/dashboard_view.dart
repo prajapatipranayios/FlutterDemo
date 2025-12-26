@@ -44,18 +44,18 @@ class DashboardView extends GetView<DashboardController> {
             ),
           ),
           centerTitle: true,
-          actions: [
-            IconButton(
-              padding: EdgeInsets.zero,
-              constraints: const BoxConstraints(),
-              icon: Icon(Icons.edit_calendar_outlined, color: AppColors.blackColor, size: 30),
-              onPressed: () {
-                if (!controller.isValid.value) {
-                  _openToEnterPassword();
-                }
-              },
-            ),
-          ],
+          // actions: [
+          //   IconButton(
+          //     padding: EdgeInsets.zero,
+          //     constraints: const BoxConstraints(),
+          //     icon: Icon(Icons.edit_calendar_outlined, color: AppColors.blackColor, size: 30),
+          //     onPressed: () {
+          //       if (!controller.isValid.value) {
+          //         _openToEnterPassword();
+          //       }
+          //     },
+          //   ),
+          // ],
         ),
 
         body: SafeArea(
@@ -66,10 +66,6 @@ class DashboardView extends GetView<DashboardController> {
                 children: [
                   // ---------- Date + Divider ----------
                   Obx(() {
-                    if (!controller.isValid.value) {
-                      return SizedBox.shrink(); // hide everything
-                    }
-
                     return Column(
                       children: [
                         Padding(
@@ -85,7 +81,15 @@ class DashboardView extends GetView<DashboardController> {
                               ),
                               Expanded(
                                 child: InkWell(
-                                  onTap: controller.pickToDate,
+                                  //onTap: controller.pickToDate,
+                                  onTap: () {
+                                    if (!controller.isValid.value) {
+                                      _openToEnterPassword();
+                                    }
+                                    else {
+                                      controller.pickToDate();
+                                    }
+                                  },
                                   child: Container(
                                     height: 40,
                                     margin: const EdgeInsets.only(right: 16),
