@@ -358,7 +358,7 @@ class FilterUsageListController extends GetxController {
 
   Future<void> clearAllStockData() async {
     try {
-      await db.clearAllData();
+      await db.clearAllUsageData();
       await getFilteredDataByWeek(); // refresh UI
       SnackbarHelper.show(Get.context!,type: SnackbarType.success, "All data has been deleted.");
     } catch (e) {

@@ -213,28 +213,6 @@ class StockEntryListView extends GetWidget<StockEntryListController> {
                   ],
                 ),
               ],
-
-              /// ROW 4 -- Water bottle - 20l
-              if (item.water_bottle_20l != '0') ...[
-                Divider(
-                  color: Colors.grey.shade400,
-                  thickness: 1.1,
-                  height: 20,
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "Water bottle",
-                      style: AppTextStyles.bold(
-                        fontSize: 17.5,
-                        fontColor: AppColors.persianIndigoColor,
-                      ),
-                    ),
-                    _itemText("20 ltr", item.water_bottle_20l),
-                  ],
-                ),
-              ],
             ],
           ),
         ),
@@ -273,7 +251,6 @@ class StockEntryListView extends GetWidget<StockEntryListController> {
     final txtSFull = TextEditingController(text: entry.sambhar_full);
     final txtSHalf = TextEditingController(text: entry.sambhar_half);
     final txtSOneFourth = TextEditingController(text: entry.sambhar_one_fourth);
-    final txtW20l = TextEditingController(text: entry.water_bottle_20l);
 
     Get.dialog(
       AlertDialog(
@@ -308,7 +285,6 @@ class StockEntryListView extends GetWidget<StockEntryListController> {
                   Expanded(child: _field("S 1/4", txtSOneFourth)),
                 ],
               ),
-              Row(children: [Expanded(child: _field("20 Litre", txtW20l))]),
             ],
           ),
         ),
@@ -327,7 +303,6 @@ class StockEntryListView extends GetWidget<StockEntryListController> {
                 sambhar_full: txtSFull.text.trim(),
                 sambhar_half: txtSHalf.text.trim(),
                 sambhar_one_fourth: txtSOneFourth.text.trim(),
-                water_bottle_20l: txtW20l.text.trim(),
                 createdAt: entry.createdAt, // keep original date
               );
 

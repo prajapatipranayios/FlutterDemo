@@ -147,13 +147,6 @@ class AddStockView extends GetView<AddStockController> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: buildUsageMonoRow(
-                    label: "20 Liter :",
-                    controller: controller.txtW20l,
-                    hint: "20 L",
-                  ),
-                ),
               ],
             ),
             const SizedBox(height: 30),

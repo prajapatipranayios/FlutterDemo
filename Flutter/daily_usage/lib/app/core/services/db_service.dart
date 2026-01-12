@@ -30,7 +30,7 @@ class DBService {
 
     return await openDatabase(
       path,
-      version: 1,
+      version: 2,
       onCreate: (db, version) async {
         // ------------------- STOCK USAGE TABLE -------------------
         await db.execute('''
@@ -59,13 +59,55 @@ class DBService {
           sambhar_full TEXT,
           sambhar_half TEXT,
           sambhar_one_fourth TEXT,
-          water_bottle_20l TEXT,
           createdAt TEXT
         )
-        ''');
+       ''');
+      },
+
+      // 🔹 EXISTING USERS (v1 → v2)
+      onUpgrade: (db, oldVersion, newVersion) async {
+        if (oldVersion < 2) {
+          await _migrateStockTableOnly(db);
+        }
       },
     );
   }
+
+  Future<void> _migrateStockTableOnly(Database db) async {
+    await db.transaction((txn) async {
+
+      // 1️⃣ Create new stock table WITHOUT water_bottle_20l
+      await txn.execute('''
+      CREATE TABLE stock_table_new(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        idli TEXT,
+        chatani TEXT,
+        meduWada TEXT,
+        appe TEXT,
+        sambhar_full TEXT,
+        sambhar_half TEXT,
+        sambhar_one_fourth TEXT,
+        createdAt TEXT
+      )
+    ''');
+
+      // 2️⃣ Copy existing data (skip water_bottle_20l)
+      await txn.execute('''
+      INSERT INTO stock_table_new
+      (id, idli, chatani, meduWada, appe,
+       sambhar_full, sambhar_half, sambhar_one_fourth, createdAt)
+      SELECT
+       id, idli, chatani, meduWada, appe,
+       sambhar_full, sambhar_half, sambhar_one_fourth, createdAt
+      FROM stock_table
+    ''');
+
+      // 3️⃣ Replace old table
+      await txn.execute('DROP TABLE stock_table');
+      await txn.execute('ALTER TABLE stock_table_new RENAME TO stock_table');
+    });
+  }
+
 
   // ---------------------------------------------------------------------------
   // CRUD OPERATIONS – STOCK USAGE
@@ -132,9 +174,15 @@ class DBService {
     return await db.delete("stock_usage", where: "id = ?", whereArgs: [id]);
   }
 
-  Future<void> clearAllData() async {
+  Future<void> clearAllUsageData() async {
     final db = await database;
     await db.delete("stock_usage");
+    clearAllStockData();
+  }
+
+  Future<void> clearAllStockData() async {
+    final db = await database;
+    await db.delete("stock_table");
   }
 
   // ---------------------------------------------------------------------------
@@ -264,7 +312,6 @@ class DBService {
       "S Full": sum("sambhar_full"),
       "S Half": sum("sambhar_half"),
       "S 1/4": sum("sambhar_one_fourth"),
-      "20 ltr": sum("water_bottle_20l"),
     };
   }
 
@@ -286,7 +333,6 @@ class DBService {
       "S Full": sum("sambhar_full"),
       "S Half": sum("sambhar_half"),
       "S 1/4": sum("sambhar_one_fourth"),
-      "20 ltr": sum("water_bottle_20l"),
     };
   }
 

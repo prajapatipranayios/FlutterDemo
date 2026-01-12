@@ -7,7 +7,6 @@ class StockTableModel {
   String sambhar_full;
   String sambhar_half;
   String sambhar_one_fourth;
-  String water_bottle_20l;
   String createdAt;
 
   StockTableModel({
@@ -19,7 +18,6 @@ class StockTableModel {
     required this.sambhar_full,
     required this.sambhar_half,
     required this.sambhar_one_fourth,
-    required this.water_bottle_20l,
     required this.createdAt,
   });
 
@@ -32,7 +30,6 @@ class StockTableModel {
     "sambhar_full": sambhar_full,
     "sambhar_half": sambhar_half,
     "sambhar_one_fourth": sambhar_one_fourth,
-    "water_bottle_20l": water_bottle_20l,
     "createdAt": createdAt,
   };
 
@@ -46,7 +43,6 @@ class StockTableModel {
       sambhar_full: map['sambhar_full'],
       sambhar_half: map['sambhar_half'],
       sambhar_one_fourth: map['sambhar_one_fourth'],
-      water_bottle_20l: map['water_bottle_20l'],
       createdAt: map['createdAt'],
     );
   }
